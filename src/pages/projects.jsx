@@ -395,8 +395,8 @@ function Projects() {
       ],
     },
     {
-      id: "Entrenupenrship Development",
-      title: "Entrenupenrship Development",
+      id: "Entrepreneurship Development",
+      title: "Entrepreneurship Development",
       projects: [
         {
           image:
@@ -1029,8 +1029,8 @@ function Projects() {
       ],
     },
     {
-      id: "Entrenupenrship Development",
-      title: "Entrenupenrship Development",
+      id: "Entrepreneurship Development",
+      title: "Entrepreneurship Development",
       projects: [
         {
           image:
