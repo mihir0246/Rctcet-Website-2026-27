@@ -195,12 +195,12 @@ function SliderSection({ section }) {
   const next = () => setCurrent((prev) => (prev + 1) % total);
   const prev = () => setCurrent((prev) => (prev === 0 ? total - 1 : prev - 1));
 
-  return (
-    const sectionVariants = {
+  const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
   };
 
+  return (
   <motion.section 
     id={section.id} 
     className="scroll-mt-[9rem]"

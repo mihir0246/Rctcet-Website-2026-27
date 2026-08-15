@@ -1,4 +1,3 @@
-
 // Initialize Firebase (replace with your Firebase config)
 // const firebaseConfig = {
 //   apiKey: "AIzaSyClsdZeFbSFMLCw8YWc96m1HsPRrkF4ru0",
@@ -148,7 +147,7 @@ const ContactForm = () => {
         </form>
 
         <Toaster />
-      </div>
+      </motion.div>
     </div>
   );
 };
