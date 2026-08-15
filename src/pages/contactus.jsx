@@ -9,7 +9,9 @@
 //   appId: "1:210277545370:web:17eb63e1885c5a43f1f623",
 //   measurementId: "G-S97K8B7PQD"
 // };
+import SEO from "../Components/SEO";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -73,20 +75,26 @@ const ContactForm = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors flex items-center justify-center px-4">
-      <div className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 bg-orange-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg">
+      <SEO title="Contact Us" description="Get in touch with the Rotaract Club of TCET." />
+      <motion.div 
+        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true }}
+        className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 bg-orange-50 dark:bg-gray-900 p-6 rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold text-orange-500 mb-6 text-center">
           CONTACT US
         </h1>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex gap-2 mb-4">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-4">
             <input
               type="text"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               placeholder="First Name"
-              className="w-1/2 flex-1 p-2 rounded-xl border border-gray-300 
+              className="w-full sm:flex-1 p-2 rounded-xl border border-gray-300 
                          dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             />
             <input
@@ -95,7 +103,7 @@ const ContactForm = () => {
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Last Name"
-              className="flex-1 p-2 rounded-xl border border-gray-300 
+              className="w-full sm:flex-1 p-2 rounded-xl border border-gray-300 
                          dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             />
           </div>

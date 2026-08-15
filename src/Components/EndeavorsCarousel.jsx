@@ -94,9 +94,9 @@ return (
               loading={"lazy"}
             />
             
-            <div className="absolute bottom-20 left-4  bg-black/60 dark:bg-black/80 p-2 rounded-lg mr-5">
+            <div className="absolute bottom-4 md:bottom-12 lg:bottom-20 left-4 bg-black/60 dark:bg-black/80 p-2 md:p-4 rounded-lg mr-5 max-w-[90%] md:max-w-[70%]">
               <h3 className="text-sm md:text-lg xl:text-xl font-bold text-white">{slide.title}</h3>
-              <p className="text-[0.65rem] md:text-sm xl:text-base text-white">{slide.description}</p>
+              <p className="text-[0.65rem] md:text-sm xl:text-base text-white mt-1 md:mt-2">{slide.description}</p>
             </div>
           </div>
         ))}

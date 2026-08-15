@@ -132,11 +132,11 @@ export default function RotaractClubLayout() {
             ))}
           </Swiper>
 
-          <button className="prev-btn absolute -left-5 top-1/2 -translate-y-1/2 z-40">
+          <button className="prev-btn absolute left-0 sm:-left-5 top-1/2 -translate-y-1/2 z-40">
             <IconButton><ChevronLeft className="h-6 w-6 text-white" /></IconButton>
           </button>
 
-          <button className="next-btn absolute -right-5 top-1/2 -translate-y-1/2 z-40">
+          <button className="next-btn absolute right-0 sm:-right-5 top-1/2 -translate-y-1/2 z-40">
             <IconButton><ChevronRight className="h-6 w-6 text-white" /></IconButton>
           </button>
         </div>

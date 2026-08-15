@@ -186,6 +186,7 @@ function Header() {
               <Link
                 key={link.name}
                 to={link.to}
+                onClick={() => setIsMenuOpen(false)}
                 className={`text-lg font-medium transition-colors ${
                   activeLink === link.name
                     ? "text-orange-600 dark:text-[#D4A829]"
@@ -215,6 +216,10 @@ function Header() {
                     <Link
                       key={link.name}
                       to={link.to}
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsClubDropdownOpen(false);
+                      }}
                       className="block px-4 py-2 text-black dark:text-[#F7F0E1] hover:bg-gray-100 dark:hover:bg-[#5A4A3A] transition-colors"
                     >
                       {link.name}
@@ -226,7 +231,8 @@ function Header() {
 
             <Link
               to="/contact"
-              className="bg-[#fae5d3] dark:bg-[#B8860B] text-black dark:text-[#F7F0E1] font-medium py-2 px-4 rounded-xl hover:bg-[#f9d3b5] dark:hover:bg-[#8B6914] transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+              className="bg-[#fae5d3] dark:bg-[#B8860B] text-black dark:text-[#F7F0E1] font-medium py-2 px-4 rounded-xl hover:bg-[#f9d3b5] dark:hover:bg-[#8B6914] transition-colors text-center"
             >
               Contact us
             </Link>

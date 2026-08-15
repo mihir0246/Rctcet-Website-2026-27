@@ -3,6 +3,7 @@ import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './layout';
 import { ThemeProvider } from './context/themeContext';
+import { HelmetProvider } from 'react-helmet-async';
 
 const Home = lazy(() => import('./pages/home'));
 const GetInvolvedHero = lazy(() => import("./Components/getInvolved/GetInvolvedHero"));
@@ -25,7 +26,8 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
     <Router basename="/">
       <Suspense fallback={<div className="flex h-screen w-full items-center justify-center p-4"><p className="text-xl font-semibold">Loading...</p></div>}>
         <Routes>
@@ -48,7 +50,8 @@ function App() {
         </Routes>
       </Suspense>
     </Router>
-    </ThemeProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
