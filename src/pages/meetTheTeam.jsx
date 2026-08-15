@@ -3,6 +3,99 @@
 import { useState } from "react"
 
 const teamMembers = [
+  //2026-27
+  {
+  id: 217,
+  name: "Rtr. Vaishnavi Ranjan",
+  role: "President",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701828/Rtr._Vaishnavi_Ranjan_President_tkcxhn.png",
+  year: "2026-2027",
+},
+{
+  id: 218,
+  name: "Rtr. Aaditya Yadav",
+  role: "Secretary",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701836/Rtr._Aaditya_Yadav_Secretary_pbtdkn.png",
+  year: "2026-2027",
+},
+{
+  id: 219,
+  name: "Rtr. Tanisha Kumar",
+  role: "Immediate Past President",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701868/Rtr._Tanisha_Desai_IPP_joc9dm.png",
+  year: "2026-2027",
+},
+{
+  id: 220,
+  name: "Rtr. Aaryan Gupta",
+  role: "Vice President",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701883/Rtr._Aryan_Gupta_Vice_President_fagank.png",
+  year: "2026-2027",
+},
+{
+  id: 221,
+  name: "Rtr. Dhairya Doshi",
+  role: "Vice President",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701871/Rtr._Dhairya_Doshi_Vice_President_ybdxhs.png",
+  year: "2026-2027",
+},
+{
+  id: 222,
+  name: "Rtr. Prathamesh Singh",
+  role: "Vice President",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701825/Rtr._Prathamesh_Singh_Vice_President_krlgue.png",
+  year: "2026-2027",
+},
+{
+  id: 223,
+  name: "Rtr. Shreya Jadhav",
+  role: "Sergeant At Arms",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701830/Rtr._Shreya_Jadhav_SAA_ugnoub.png",
+  year: "2026-2027",
+},
+{
+  id: 224,
+  name: "Rtr. Utsav Yadav",
+  role: "Chairperson Finance",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701888/Rtr._Utsav_Yadav_Chairperson_Finance_rhvg6r.png",
+  year: "2026-2027",
+},
+{
+  id: 225,
+  name: "Rtr. Sudiksha Kapoor",
+  role: "Chairwoman Partner-in-Service",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701882/Rtr._Sudiksha_Kapoor_Chairwoman_PIS_s3biyo.png",
+  year: "2026-2027",
+},
+{
+  id: 226,
+  name: "Rtr. Shaziya Naz",
+  role: "Chairperson Human Resource Development",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701876/Rtr._Shaziya_Naz_Chairperson_HRD_dz2ash.png",
+  year: "2026-2027",
+},
+{
+  id: 227,
+  name: "Rtr. Aachal Sharma",
+  role: "Joint Secretary",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701826/Rtr._Aachal_Sharma_Joint_Secretary_ebdh4p.png",
+  year: "2026-2027",
+},
+{
+  id: 228,
+  name: "Rtr. Aditya Pandey",
+  role: "Joint Secretary",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701858/Rtr._Aditya_Pandey_Joint_Secretary_iyem15.png",
+  year: "2026-2027",
+},
+{
+  id: 229,
+  name: "Rtr. Nidhi Gupta",
+  role: "Chairperson Publications",
+  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701846/Rtr._Nidhi_Gupta_Chairperson_Publications_esdz6w.png",
+  year: "2026-2027",
+},
+
   //2025-26
   {
   id: 217,
@@ -1648,12 +1741,12 @@ const boardOfDirectors = [
 ]
 
 const TeamPage = () => {
-  const [selectedYear, setSelectedYear] = useState("2025-2026")
+  const [selectedYear, setSelectedYear] = useState("2026-2027")
 
   const filteredMembers = teamMembers.filter((member) => member.year === selectedYear)
   const filteredBoDs = boardOfDirectors.filter((bod) => bod.year === selectedYear)
 
-  const academicYearOptions = Array.from({ length: 2026 - 2017 }, (_, i) => {
+  const academicYearOptions = Array.from({ length: 2027 - 2017 }, (_, i) => {
     const startYear = 2017 + i
     const endYear = startYear + 1
     return `${startYear}-${endYear}`
