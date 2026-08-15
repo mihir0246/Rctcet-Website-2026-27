@@ -20,7 +20,7 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <div className="relative bg-white dark:bg-stone-900">
+    <div className="relative bg-white dark:bg-stone-900 min-h-[90vh] flex flex-col justify-center">
       {/* Background Image */}
       <LazyLoadImage
         src="https://res.cloudinary.com/dtc2xaeaf/image/upload/v1771630629/Baseline_grid_bg_zywtov.svg"

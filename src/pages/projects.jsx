@@ -1305,10 +1305,12 @@ function Projects() {
       (entries) => {
         const visibleEntries = entries.filter((entry) => entry.isIntersecting);
         if (visibleEntries.length > 0) {
+          // Sort by intersection ratio (highest first) to prioritize the most visible section
+          visibleEntries.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
           setActiveTab(visibleEntries[0].target.id);
         }
       },
-      { rootMargin: "-150px 0px -40% 0px", threshold: 0.1 }
+      { rootMargin: "-150px 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
     );
 
     sections.forEach((sec) => {
@@ -1360,17 +1362,19 @@ function Projects() {
               Discover the transformative initiatives that define our commitment
               to positive change in the community.
             </p>
-            <select
-              className="mt-4 p-2 border border-stone-300 dark:border-stone-700 rounded-md bg-white/20 backdrop-blur-sm text-white font-bold outline-none"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-            >
-              {academicYearOptions.map((year) => (
-                <option key={year} value={year} className="text-black dark:text-white dark:bg-stone-800">
-                  {year}
-                </option>
-              ))}
-            </select>
+            <div className="absolute top-4 right-4 z-10">
+              <select
+                className="p-2 border-2 border-orange-500 rounded-full bg-white/10 backdrop-blur-md text-white font-bold outline-none cursor-pointer hover:bg-white/20 transition appearance-none text-center px-4"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+              >
+                {academicYearOptions.map((year) => (
+                  <option key={year} value={year} className="text-black">
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
             <a href="/">
               <button className="mt-6 bg-orange-500 dark:bg-yellow-600 hover:bg-orange-600 dark:hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-lg shadow-lg transition">
                 Get Involved
@@ -1381,14 +1385,14 @@ function Projects() {
       </div>
 
       {/* LINKS — UPDATED TAB STYLE */}
-      <div className={`flex justify-center relative bg-white dark:bg-stone-900 border-b border-stone-300 dark:border-stone-700 sticky top-[4.5rem] z-20 transition-all duration-300 ${isScrolled ? "h-12" : "h-16"}`}>
+      <div className={`flex justify-center items-center relative bg-white dark:bg-stone-900 border-b border-stone-300 dark:border-stone-700 sticky top-[4.5rem] z-20 transition-all duration-300 ${isScrolled ? "h-10" : "h-16"}`}>
         {/* Left Arrow */}
         {showLeftArrow && (
           <button
             onClick={scrollLeft}
             className="absolute left-0 top-0 h-full px-3 bg-gradient-to-r from-white dark:from-stone-900 to-transparent z-30 flex items-center"
           >
-            <span className="text-xl text-stone-600 dark:text-stone-300">
+            <span className={`text-stone-600 dark:text-stone-300 transition-all ${isScrolled ? "text-sm" : "text-xl"}`}>
               ❮
             </span>
           </button>
@@ -1397,14 +1401,14 @@ function Projects() {
         {/* Scroll Container */}
         <nav
           ref={scrollRef}
-          className="flex overflow-x-auto scrollbar-hide text-base font-medium px-10 space-x-8"
+          className="flex overflow-x-auto scrollbar-hide font-medium px-10 space-x-8 h-full items-center"
         >
           {sections.map((sec) => (
             <a
               key={sec.id}
               href={`#${sec.id}`}
               onClick={() => setActiveTab(sec.id)}
-              className={`relative whitespace-nowrap transition-colors ${isScrolled ? "py-2 text-sm" : "py-4 text-base"}
+              className={`relative whitespace-nowrap h-full flex items-center transition-all duration-300 ${isScrolled ? "text-xs" : "text-base"}
           ${
             activeTab === sec.id
               ? "text-orange-600 dark:text-yellow-400"

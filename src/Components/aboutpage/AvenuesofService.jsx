@@ -82,6 +82,7 @@ export const OurJourney=()=>{
                     
                 }
                 alt="Our Journey"
+                className="w-full max-w-[90vw] xl:max-w-7xl px-4 mx-auto"
             />
         </div>
         
