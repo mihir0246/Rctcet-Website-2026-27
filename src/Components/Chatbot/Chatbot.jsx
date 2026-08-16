@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-const BOT_URL = "https://rc-chatbot.onrender.com/chat";
+const BOT_URL = `${import.meta.env.VITE_CHATBOT_API_URL}/chat`;
 
 export const Chatbot = () => {
   const [isChatOpen, setChatOpen] = useState(false);
@@ -203,6 +203,7 @@ export const Chatbot = () => {
                   setShowHint(false);
                 }}
                 className="text-xl font-bold"
+                aria-label="Close chatbot"
               >
                 x
               </button>

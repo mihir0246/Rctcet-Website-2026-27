@@ -12,7 +12,7 @@ export default function EventsDrive() {
   const fetchEvents = async () => {
     try {
       const res = await axios.get(
-        "https://rctcet-backend.onrender.com/getEventsDrive"
+        `${import.meta.env.VITE_API_BASE_URL}/getEventsDrive`
       );
 
       

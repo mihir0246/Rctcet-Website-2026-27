@@ -56,7 +56,7 @@ Card.propTypes = {
 function Legacy() {
   return (
   <div className="p-8 bg-amber-50 dark:bg-stone-800 flex justify-center items-center relative">
-    <img className="absolute top-0 left-0" src="/gear.svg" alt="" loading={"lazy"}/>
+    <img className="absolute top-0 left-0" src="/gear.svg" alt="Gear Background Decoration" loading={"lazy"}/>
     <div className="max-w-7xl">
       <h1 className="text-center text-xl md:text-4xl font-bold mb-6 bg-gradient-to-b from-amber-800 via-orange-500 to-yellow-400 dark:from-yellow-600 dark:via-yellow-400 dark:to-yellow-200 bg-clip-text text-transparent">Rotary & Rotaract</h1>
       <div className="flex max-sm:flex-col gap-y-4 gap-x-6 max-w-5xl">

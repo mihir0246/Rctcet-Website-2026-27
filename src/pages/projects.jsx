@@ -1,16 +1,28 @@
-import SEO from "../Components/SEO";
+import SEO from "../components/SEO";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
-import { allProjectsData } from "../data/projectsData";
 
 function Projects() {
 
   const academicYearOptions = ["2026-2027", "2025-2026"];
   const [selectedYear, setSelectedYear] = useState("2026-2027");
-  const sections = allProjectsData[selectedYear] || [];
+  const [sections, setSections] = useState([]);
+  const [activeTab, setActiveTab] = useState();
 
-  const [activeTab, setActiveTab] = useState(sections[0]?.id);
+  useEffect(() => {
+    import(`../data/projects/${selectedYear}.js`)
+      .then(module => {
+        const newSections = module.projects || [];
+        setSections(newSections);
+        if (newSections.length > 0) setActiveTab(newSections[0].id);
+      })
+      .catch(e => {
+        console.error("No projects data found for year", selectedYear, e);
+        setSections([]);
+      });
+  }, [selectedYear]);
   const scrollRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
@@ -73,6 +85,16 @@ function Projects() {
       behavior: "smooth",
     });
   };
+  useEffect(() => {
+    if (activeTab && scrollRef.current) {
+      const activeEl = scrollRef.current.querySelector(`[href="#${activeTab}"]`);
+      if (activeEl) {
+        const container = scrollRef.current;
+        const scrollLeft = activeEl.offsetLeft - (container.clientWidth / 2) + (activeEl.clientWidth / 2);
+        container.scrollTo({ left: scrollLeft, behavior: "smooth" });
+      }
+    }
+  }, [activeTab]);
 
   return (
     <div className="scroll-smooth bg-white dark:bg-stone-900 min-h-screen">
@@ -110,74 +132,107 @@ function Projects() {
                 ))}
               </select>
             </div>
-            <a href="/">
-              <button className="mt-6 bg-orange-500 dark:bg-yellow-600 hover:bg-orange-600 dark:hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-lg shadow-lg transition">
-                Get Involved
-              </button>
-            </a>
+            <button
+              onClick={() => {
+                const element = document.getElementById('projects-list-start');
+                if (element) {
+                  const top = element.getBoundingClientRect().top + window.scrollY - 100;
+                  window.scrollTo({ top, behavior: 'smooth' });
+                }
+              }}
+              className="mt-6 bg-orange-500 dark:bg-yellow-600 hover:bg-orange-600 dark:hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-lg shadow-lg transition"
+            >
+              View our Projects!
+            </button>
           </div>
         </div>
       </div>
 
       {/* LINKS — UPDATED TAB STYLE */}
-      <div className={`flex justify-center items-center relative bg-white dark:bg-stone-900 border-b border-stone-300 dark:border-stone-700 sticky top-[4.5rem] z-20 transition-all duration-300 ${isScrolled ? "h-10" : "h-16"}`}>
-        {/* Left Arrow */}
-        {showLeftArrow && (
-          <button
-            onClick={scrollLeft}
-            className="absolute left-0 top-0 h-full px-3 bg-gradient-to-r from-white dark:from-stone-900 to-transparent z-30 flex items-center"
-          >
-            <span className={`text-stone-600 dark:text-stone-300 transition-all ${isScrolled ? "text-sm" : "text-xl"}`}>
-              ❮
-            </span>
-          </button>
-        )}
-
-        {/* Scroll Container */}
-        <nav
-          ref={scrollRef}
-          className="flex overflow-x-auto scrollbar-hide font-medium px-10 space-x-8 h-full items-center"
-        >
-          {sections.map((sec) => (
-            <a
-              key={sec.id}
-              href={`#${sec.id}`}
-              onClick={() => setActiveTab(sec.id)}
-              className={`relative whitespace-nowrap h-full flex items-center transition-all duration-300 ${isScrolled ? "text-xs" : "text-base"}
-          ${
-            activeTab === sec.id
-              ? "text-orange-600 dark:text-yellow-400"
-              : "text-stone-700 dark:text-stone-200 hover:text-orange-600 dark:hover:text-yellow-400"
-          }
-        `}
+      <div className="sticky top-[4.5rem] z-40 flex justify-center mt-2 mb-8 transition-all duration-300">
+        <div className={`flex justify-center items-center relative bg-white/70 backdrop-blur-xl dark:bg-[#1A1612]/70 border border-stone-200 dark:border-stone-700/50 shadow-lg transition-all duration-500 overflow-hidden mx-auto ${isScrolled ? "rounded-b-3xl rounded-t-xl border-t-0 h-12 w-[90vw] md:w-[65vw]" : "rounded-full h-14 w-[95vw] md:w-[80vw]"}`}>
+          {/* Left Arrow */}
+          {showLeftArrow && (
+            <button
+              onClick={scrollLeft}
+              className="absolute left-0 top-0 h-full px-4 bg-gradient-to-r from-white/90 dark:from-[#1A1612]/90 to-transparent z-30 flex items-center"
             >
-              {sec.title}
+              <span className={`text-stone-600 dark:text-stone-300 transition-all ${isScrolled ? "text-xs" : "text-sm"}`}>
+                ❮
+              </span>
+            </button>
+          )}
 
-              {activeTab === sec.id && (
-                <span className="absolute left-0 bottom-0 h-[3px] w-full bg-orange-500 dark:bg-yellow-400 rounded-full" />
-              )}
-            </a>
-          ))}
-        </nav>
-
-        {/* Right Arrow */}
-        {showRightArrow && (
-          <button
-            onClick={scrollRight}
-            className="absolute right-0 top-0 h-full px-3 bg-gradient-to-l from-white dark:from-stone-900 to-transparent z-30 flex items-center"
+          {/* Scroll Container */}
+          <nav
+            ref={scrollRef}
+            className="flex overflow-x-auto scrollbar-hide font-medium px-8 space-x-8 h-full items-center w-full"
           >
-            <span className={`text-stone-600 dark:text-stone-300 transition-all ${isScrolled ? "text-sm" : "text-xl"}`}>
-              ❯
-            </span>
-          </button>
-        )}
+            {sections.map((sec) => (
+              <a
+                key={sec.id}
+                href={`#${sec.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(sec.id).scrollIntoView({ behavior: 'smooth' });
+                  setActiveTab(sec.id);
+                }}
+                className={`relative whitespace-nowrap h-full flex items-center transition-all duration-300 px-2 ${isScrolled ? "text-xs" : "text-sm md:text-base"}
+            ${activeTab === sec.id
+                    ? "text-orange-600 dark:text-yellow-400 font-bold"
+                    : "text-stone-700 dark:text-stone-300 hover:text-orange-600 dark:hover:text-yellow-400"
+                  }
+          `}
+              >
+                {sec.title}
+
+                {activeTab === sec.id && (
+                  <span className="absolute left-0 bottom-0 h-[3px] w-full bg-orange-500 dark:bg-yellow-400 rounded-full" />
+                )}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right Arrow */}
+          {showRightArrow && (
+            <button
+              onClick={scrollRight}
+              className="absolute right-0 top-0 h-full px-4 bg-gradient-to-l from-white/90 dark:from-[#1A1612]/90 to-transparent z-30 flex items-center"
+            >
+              <span className={`text-stone-600 dark:text-stone-300 transition-all ${isScrolled ? "text-xs" : "text-sm"}`}>
+                ❯
+              </span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* NEW SLIDER SECTIONS */}
-      <div className="p-6 space-y-20">
+      <div id="projects-list-start" className="p-6 space-y-20">
         {sections.map((section) => (
           <SliderSection key={section.id} section={section} />
         ))}
+      </div>
+
+      {/* CTA Section */}
+      <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-stone-800 dark:text-white">
+          Wanna be a part of RCTCET?
+        </h2>
+        <p className="text-lg text-stone-600 dark:text-stone-300 mb-8 max-w-2xl">
+          Join us in making a difference! Get in touch with us to learn more about our upcoming initiatives and how you can contribute.
+        </p>
+        <Link
+          to="/feedback"
+          className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-300 bg-orange-600 rounded-full hover:bg-orange-700 hover:shadow-xl dark:bg-orange-500 dark:hover:bg-orange-600 shadow-orange-500/30 hover:-translate-y-1"
+        >
+          <span className="relative z-10 flex items-center gap-2">
+            Get in Touch With Us
+            <span className="transform transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+          </span>
+        </Link>
       </div>
     </div>
   );
@@ -201,14 +256,14 @@ function SliderSection({ section }) {
   };
 
   return (
-  <motion.section 
-    id={section.id} 
-    className="scroll-mt-[9rem]"
-    variants={sectionVariants}
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, margin: "-100px" }}
-  >
+    <motion.section
+      id={section.id}
+      className="scroll-mt-[9rem]"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+    >
       <h2 className="text-4xl text-center font-bold mb-8 text-orange-600 dark:text-yellow-400">
         {section.title}
       </h2>
@@ -264,15 +319,15 @@ function SliderSection({ section }) {
               ))}
             </ul>
             <div className="flex items-center justify-end">
-  <a
-    href={project.drivelink}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="mt-3 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors inline-block"
-  >
-    View Drive
-  </a>
-</div>
+              <a
+                href={project.drivelink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors inline-block"
+              >
+                View Drive
+              </a>
+            </div>
           </div>
         </div>
 
@@ -283,9 +338,8 @@ function SliderSection({ section }) {
               <button
                 key={index}
                 onClick={() => setCurrent(index)}
-                className={`w-3 h-3 rounded-full ${
-                  current === index ? "bg-orange-500" : "bg-gray-400"
-                }`}
+                className={`w-3 h-3 rounded-full ${current === index ? "bg-orange-500" : "bg-gray-400"
+                  }`}
               />
             ))}
           </div>

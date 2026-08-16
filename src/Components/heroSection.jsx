@@ -1,20 +1,10 @@
-import { useState, useEffect, memo, useMemo, lazy, Suspense } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-// import { motion } from "framer-motion";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
+import { useState, useEffect, useMemo, lazy, Suspense } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-import "swiper/css";
-import "swiper/css/navigation";
-
-
-const Chatbot = lazy(() => import("./Chatbot"));
-
+const Chatbot = lazy(() => import("./Chatbot/Chatbot"));
 
 const BG_DESKTOP = "f_auto,q_auto:low,w_1400,c_fill,g_auto";
 const BG_MOBILE = "f_auto,q_auto:low,w_600,c_fill,g_auto";
-const CARD = "f_auto,q_auto:eco,w_400,c_fill,g_auto";
-
 
 const imagesData = [
   {
@@ -50,14 +40,20 @@ const imagesData = [
 export default function RotaractClubLayout() {
   const [bgIndex, setBgIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 768 : false);
-  const [isInitialRender, setIsInitialRender] = useState(true);
 
   useEffect(() => {
-    setIsInitialRender(false);
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile(); // Check on mount to catch any edge cases
     window.addEventListener("resize", checkMobile, { passive: true });
     return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Auto-slideshow effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgIndex((prev) => (prev + 1) % imagesData.length);
+    }, 4000); // Change image every 4 seconds
+    return () => clearInterval(interval);
   }, []);
 
   const bgUrl = useMemo(() => {
@@ -66,80 +62,61 @@ export default function RotaractClubLayout() {
   }, [bgIndex, isMobile]);
 
   return (
-    <div className="relative h-screen max-h-screen rounded-b-3xl w-full overflow-hidden">
+    <div className="relative h-screen w-full overflow-hidden flex items-center justify-center">
 
-      {/* Background */}
-      {/* <motion.div
-        key={bgIndex}
-        initial={{ opacity: isInitialRender ? 1 : 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="absolute inset-0 bg-cover bg-center z-0 will-change-opacity"
-        style={{ backgroundImage: `url(${bgUrl})` }}
-      /> */}
-      <img
-        key={bgIndex}
-        src={bgUrl}
-        alt=""
-        fetchPriority="high"
-        loading="eager"
-        decoding="async"
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      />
+      {/* Background Slideshow using Framer Motion for smooth crossfade */}
+      <AnimatePresence mode="popLayout">
+        <motion.img
+          key={bgIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          src={bgUrl}
+          alt={imagesData[bgIndex].title}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+      </AnimatePresence>
 
-      <div className="absolute inset-0 bg-black/60 z-10" />
+      {/* Dark overlay to make text pop */}
+      <div className="absolute inset-0 bg-black/40 z-10" />
 
-      <div className="relative z-20 flex flex-col lg:flex-row h-full w-full items-center justify-center mt-[-50px] md:mt-0 px-6 gap-8">
+      {/* Center Content: Logo and Title */}
+      <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 w-full max-w-4xl">
+        <motion.img
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          src="https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_400/v1756746594/logo_pdqctw.svg"
+          alt="Rotaract Club Logo"
+          className="h-32 w-32 md:h-48 md:w-48 mb-6 drop-shadow-2xl"
+        />
+        <motion.h1
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl tracking-wide uppercase"
+        >
+          Rotaract Club of TCET
+        </motion.h1>
+      </div>
 
-        {/* Left Section */}
-        <div className="w-full lg:w-1/3 flex flex-col items-center justify-center text-center">
-          <img
-            src="https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_400/v1756746594/logo_pdqctw.svg"
-            alt="club logo"
-            width="200"
-            height="200"
-            loading="eager"
-            decoding="async"
-            className="h-24 w-24 sm:h-32 sm:w-32 mb-4"
-          />
-          <h1 className="text-3xl sm:text-5xl font-bold text-white">
-            Rotaract Club Of TCET
-          </h1>
-        </div>
-
-
-        <div className="w-full lg:w-2/3 relative z-30">
-          <Swiper
-            modules={[Autoplay, Navigation]}
-            loop
-            autoplay={{ delay: 3500, disableOnInteraction: false }}
-            navigation={{ nextEl: ".next-btn", prevEl: ".prev-btn" }}
-            slidesPerView={1}
-            spaceBetween={16}
-            observer={false}
-            observeParents={false}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-              1280: { slidesPerView: 4 },
-            }}
-            onSlideChange={(s) => setBgIndex(s.realIndex)}
+      {/* Top Right: Event Name */}
+      <div className="absolute top-24 md:top-28 right-4 md:right-8 z-30">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={bgIndex}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.5 }}
+            className="px-4 py-2"
           >
-            {imagesData.map((img, i) => (
-              <SwiperSlide key={i}>
-                <MemoCard title={img.title} id={img.id} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-
-          <button className="prev-btn absolute left-0 sm:-left-5 top-1/2 -translate-y-1/2 z-40">
-            <IconButton><ChevronLeft className="h-6 w-6 text-white" /></IconButton>
-          </button>
-
-          <button className="next-btn absolute right-0 sm:-right-5 top-1/2 -translate-y-1/2 z-40">
-            <IconButton><ChevronRight className="h-6 w-6 text-white" /></IconButton>
-          </button>
-        </div>
+            <h2 className="text-white text-xl md:text-2xl font-bold tracking-wider drop-shadow-lg">
+              {imagesData[bgIndex].title}
+            </h2>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       <Suspense fallback={null}>
@@ -149,29 +126,3 @@ export default function RotaractClubLayout() {
     </div>
   );
 }
-
-
-const MemoCard = memo(({ title, id }) => {
-  const cardUrl = `https://res.cloudinary.com/dtc2xaeaf/image/upload/${CARD}/${id}`;
-  return (
-    <div className="rounded-2xl border border-white/20 bg-white/90 shadow-xl overflow-hidden">
-      <img
-        src={cardUrl}
-        alt={title}
-        width="400"
-        height="300"
-        loading="lazy"
-        decoding="async"
-        className="h-32 sm:h-40 w-full object-cover"
-      />
-      <div className="p-3 font-semibold">{title}</div>
-    </div>
-  );
-});
-
-
-const IconButton = memo(({ children }) => (
-  <button className="h-12 w-12 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center">
-    {children}
-  </button>
-));
