@@ -5,9 +5,15 @@ import { Link } from "react-router-dom";
 
 
 function Projects() {
+  // This automatically finds all .js files inside the projects data folder!
+  const projectFiles = import.meta.glob('../data/projects/*.js');
 
-  const academicYearOptions = ["2026-2027", "2025-2026"];
-  const [selectedYear, setSelectedYear] = useState("2026-2027");
+  // It extracts just the year names (like "2025-2026"), sorts them, and puts the newest first
+  const academicYearOptions = Object.keys(projectFiles)
+    .map(path => path.split('/').pop().replace('.js', ''))
+    .sort()
+    .reverse();
+  const [selectedYear, setSelectedYear] = useState(academicYearOptions[0]);
   const [sections, setSections] = useState([]);
   const [activeTab, setActiveTab] = useState();
 
