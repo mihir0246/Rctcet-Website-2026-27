@@ -96,5 +96,11 @@ export const journeyTimeline = [
     name: "Rtr. Tanisha Kumar",
     rank: "8th Best Club",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756744388/Rtr._Tanisha_Kumar_homz1l.webp",
+  },
+  {
+    year: "2025-2026",
+    name: "Rtr. Vaishnavi Ranjan",
+    rank: "5th Best Club",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701828/Rtr._Vaishnavi_Ranjan_President_tkcxhn.png",
   }
 ];
