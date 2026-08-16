@@ -47,3 +47,54 @@ export const journeyImages = {
   light: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1771630641/Our_Journey_enbhey.svg",
   dark: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1771993398/Our_Journey_white_cszudo.svg"
 };
+
+export const journeyTimeline = [
+  {
+    year: "2017-2018",
+    name: "Rtr. Anisha Pandya",
+    rank: "Charter President\n15 Sep 2017",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756744407/Rtr._Anisha_Pandya___President_1_IMGCentury_1_IMGCentury_jyek6s.jpg",
+  },
+  {
+    year: "2018-2019",
+    name: "Rtr. Yash Bohra",
+    rank: "",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756931924/Rtr._Yash_Bohra___President_17_IMGCentury_15_IMGCentury_cbtetz.jpg",
+  },
+  {
+    year: "2019-2020",
+    name: "Rtr. Harshali Yeram",
+    rank: "42th Best Club",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756744428/Rtr._Harshali_Yeram___President_2_IMGCentury_8_IMGCentury_ksypwa.jpg",
+  },
+  {
+    year: "2020-2021",
+    name: "Rtr. Prince Pandey",
+    rank: "19th Best Club",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756744337/Rtr._Prince_Pandey___President_9_IMGCentury_14_IMGCentury_e8qskx.jpg",
+  },
+  {
+    year: "2021-2022",
+    name: "Rtr. Kunal Miskin",
+    rank: "11th Best Club",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756744364/Rtr._Kunal_Miskin_-_President__2_IMGCentury_14_IMGCentury_cybzwh.jpg",
+  },
+  {
+    year: "2022-2023",
+    name: "Rtr. Muskan Sinha",
+    rank: "6th Best Club",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756744411/Rtr._Muskan_Sinha_-_President__18_IMGCentury_8_IMGCentury_ax5jbu.jpg",
+  },
+  {
+    year: "2023-2024",
+    name: "Rtr. Amar Singh",
+    rank: "3rd Best Club",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756744441/Rtr.Amar_SIngh-_President_27_IMGCentury_osayo8.avif",
+  },
+  {
+    year: "2024-2025",
+    name: "Rtr. Tanisha Kumar",
+    rank: "8th Best Club",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756744388/Rtr._Tanisha_Kumar_homz1l.webp",
+  }
+];
