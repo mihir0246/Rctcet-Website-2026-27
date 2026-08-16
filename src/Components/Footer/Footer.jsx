@@ -37,6 +37,7 @@ function Footer() {
             <li><Link to="/" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Home</Link></li>
             <li><Link to="/about" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">About Us</Link></li>
             <li><Link to="/projects" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Projects</Link></li>
+            <li><Link to="/events" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Upcoming Events</Link></li>
             <li><Link to="/achievement" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Our Achievements</Link></li>
           </ul>
         </div>
@@ -47,7 +48,8 @@ function Footer() {
           <ul className="flex flex-col space-y-3 text-gray-800 dark:text-[#EBD7C1] font-medium">
             <li><Link to="/meet-the-team" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Meet The Team</Link></li>
             <li><Link to="/avenue" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Avenues</Link></li>
-            <li><Link to="/feedback" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Join RCTCET</Link></li>
+            <li><Link to="/feedback" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Feedback</Link></li>
+            <li><Link to="/join" className="hover:text-orange-600 dark:hover:text-[#D4A829] transition-colors">Join RCTCET</Link></li>
           </ul>
         </div>
 
