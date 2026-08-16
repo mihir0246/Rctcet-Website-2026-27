@@ -1,4 +1,4 @@
-import SEO from "../components/SEO";
+import SEO from "../Components/SEO";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";

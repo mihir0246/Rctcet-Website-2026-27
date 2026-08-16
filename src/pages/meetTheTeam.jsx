@@ -1,6 +1,6 @@
 "use client"
 
-import SEO from "../components/SEO";
+import SEO from "../Components/SEO";
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 

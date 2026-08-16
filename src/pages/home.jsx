@@ -1,13 +1,13 @@
-import SEO from "../components/SEO";
+import SEO from "../Components/SEO";
 import { Suspense, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { StatsBar } from '../components/Stats';
-import { MomentsFrame } from '../components/Moments';
-import Legacy from '../components/legacy'
-import EndeavorsCarousel from '../components/EndeavorsCarousel'
-import Anantya from '../components/aboutSection';
-import RotaractClubLayout from "../components/heroSection"
-import { Magazine } from '../components/Magazine';
+import { StatsBar } from '../Components/Stats';
+import { MomentsFrame } from '../Components/Moments';
+import Legacy from '../Components/legacy'
+import EndeavorsCarousel from '../Components/EndeavorsCarousel'
+import Anantya from '../Components/aboutSection';
+import RotaractClubLayout from "../Components/heroSection"
+import { Magazine } from '../Components/Magazine';
 
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 40 },

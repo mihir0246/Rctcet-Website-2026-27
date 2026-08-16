@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import SEO from "../components/SEO";
+import SEO from "../Components/SEO";
 import { upcomingEvents } from "../data/events";
 
 const UpcomingEvents = () => {
