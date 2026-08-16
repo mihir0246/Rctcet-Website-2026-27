@@ -135,41 +135,4 @@ export const Achievement = () => {
   );
 };
 
-const slides = [
-  {
-    img: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1756827418/8THBEST_nhwai3.png",
-    desc: "8TH BEST CLUB IN DISTRICT 3141 ",
-  },
-  {
-    img: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1756827419/RUBY_CITATION_kbnanz.png",
-
-    desc: "Ruby spotlight citation ",
-  },
-  {
-    img: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1756827419/CLUB_SITE_up0tpu.png",
-
-    desc: " Best Club Website",
-  },
-  {
-    img: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1756827421/RESPONSIBLE_PRESIDENT_azc0pj.png",
-
-    desc: " Responsible President Citation",
-  },
-];
-
-const Personal = [
-  {
-    id: 1,
-    title: "Outstanding Vice President at district 3141",
-    name: "Rtr. Aizab Khan",
-    image:
-      "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1756789422/DSC03051_fg0pak.jpg",
-  },
-  {
-    id: 2,
-    title: "Unstoppable Council Member at district 3141",
-    name: "Rtr. Sumit Sharma",
-    image:
-      "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1756821756/DSC02604_jmaoow.jpg",
-  },
-];
+import { achievementSlides as slides, personalAchievements as Personal } from "../data/achievements";
