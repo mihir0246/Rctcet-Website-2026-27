@@ -1,189 +1,182 @@
 export const teamMembers = [
   //2026-27
   {
-  id: 217,
-  name: "Rtr. Vaishnavi Ranjan",
-  role: "President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701828/Rtr._Vaishnavi_Ranjan_President_tkcxhn.png",
-  year: "2026-2027",
-},
-{
-  id: 218,
-  name: "Rtr. Aaditya Yadav",
-  role: "Secretary",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701836/Rtr._Aaditya_Yadav_Secretary_pbtdkn.png",
-  year: "2026-2027",
-},
-{
-  id: 219,
-  name: "Rtr. Tanisha Kumar",
-  role: "Immediate Past President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701868/Rtr._Tanisha_Desai_IPP_joc9dm.png",
-  year: "2026-2027",
-},
-{
-  id: 220,
-  name: "Rtr. Aaryan Gupta",
-  role: "Vice President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701883/Rtr._Aryan_Gupta_Vice_President_fagank.png",
-  year: "2026-2027",
-},
-{
-  id: 221,
-  name: "Rtr. Dhairya Doshi",
-  role: "Vice President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701871/Rtr._Dhairya_Doshi_Vice_President_ybdxhs.png",
-  year: "2026-2027",
-},
-{
-  id: 222,
-  name: "Rtr. Prathamesh Singh",
-  role: "Vice President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701825/Rtr._Prathamesh_Singh_Vice_President_krlgue.png",
-  year: "2026-2027",
-},
-{
-  id: 223,
-  name: "Rtr. Shreya Jadhav",
-  role: "Sergeant At Arms",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701830/Rtr._Shreya_Jadhav_SAA_ugnoub.png",
-  year: "2026-2027",
-},
-{
-  id: 224,
-  name: "Rtr. Utsav Yadav",
-  role: "Chairperson Finance",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701888/Rtr._Utsav_Yadav_Chairperson_Finance_rhvg6r.png",
-  year: "2026-2027",
-},
-{
-  id: 225,
-  name: "Rtr. Sudiksha Kapoor",
-  role: "Chairwoman Partner-in-Service",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701882/Rtr._Sudiksha_Kapoor_Chairwoman_PIS_s3biyo.png",
-  year: "2026-2027",
-},
-{
-  id: 226,
-  name: "Rtr. Shaziya Naz",
-  role: "Chairperson Human Resource Development",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701876/Rtr._Shaziya_Naz_Chairperson_HRD_dz2ash.png",
-  year: "2026-2027",
-},
-{
-  id: 227,
-  name: "Rtr. Aachal Sharma",
-  role: "Joint Secretary",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701826/Rtr._Aachal_Sharma_Joint_Secretary_ebdh4p.png",
-  year: "2026-2027",
-},
-{
-  id: 228,
-  name: "Rtr. Aditya Pandey",
-  role: "Joint Secretary",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701858/Rtr._Aditya_Pandey_Joint_Secretary_iyem15.png",
-  year: "2026-2027",
-},
-{
-  id: 229,
-  name: "Rtr. Nidhi Gupta",
-  role: "Chairperson Publications",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701846/Rtr._Nidhi_Gupta_Chairperson_Publications_esdz6w.png",
-  year: "2026-2027",
-},
+    id: 217,
+    name: "Rtr. Nidhi Gupta",
+    role: "President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701828/Rtr._Vaishnavi_Ranjan_President_tkcxhn.png",
+    year: "2026-2027",
+  },
+  {
+    id: 218,
+    name: "Rtr. Mihir Sonawane",
+    role: "Secretary",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701836/Rtr._Aaditya_Yadav_Secretary_pbtdkn.png",
+    year: "2026-2027",
+  },
+  {
+    id: 219,
+    name: "Rtr. Vaishnavi Ranjan",
+    role: "Immediate Past President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701828/Rtr._Vaishnavi_Ranjan_President_tkcxhn.png",
+    year: "2026-2027",
+  },
+  {
+    id: 220,
+    name: "Rtr. Samiha Dadarkar",
+    role: "Vice President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701883/Rtr._Aryan_Gupta_Vice_President_fagank.png",
+    year: "2026-2027",
+  },
+  {
+    id: 221,
+    name: "Rtr. Siddharth Bajpai",
+    role: "Vice President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701871/Rtr._Dhairya_Doshi_Vice_President_ybdxhs.png",
+    year: "2026-2027",
+  },
+  {
+    id: 222,
+    name: "Rtr. Parth Nalavade",
+    role: "Vice President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701825/Rtr._Prathamesh_Singh_Vice_President_krlgue.png",
+    year: "2026-2027",
+  },
+  {
+    id: 223,
+    name: "Rtr. Tiya Agarwal",
+    role: "Sergeant At Arms",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701830/Rtr._Shreya_Jadhav_SAA_ugnoub.png",
+    year: "2026-2027",
+  },
+  {
+    id: 224,
+    name: "Rtr. Ajay Sharma",
+    role: "Chairperson Finance",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701888/Rtr._Utsav_Yadav_Chairperson_Finance_rhvg6r.png",
+    year: "2026-2027",
+  },
+  {
+    id: 226,
+    name: "Rtr. Maithali Mani",
+    role: "Chairperson Human Resource Development",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701876/Rtr._Shaziya_Naz_Chairperson_HRD_dz2ash.png",
+    year: "2026-2027",
+  },
+  {
+    id: 227,
+    name: "Rtr. Urvi Dhakate",
+    role: "Joint Secretary",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701826/Rtr._Aachal_Sharma_Joint_Secretary_ebdh4p.png",
+    year: "2026-2027",
+  },
+  {
+    id: 228,
+    name: "Rtr. Rajdeep Yadav",
+    role: "Joint Secretary",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701858/Rtr._Aditya_Pandey_Joint_Secretary_iyem15.png",
+    year: "2026-2027",
+  },
+  {
+    id: 229,
+    name: "Rtr. Julee Palav",
+    role: "Chairperson Publications",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701846/Rtr._Nidhi_Gupta_Chairperson_Publications_esdz6w.png",
+    year: "2026-2027",
+  },
 
   //2025-26
   {
-  id: 217,
-  name: "Rtr. Vaishnavi Ranjan",
-  role: "President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701828/Rtr._Vaishnavi_Ranjan_President_tkcxhn.png",
-  year: "2025-2026",
-},
-{
-  id: 218,
-  name: "Rtr. Aaditya Yadav",
-  role: "Secretary",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701836/Rtr._Aaditya_Yadav_Secretary_pbtdkn.png",
-  year: "2025-2026",
-},
-{
-  id: 219,
-  name: "Rtr. Tanisha Kumar",
-  role: "Immediate Past President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701868/Rtr._Tanisha_Desai_IPP_joc9dm.png",
-  year: "2025-2026",
-},
-{
-  id: 220,
-  name: "Rtr. Aaryan Gupta",
-  role: "Vice President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701883/Rtr._Aryan_Gupta_Vice_President_fagank.png",
-  year: "2025-2026",
-},
-{
-  id: 221,
-  name: "Rtr. Dhairya Doshi",
-  role: "Vice President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701871/Rtr._Dhairya_Doshi_Vice_President_ybdxhs.png",
-  year: "2025-2026",
-},
-{
-  id: 222,
-  name: "Rtr. Prathamesh Singh",
-  role: "Vice President",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701825/Rtr._Prathamesh_Singh_Vice_President_krlgue.png",
-  year: "2025-2026",
-},
-{
-  id: 223,
-  name: "Rtr. Shreya Jadhav",
-  role: "Sergeant At Arms",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701830/Rtr._Shreya_Jadhav_SAA_ugnoub.png",
-  year: "2025-2026",
-},
-{
-  id: 224,
-  name: "Rtr. Utsav Yadav",
-  role: "Chairperson Finance",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701888/Rtr._Utsav_Yadav_Chairperson_Finance_rhvg6r.png",
-  year: "2025-2026",
-},
-{
-  id: 225,
-  name: "Rtr. Sudiksha Kapoor",
-  role: "Chairwoman Partner-in-Service",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701882/Rtr._Sudiksha_Kapoor_Chairwoman_PIS_s3biyo.png",
-  year: "2025-2026",
-},
-{
-  id: 226,
-  name: "Rtr. Shaziya Naz",
-  role: "Chairperson Human Resource Development",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701876/Rtr._Shaziya_Naz_Chairperson_HRD_dz2ash.png",
-  year: "2025-2026",
-},
-{
-  id: 227,
-  name: "Rtr. Aachal Sharma",
-  role: "Joint Secretary",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701826/Rtr._Aachal_Sharma_Joint_Secretary_ebdh4p.png",
-  year: "2025-2026",
-},
-{
-  id: 228,
-  name: "Rtr. Aditya Pandey",
-  role: "Joint Secretary",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701858/Rtr._Aditya_Pandey_Joint_Secretary_iyem15.png",
-  year: "2025-2026",
-},
-{
-  id: 229,
-  name: "Rtr. Nidhi Gupta",
-  role: "Chairperson Publications",
-  image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701846/Rtr._Nidhi_Gupta_Chairperson_Publications_esdz6w.png",
-  year: "2025-2026",
-},
+    id: 217,
+    name: "Rtr. Vaishnavi Ranjan",
+    role: "President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701828/Rtr._Vaishnavi_Ranjan_President_tkcxhn.png",
+    year: "2025-2026",
+  },
+  {
+    id: 218,
+    name: "Rtr. Aaditya Yadav",
+    role: "Secretary",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701836/Rtr._Aaditya_Yadav_Secretary_pbtdkn.png",
+    year: "2025-2026",
+  },
+  {
+    id: 219,
+    name: "Rtr. Tanisha Kumar",
+    role: "Immediate Past President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701868/Rtr._Tanisha_Desai_IPP_joc9dm.png",
+    year: "2025-2026",
+  },
+  {
+    id: 220,
+    name: "Rtr. Aaryan Gupta",
+    role: "Vice President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701883/Rtr._Aryan_Gupta_Vice_President_fagank.png",
+    year: "2025-2026",
+  },
+  {
+    id: 221,
+    name: "Rtr. Dhairya Doshi",
+    role: "Vice President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701871/Rtr._Dhairya_Doshi_Vice_President_ybdxhs.png",
+    year: "2025-2026",
+  },
+  {
+    id: 222,
+    name: "Rtr. Prathamesh Singh",
+    role: "Vice President",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701825/Rtr._Prathamesh_Singh_Vice_President_krlgue.png",
+    year: "2025-2026",
+  },
+  {
+    id: 223,
+    name: "Rtr. Shreya Jadhav",
+    role: "Sergeant At Arms",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701830/Rtr._Shreya_Jadhav_SAA_ugnoub.png",
+    year: "2025-2026",
+  },
+  {
+    id: 224,
+    name: "Rtr. Utsav Yadav",
+    role: "Chairperson Finance",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701888/Rtr._Utsav_Yadav_Chairperson_Finance_rhvg6r.png",
+    year: "2025-2026",
+  },
+  {
+    id: 225,
+    name: "Rtr. Sudiksha Kapoor",
+    role: "Chairwoman Partner-in-Service",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701882/Rtr._Sudiksha_Kapoor_Chairwoman_PIS_s3biyo.png",
+    year: "2025-2026",
+  },
+  {
+    id: 226,
+    name: "Rtr. Shaziya Naz",
+    role: "Chairperson Human Resource Development",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701876/Rtr._Shaziya_Naz_Chairperson_HRD_dz2ash.png",
+    year: "2025-2026",
+  },
+  {
+    id: 227,
+    name: "Rtr. Aachal Sharma",
+    role: "Joint Secretary",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701826/Rtr._Aachal_Sharma_Joint_Secretary_ebdh4p.png",
+    year: "2025-2026",
+  },
+  {
+    id: 228,
+    name: "Rtr. Aditya Pandey",
+    role: "Joint Secretary",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701858/Rtr._Aditya_Pandey_Joint_Secretary_iyem15.png",
+    year: "2025-2026",
+  },
+  {
+    id: 229,
+    name: "Rtr. Nidhi Gupta",
+    role: "Chairperson Publications",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701846/Rtr._Nidhi_Gupta_Chairperson_Publications_esdz6w.png",
+    year: "2025-2026",
+  },
 
   // 2024-2025
   {
@@ -693,66 +686,73 @@ export const teamMembers = [
     year: "2017-2018",
   },
 
-    
+
 ]
 
 export const boardOfDirectors = [
-    // 2026-27
+  // 2026-27
   {
     id: 160,
-    name: "Rtr. Samiha Dadarkar",
+    name: "Rtr. Jainil Ghadiali",
     role: "Club Service",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701840/Rtr._Samiha_Dadarkar_BOD_Club_Service_api4cf.png",
     year: "2026-2027",
   },
-    {
+  {
+    id: 161,
+    name: "Rtr. Khyati Rathi",
+    role: "Club Service",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701840/Rtr._Samiha_Dadarkar_BOD_Club_Service_api4cf.png",
+    year: "2026-2027",
+  },
+  {
     id: 153,
-    name: "Rtr. Aaditi Pawar",
+    name: "Rtr. Krati Ostwal",
     role: "Community Service ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701842/Rtr._Aditi_Pawar_Community_Service_Director_zhyzzn.png",
     year: "2026-2027",
   },
-    {
+  {
     id: 161,
-    name: "Rtr. Om tailor",
+    name: "Rtr. Sunehri Singh",
     role: "Community Service ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701863/Om_Tailor_Community_Service_Director_wtcviu.png",
     year: "2026-2027",
   },
-    {
+  {
     id: 162,
-    name: "Rtr. Tiya Agarwal",
+    name: "Rtr. Shashwat Pandey",
     role: "Community Service ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701862/Rtr._Tiya_Agarwal_BOD_Comm_Serve_zxm6ox.png",
     year: "2026-2027",
   },
   {
     id: 154,
-    name: "Rtr. Enakshi Das",
+    name: "Rtr. Arman Shaikh",
     role: "Professional Development ",
     image:
       "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701836/Rtr._Enakshi_Das_BOD_PD_cj5jco.png",
     year: "2026-2027",
   },
-    {
+  {
     id: 163,
-    name: "Rtr. Tanmaya Deshpande",
+    name: "Rtr. Purnima Tharu",
     role: "Professional Development ",
     image:
       "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701878/Rtr._Tanmaya_Deshpande_BOD_PD_helhmx.png",
     year: "2026-2027",
   },
-    {
+  {
     id: 164,
-    name: "Rtr.Mihir Sonawane",
+    name: "Rtr. Vanessa D'souza",
     role: "International Service ",
     image:
       "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701816/Rtr._Mihir_Sonawane_International_Service_Director_daxtzd.png",
     year: "2026-2027",
   },
-    {
+  {
     id: 165,
-    name: "Rtr. Siddharth Bajpai",
+    name: "Rtr. Mihika Verma",
     role: "International Service",
     image:
       "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701843/Rtr._Siddharth_Bajpayee_BOD_IS_qqwtff.png",
@@ -760,148 +760,154 @@ export const boardOfDirectors = [
   },
   {
     id: 156,
-    name: "Rtr. Saisha Batulwar",
+    name: "Rtr. Payal Yadav",
     role: "Shiksha",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701864/Rtr._Saisha_Batulwar_BOD_Shiksha_bozekp.png",
     year: "2026-2027",
   },
   {
     id: 166,
-    name: "Rtr . Tanishka Jakhmola",
-    role: "Shiksha & Jt.Club Service",
+    name: "Rtr. Nishant Choudhary",
+    role: "Shiksha",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701818/Rtr._Tanishka_Jakhmola_BOD_Shiksha_o3pbx8.png",
     year: "2026-2027",
   },
   {
     id: 157,
-    name: "Rtr. Shubham Jagtap",
+    name: "Rtr. Ashwin Mourya",
     role: "Sports ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701868/Rtr._Shubham_Jagtap_BOD_sports_jeiijb.png",
     year: "2026-2027",
   },
   {
     id: 167,
-    name: "Rtr. Preet Jain",
+    name: "Rtr. Ajinkya Mahto",
     role: "Sports ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701853/Rtr._Preet_Jain_BOD_sports_tybksn.png",
     year: "2026-2027",
   },
   {
     id: 168,
-    name: "Rtr. Ashrit Bang",
+    name: "Rtr. Satyam Gupta",
     role: "Entrepreneurship Development ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701859/Rtr._Ashrit_Bang_BOD_ED_xozjip.png",
     year: "2026-2027",
   },
   {
     id: 210,
-    name: "Rtr. Nisha Singh",
+    name: "Rtr. Shreya Khadye",
     role: "Entrepreneurship Development ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701849/Rtr._Nisha_Singh_BOD_ED_h4dl36.png",
     year: "2026-2027",
   },
-// https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701849/Rtr._Nisha_Singh_BOD_ED_h4dl36.png
   {
     id: 169,
-    name: "Rtr. Ritu Dubey",
+    name: "Rtr. Ishita Patel",
     role: "Social Media Relations ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701876/Rtr._Ritu_Dubey_BOD_SMR_icqegz.png",
     year: "2026-2027",
   },
   {
     id: 170,
-    name: "Rtr. Atharva Girdhar",
+    name: "Rtr. Priyank Sharma",
     role: "Social Media Relations ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701817/Rtr._Atharva_Girdhar_BOD_SMR_ddpwqb.png",
     year: "2026-2027",
   },
   {
     id: 171,
-    name: "Rtr. Mishti Parekh",
+    name: "Rtr. Atharva Tandel",
     role: "Social Media Relations ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701838/Rtr._Mishti_Parekh_BOD_SMR_pseah6.png",
     year: "2026-2027",
   },
   {
     id: 172,
-    name: "Rtr. Mayank Jaiswal",
+    name: "Rtr. Muksha Gandhi",
     role: "Digital Communication",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701817/Rtr._Mayank_Jaiswal_BOD_digicomm_inmwit.png",
     year: "2026-2027",
   },
   {
     id: 185,
-    name: "Rtr. Sania More",
+    name: "Rtr. Hitanshi Radhari",
     role: "Digital Communication",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701886/Rtr._Sania_More_BOD_digicomm_h3xqa5.png",
     year: "2026-2027",
   },
   {
     id: 174,
-    name: "Rtr. Parth Nalavde",
+    name: "Rtr. Fatima Vani",
     role: "Digital Communication",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701847/Rtr._Parth_Nalavade_BOD_digicomm_evtizo.png",
     year: "2026-2027",
   },
   {
     id: 175,
-    name: "Rtr. Shreya Shirvatsav",
+    name: "Rtr. Diya Kukreti",
     role: "Editorial",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701834/Rtr._Shreya_Shrivastav_BOD_Editorial_vv2sqv.png",
     year: "2026-2027",
   },
   {
     id: 176,
-    name: "Rtr. Suhani Kambli",
+    name: "Rtr. Anushka Khamkar",
     role: "Editorial",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701819/Rtr._Suhani_Kambli_BOD_Editorial_nn8lnd.png",
     year: "2026-2027",
   },
   {
     id: 177,
-    name: "Rtr. Diya Tailor",
+    name: "Rtr. Drishti Patel",
+    role: "Partner in Service",
+    image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701854/Rtr._Diya_Tailor_BOD_PIS_krq6t8.png",
+    year: "2026-2027",
+  },
+  {
+    id: 186,
+    name: "Rtr. Esha Sharma",
     role: "Partner in Service",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701854/Rtr._Diya_Tailor_BOD_PIS_krq6t8.png",
     year: "2026-2027",
   },
   {
     id: 178,
-    name: "Rtr. Prastuth Shetty",
+    name: "Rtr. Om Dubey",
     role: "Public Relations",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701851/Rtr._Prastuth_Shetty_BOD_PR_gwlhmw.png",
     year: "2026-2027",
   },
   {
     id: 179,
-    name: "Rtr. Siddharth Gupta",
+    name: "Rtr. Kishan Pandey",
     role: "Public Relations",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701884/Rtr._Siddharth_Gupta_BOD_PR_l0rkrx.png",
     year: "2026-2027",
   },
   {
     id: 180,
-    name: "Rtr. Vaibhavi Tiwari",
+    name: "Rtr. Aishwarya Shrivastav",
     role: "Public Relations",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701824/Rtr._Vaibhavi_Tiwari_BOD_PR_etxako.png",
     year: "2026-2027",
   },
   {
     id: 181,
-    name: "Rtr. Siddhi Sharma",
+    name: "Rtr. Ayush Yadav",
     role: "Marketing",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701869/Rtr._Siddhi_Sharma_BOD_Marketing_kttvvj.png",
     year: "2026-2027",
   },
   {
     id: 182,
-    name: "Rtr. Aarsh Dubey",
+    name: "Rtr. Ojas Mahadik",
     role: "Marketing",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701875/Rtr._Aarsh_Dubey_BOD_Marketing_oykh8o.png",
     year: "2026-2027",
   },
 
   //2024-2025
-    // 2025-26
+  // 2025-26
   {
     id: 160,
     name: "Rtr. Samiha Dadarkar",
@@ -909,21 +915,21 @@ export const boardOfDirectors = [
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701840/Rtr._Samiha_Dadarkar_BOD_Club_Service_api4cf.png",
     year: "2025-2026",
   },
-    {
+  {
     id: 153,
     name: "Rtr. Aaditi Pawar",
     role: "Community Service ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701842/Rtr._Aditi_Pawar_Community_Service_Director_zhyzzn.png",
     year: "2025-2026",
   },
-    {
+  {
     id: 161,
     name: "Rtr. Om tailor",
     role: "Community Service ",
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701863/Om_Tailor_Community_Service_Director_wtcviu.png",
     year: "2025-2026",
   },
-    {
+  {
     id: 162,
     name: "Rtr. Tiya Agarwal",
     role: "Community Service ",
@@ -938,7 +944,7 @@ export const boardOfDirectors = [
       "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701836/Rtr._Enakshi_Das_BOD_PD_cj5jco.png",
     year: "2025-2026",
   },
-    {
+  {
     id: 163,
     name: "Rtr. Tanmaya Deshpande",
     role: "Professional Development ",
@@ -946,7 +952,7 @@ export const boardOfDirectors = [
       "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701878/Rtr._Tanmaya_Deshpande_BOD_PD_helhmx.png",
     year: "2025-2026",
   },
-    {
+  {
     id: 164,
     name: "Rtr.Mihir Sonawane",
     role: "International Service ",
@@ -954,7 +960,7 @@ export const boardOfDirectors = [
       "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701816/Rtr._Mihir_Sonawane_International_Service_Director_daxtzd.png",
     year: "2025-2026",
   },
-    {
+  {
     id: 165,
     name: "Rtr. Siddharth Bajpai",
     role: "International Service",
@@ -1004,7 +1010,7 @@ export const boardOfDirectors = [
     image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701849/Rtr._Nisha_Singh_BOD_ED_h4dl36.png",
     year: "2025-2026",
   },
-// https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701849/Rtr._Nisha_Singh_BOD_ED_h4dl36.png
+  // https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701849/Rtr._Nisha_Singh_BOD_ED_h4dl36.png
   {
     id: 169,
     name: "Rtr. Ritu Dubey",
@@ -1939,4 +1945,4 @@ export const boardOfDirectors = [
 
 
 ]
-
+
