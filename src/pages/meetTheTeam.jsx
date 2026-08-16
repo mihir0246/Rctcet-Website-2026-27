@@ -55,10 +55,10 @@ const TeamPage = () => {
 
       <div className="max-w-[80%] mx-auto">
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="grid grid-cols-1 md:grid-cols-3 gap-20 mt-8">
-          {filteredMembers.map((member) => (
+          {filteredMembers.map((member, index) => (
             <motion.div
               variants={itemVariants}
-              key={member.id}
+              key={index}
               className="bg-[#faebd7] dark:bg-[#3D3027] p-6 rounded-lg shadow-lg dark:shadow-[0_10px_30px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
             >
               <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg">
@@ -83,10 +83,10 @@ const TeamPage = () => {
       </h1>
       <div className="max-w-[80%] mx-auto">
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="grid grid-cols-1 md:grid-cols-3 gap-20">
-          {filteredBoDs.map((bod) => (
+          {filteredBoDs.map((bod, index) => (
             <motion.div
               variants={itemVariants}
-              key={bod.id}
+              key={index}
               className="bg-[#faebd7] dark:bg-[#3D3027] p-6 rounded-lg shadow-lg dark:shadow-[0_10px_30px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
             >
               <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg ">
