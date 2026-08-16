@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { OurJourney } from '../Components/aboutpage/AvenuesofService';
 import AboutAvenue from '../Components/AboutAvenue';
 import { Link } from 'react-router-dom';
-const AboutSection = React.lazy(() => import('../Components/aboutpage/About'));
-const Objectives = React.lazy(() => import('../Components/aboutpage/Objective'));
+const AboutSection = React.lazy(() => import('../Components/aboutpage/about'));
+const Objectives = React.lazy(() => import('../Components/aboutpage/objective'));
 
 
 
