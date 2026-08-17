@@ -1,7 +1,7 @@
 import SEO from "../Components/SEO";
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { OurJourney } from '../components/aboutpage/OurJourney';
+import { OurJourney } from '../Components/aboutpage/OurJourney';
 import AboutAvenue from '../Components/AboutAvenue';
 import { Link } from 'react-router-dom';
 const AboutSection = React.lazy(() => import('../Components/aboutpage/about'));
