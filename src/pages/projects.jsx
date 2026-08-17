@@ -215,8 +215,8 @@ function Projects() {
 
       {/* NEW SLIDER SECTIONS */}
       <div id="projects-list-start" className="p-6 space-y-20">
-        {sections.map((section) => (
-          <SliderSection key={section.id} section={section} />
+        {sections.map((section, index) => (
+          <SliderSection key={section.id} section={section} index={index} />
         ))}
       </div>
 
@@ -248,13 +248,30 @@ export default Projects;
 
 /* ---------------- Slider Component ---------------- */
 
-function SliderSection({ section }) {
+function SliderSection({ section, index }) {
   const [current, setCurrent] = useState(0);
   const total = section.projects.length;
   const project = section.projects[current];
 
   const next = () => setCurrent((prev) => (prev + 1) % total);
   const prev = () => setCurrent((prev) => (prev === 0 ? total - 1 : prev - 1));
+
+  useEffect(() => {
+    if (total <= 1) return;
+
+    let intervalId;
+    // offset each slider's initial interval start by 1.2s * index
+    const timeoutId = setTimeout(() => {
+      intervalId = setInterval(() => {
+        setCurrent((prev) => (prev + 1) % total);
+      }, 5000);
+    }, (index || 0) * 1200);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [total, index]);
 
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },

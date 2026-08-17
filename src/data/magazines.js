@@ -26,4 +26,14 @@ export const magazines = [
     link: "https://heyzine.com/flip-book/9a613c4d89.html",
     year: "2025-26",
   },
+  {
+
+    id: 4,
+    title: "Valerie 6.2",
+    tagline: "Butterfly Effect: Small Act, Infinite Impact",
+    cover:
+      "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1780316103/Valerie_6.2_dist_20260531_111957_0000_eurbjh.png",
+    link: "https://heyzine.com/flip-book/5bd934a141.html",
+    year: "2025-26",
+  },
 ];

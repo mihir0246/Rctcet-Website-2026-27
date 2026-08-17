@@ -78,7 +78,9 @@ export default function FeedBackForm() {
                 <FaMapMarkerAlt className="text-lg" />
               </div>
             </div>
-            <p className="text-sm font-medium text-stone-600 dark:text-stone-300">Mumbai, India</p>
+            <a href="https://maps.app.goo.gl/yD6JJuuEj3RkYJJD8?g_st=ic" target="_blank" rel="noreferrer" className="text-sm font-medium text-stone-600 dark:text-stone-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors underline underline-offset-4">
+              TCET, Mumbai
+            </a>
           </div>
 
           {/* Card 3: Connect */}

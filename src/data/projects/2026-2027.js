@@ -1,5 +1,21 @@
 export const projects = [
   {
+    "id": "Community-Service",
+    "title": "Community Service",
+    "projects": [
+      {
+        "image": "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1786986050/Pawsome_Sunday_wws04e.jpg",
+        "title": "Pawsome Sunday",
+        "objective": "A fun-filled adoption and interaction drive where attendees meet rescued cats and dogs, spend time with them, and help make their day a little more special.",
+        "impact": [
+          "Provided rescued animals with love, care, grooming, and playtime, improving their well-being.",
+          "Encouraged adoption and created awareness about giving furry friends a forever home."
+        ],
+        "drivelink": ""
+      }
+    ]
+  },
+  {
     "id": "Club-Service",
     "title": "Club Service",
     "projects": [
@@ -48,15 +64,25 @@ export const projects = [
           "Strengthened international ties across 40+ Rotary, Rotaract, and Interact Clubs from 8 countries and 4 continents."
         ],
         "drivelink": ""
+      },
+      {
+        "image": "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1786956798/Hopscotch_y2x0pl.jpg",
+        "title": "HOPSCOTCH",
+        "objective": "To celebrate Friendship Day by bringing together members from different Rotaract clubs to interact, connect, and build meaningful friendships in a positive environment.",
+        "impact": [
+          "Created a welcoming space for members across multiple Rotaract clubs to bond through games, laughter, and shared moments.",
+          "Showcased the strength of collaboration through a successful joint initiative with Rotaract Clubs of R.J. College, Wilson College, and M.L. Dahanukar College."
+        ],
+        "drivelink": ""
       }
     ]
   },
   {
     "id": "Professional-Development",
-    "title": "Professional-Development",
+    "title": "Professional Development",
     "projects": [
       {
-        "image": "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1786956805/BluePrint_Ideathon_cehgzm.heic",
+        "image": "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1786956805/BluePrint_Ideathon_cehgzm.jpg",
         "title": "The Blueprint Ideathon 2026",
         "objective": "To develop students' problem-solving, research, teamwork, and presentation skills through an Ideathon focused on real-world challenges.",
         "impact": [
@@ -82,7 +108,7 @@ export const projects = [
         "drivelink": ""
       },
       {
-        "image": "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1786956803/One_Board_rocbun.heic",
+        "image": "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1786956803/One_Board_rocbun.jpg",
         "title": "One Board",
         "objective": "To integrate the newly appointed Board of Directors into one cohesive leadership team by strengthening communication, collaboration, trust, and interpersonal understanding through interactive learning experiences.",
         "impact": [
