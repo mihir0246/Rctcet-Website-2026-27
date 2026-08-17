@@ -16,6 +16,7 @@ const EventRegistration = lazy(() => import('./pages/EventRegistration'));
 const Avenue = lazy(() => import('./Components/Avenue').then(m => ({ default: m.Avenue })));
 const SaaFineTable = lazy(() => import('./Components/Admin/SaaFineTable'));
 const FeedBack = lazy(() => import('./Components/Feedback/FeedBack'));
+const AttendanceAdmin = lazy(() => import('./pages/AttendanceAdmin'));
 function App() {
   useEffect(() => {
     // Coldstart the backend
@@ -40,6 +41,7 @@ function App() {
                 <Route path="saa-fine" element={<SaaFineTable />} />
                 <Route path="meet-the-team" element={<TeamPage />} />
                 <Route path="feedback" element={<FeedBack />} />
+                <Route path="admin/attendance" element={<AttendanceAdmin />} />
 
                 {/* club hub finish */}
                 <Route path="join" element={<RegistrationForm />} />
