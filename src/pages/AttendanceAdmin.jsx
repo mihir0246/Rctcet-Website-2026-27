@@ -14,7 +14,7 @@ function AttendanceAdmin() {
   const [homeMembers, setHomeMembers] = useState([]);
   const [ambassadorials, setAmbassadorials] = useState([]);
   const [nonRotaractors, setNonRotaractors] = useState([]);
-  
+
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -54,7 +54,7 @@ function AttendanceAdmin() {
   const handleNameChange = (e) => {
     const val = e.target.value;
     setName(val);
-    
+
     if (val.trim() === '') {
       setFilteredMembers([]);
       setShowDropdown(false);
@@ -118,9 +118,9 @@ function AttendanceAdmin() {
         },
         body: JSON.stringify(payload)
       });
-      
+
       const result = await response.json();
-      
+
       if (result.status === 'success') {
         setMessage({ type: 'success', text: 'Attendance logged successfully!' });
         setName('');
@@ -131,7 +131,7 @@ function AttendanceAdmin() {
       } else {
         setMessage({ type: 'error', text: result.message || 'Failed to submit.' });
       }
-      
+
     } catch (err) {
       console.error(err);
       setMessage({ type: 'error', text: 'Failed to submit. Please try again.' });
@@ -143,14 +143,11 @@ function AttendanceAdmin() {
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-[#1A1612] flex items-center justify-center p-6 pt-24">
       <SEO title="Attendance Logger" description="Confidential Attendance Portal" />
-      
+
       <div className="max-w-xl w-full bg-white dark:bg-stone-800 rounded-2xl shadow-2xl p-8">
         <h2 className="text-3xl font-bold text-center text-orange-600 dark:text-yellow-400 mb-2">
           Attendance Portal
         </h2>
-        <p className="text-center text-stone-600 dark:text-stone-300 mb-8">
-          Confidential RCTCET Logger
-        </p>
 
         {message.text && (
           <div className={`p-4 rounded-lg mb-6 ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
@@ -162,7 +159,7 @@ function AttendanceAdmin() {
           {/* EVENT */}
           <div>
             <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">Event Name</label>
-            <input 
+            <input
               type="text"
               value={event}
               onChange={(e) => setEvent(e.target.value)}
@@ -175,7 +172,7 @@ function AttendanceAdmin() {
           {/* ATTENDEE TYPE */}
           <div>
             <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">Attendee Type</label>
-            <select 
+            <select
               value={type}
               onChange={handleTypeChange}
               className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -192,7 +189,7 @@ function AttendanceAdmin() {
               Attendee Name
               {fetchingMembers && <span className="ml-2 text-xs text-orange-500">(Loading members...)</span>}
             </label>
-            <input 
+            <input
               type="text"
               value={name}
               onChange={handleNameChange}
@@ -206,7 +203,7 @@ function AttendanceAdmin() {
             {showDropdown && filteredMembers.length > 0 && (
               <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-white dark:bg-stone-700 border border-stone-300 dark:border-stone-600 rounded-lg shadow-lg">
                 {filteredMembers.map((m, idx) => (
-                  <li 
+                  <li
                     key={idx}
                     onMouseDown={() => handleSelectMember(m)}
                     className="px-4 py-2 hover:bg-orange-100 dark:hover:bg-stone-600 cursor-pointer text-stone-800 dark:text-stone-200"
@@ -224,7 +221,7 @@ function AttendanceAdmin() {
               <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">
                 {type === 'Ambassadorial' ? 'Club Name' : 'College Name'}
               </label>
-              <input 
+              <input
                 type="text"
                 value={otherClub}
                 onChange={(e) => setOtherClub(e.target.value)}
@@ -240,7 +237,7 @@ function AttendanceAdmin() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">Phone Number</label>
-                <input 
+                <input
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -251,7 +248,7 @@ function AttendanceAdmin() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">Email</label>
-                <input 
+                <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -263,8 +260,8 @@ function AttendanceAdmin() {
             </div>
           )}
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
             className="w-full py-4 mt-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-orange-500/30 disabled:opacity-50"
           >
