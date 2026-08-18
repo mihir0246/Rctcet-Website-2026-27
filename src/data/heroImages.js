@@ -1,30 +1,34 @@
 export const heroImages = [
   {
-    title: "Jashn-E- 3141",
-    id: "v1757943827/Copy_of_IMG_4190_ayzbil_lplixh_rd534g.webp"
+    title: "Pawsome Sunday",
+    id: "v1786986050/Pawsome_Sunday_wws04e.jpg"
   },
   {
-    title: "Visual Velocity 2.0",
-    id: "v1757943830/IMG_7581_xlm8wx_lnj4jq_ufiz7c.webp"
+    title: "Yaariyaan",
+    id: "v1786956818/Yaariyaan_yz2aht.jpg"
   },
   {
-    title: "Aara night 25-26",
-    id: "v1757943837/IMG_2044_h3kady_vbe8iv_s4bl9w.webp"
+    title: "Rotaract's Day Out 2.0",
+    id: "v1786956798/Rotaracts_Dayout_cb2daf.jpg"
   },
   {
-    title: "Rotaract's Day Out",
-    id: "v1757943940/Copy_of_IMG_0420_wdpng4_gpbtct.webp"
+    title: "SURAKSHA",
+    id: "v1786956819/Suraksha_kt3itl.jpg"
   },
   {
-    title: "Monsoon Match Day 2.0",
-    id: "v1757943826/Copy_of_IMG_1446_1_zwesqm_g41sxi.webp"
+    title: "HOPSCOTCH",
+    id: "v1786956798/Hopscotch_y2x0pl.jpg"
   },
   {
-    title: "Kalakriti 2.0",
-    id: "v1757943987/Copy_of_IMG20250825165248_kvd3wk_w6imtn.webp"
+    title: "The Blueprint Ideathon 2026",
+    id: "v1786956805/BluePrint_Ideathon_cehgzm.jpg"
   },
   {
-    title: "Panache",
-    id: "v1757943825/PXL_20250718_060353784_i7fthn_jxd25r.webp"
+    title: "R.O.T.A.R",
+    id: "v1786956801/R.O.T.A.R_ikvlgg.jpg"
+  },
+  {
+    title: "One Board",
+    id: "v1786956803/One_Board_rocbun.jpg"
   }
 ];

@@ -1,6 +1,6 @@
 export const aboutImages = {
   background: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1771630629/Baseline_grid_bg_zywtov.svg",
-  themeLogo: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1756759766/theme_logo_anantya_bebpcc.png",
+  themeLogo: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1787043285/Meraki_kvjeog.png",
   leftMost: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1757942003/image_21_djjnxp.webp",
   leftStack1: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1757942003/image_16_bfxga6.webp",
   leftStack2: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1757942004/image_19_atmes5.webp",
@@ -16,7 +16,7 @@ export const preloadImages = [
   "https://www.rc.tcetmumbai.in/About%20us/download%202.webp",
   "https://www.rc.tcetmumbai.in/About%20us/image%2013.webp",
   "https://www.rc.tcetmumbai.in/About%20us/image%2014.webp",
-  "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1756759766/theme_logo_anantya_bebpcc.png",
+  "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1787043285/Meraki_kvjeog.png",
   "https://www.rc.tcetmumbai.in/About%20us/people-cliff-giving-himself-handshake_1160-629%201.webp",
 ];
 

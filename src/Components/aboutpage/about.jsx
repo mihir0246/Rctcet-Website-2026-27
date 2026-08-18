@@ -55,7 +55,7 @@ const AboutSection = () => {
           <div className="relative rounded-lg p-3 aspect-square w-full md:w-[25vw] overflow-visible flex-shrink-0">
             <LazyLoadImage
               src={aboutImages.themeLogo}
-              alt="Theme Logo Anantya"
+              alt="Theme Logo Meraki"
               className="absolute inset-0 w-full h-full object-contain"
             />
           </div>

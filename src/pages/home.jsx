@@ -48,7 +48,7 @@ const Home = () => {
               playsInline
               onEnded={handleIntroEnd}
               className="w-full h-full object-cover opacity-90"
-              src="https://res.cloudinary.com/dtc2xaeaf/video/upload/v1757944468/freecompress-flame_am46ja_czoump.mp4"
+              src="https://res.cloudinary.com/dtc2xaeaf/video/upload/v1787043270/landing_intro_dsw7cj.mp4"
             />
 
             {/* Subtle Skip Button */}
