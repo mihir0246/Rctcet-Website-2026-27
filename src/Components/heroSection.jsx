@@ -1,7 +1,5 @@
-import { useState, useEffect, useMemo, lazy, Suspense } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-const Chatbot = lazy(() => import("./Chatbot/Chatbot"));
 
 const BG_DESKTOP = "f_auto,q_auto:low,w_1400,c_fill,g_auto";
 const BG_MOBILE = "f_auto,q_auto:low,w_600,c_fill,g_auto";
@@ -53,27 +51,28 @@ export default function RotaractClubLayout() {
       <div className="absolute inset-0 bg-black/40 z-10" />
 
       {/* Center Content: Logo and Title */}
-      <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 w-full max-w-4xl">
+      <div className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center justify-center text-center px-3 w-full max-w-[95vw] md:max-w-5xl">
         <motion.img
           initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          animate={{ scale: 1.2, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           src="https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_400/v1756746594/logo_pdqctw.svg"
           alt="Rotaract Club Logo"
-          className="h-32 w-32 md:h-48 md:w-48 mb-6 drop-shadow-2xl"
+          className="h-28 w-28 md:h-40 md:w-40 mb-4 md:mb-6 drop-shadow-2xl"
         />
         <motion.h1
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl tracking-wide uppercase"
+          className="text-[12vw] sm:text-6xl md:text-[5.5rem] lg:text-[6rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 drop-shadow-[0_0_25px_rgba(0,0,0,0.8)] uppercase leading-[1.05] tracking-tighter select-none"
         >
-          Rotaract Club of TCET
+          <span className="whitespace-nowrap">ROTARACT CLUB</span> <br />
+          <span className="whitespace-nowrap">OF TCET</span>
         </motion.h1>
       </div>
 
       {/* Top Right: Event Name */}
-      <div className="absolute top-24 md:top-28 right-4 md:right-8 z-30">
+      <div className="absolute top-24 md:top-10 right-4 md:right-5 z-30">
         <AnimatePresence mode="wait">
           <motion.div
             key={bgIndex}
@@ -83,16 +82,12 @@ export default function RotaractClubLayout() {
             transition={{ duration: 0.5 }}
             className="px-4 py-2"
           >
-            <h2 className="text-white text-xl md:text-2xl font-bold tracking-wider drop-shadow-lg">
+            <h2 className="text-white text-xl md:text-xl font-bold tracking-wider drop-shadow-lg">
               {imagesData[bgIndex].title}
             </h2>
           </motion.div>
         </AnimatePresence>
       </div>
-
-      <Suspense fallback={null}>
-        <Chatbot />
-      </Suspense>
 
     </div>
   );

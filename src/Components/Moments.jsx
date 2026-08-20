@@ -1,43 +1,27 @@
-
 function MomentsFrame() {
     return(
-        <div className="h-auto w-full my-3 overflow-hidden -translate-y-10 sm:-translate-y-20 md:-translate-y-28 bg-white dark:bg-stone-900">
-                <BgImg/>
-                <MomentSection/>
-        </div>
-    )
-}
-
-function BgImg() {
-    return(
-        <div className="flex justify-center w-full mt-4 sm:mt-12 lg:mt-20 mb-8 overflow-hidden px-4">
-            <div className="relative w-full max-w-[1200px] flex items-center justify-center rounded-xl overflow-hidden drop-shadow-sm">
-                <img 
-                    src="https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_1200/v1756826078/International-Day-of-Friendship-Puzzle-Colouring-Poster-black-and-white-RGB_ver_3_1_bfs140.png" 
-                    alt="Moments Background Banner" 
-                    className="w-full h-[150px] sm:h-[200px] lg:h-[300px] object-cover opacity-90 dark:opacity-50"
-                    loading="lazy" 
-                    decoding="async"
-                />
-                <div className="absolute inset-0 flex items-center justify-center z-10 p-4">
-                    <HeadText/>
-                </div>
-            </div>
+        <div className="relative w-full py-12 md:py-16 overflow-hidden bg-background">
+            {/* Subtle glowing radial background */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1000px] h-[500px] bg-primary/5 dark:bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+            
+            <HeadText/>
+            <MomentSection/>
         </div>
     )
 }
 
 function HeadText() {
     return(
-        <div className="drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_4px_4px_rgba(0,0,0,0.9)]">
-            <h1 className="text-center text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight bg-gradient-to-b from-amber-700 via-orange-600 to-yellow-500 dark:from-yellow-400 dark:via-yellow-300 dark:to-white bg-clip-text text-transparent">
+        <div className="text-center mb-4 relative z-10 px-4">
+            <h1 className="text-4xl md:text-5xl lg:text-5xl leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 dark:from-white dark:to-white/40 tracking-tighter drop-shadow-sm select-none uppercase">
                 Moments to Remember
             </h1>
+            <div className="w-24 h-1.5 bg-primary mx-auto mt-4 rounded-full shadow-[0_0_15px_rgba(110,159,159,0.5)]" />
         </div>
     )
 }
 
-const MOMENT_IMG = "f_auto,q_auto:eco,w_400,c_fill,g_auto";
+const MOMENT_IMG = "f_auto,q_auto:eco,w_600,c_fill,g_auto";
 
 function ImgSet() {
     return(
@@ -56,24 +40,42 @@ function ImgSet() {
 
 function MomentSection() {
     return(
-        <div className="flex justify-between items-center w-full px-2">
-        <div className="z-10 lg:h-[319px] bg-gradient-to-r from-orange-100 dark:from-stone-700 rounded-l-[12px] h-[200px] w-[20px] lg:w-[35px]"></div>
-            <div className="w-full overflow-hidden whitespace-nowrap box-content drop-shadow-[2px_2px_4px_rgba(0,0,0,0.40)]">
-                <div className="lg:animate-slider animate-slider_mobile hover:pause-animation">
+        <div className="relative w-full max-w-[1920px] mx-auto pt-2 pb-8">
+            {/* Seamless gradient mask for fade effect */}
+            <div 
+                className="w-full overflow-hidden" 
+                style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}
+            >
+                <div className="flex w-max lg:animate-slider animate-slider_mobile hover:pause-animation py-2">
                     <ImgSet/>
                     <ImgSet/>
                     <ImgSet/>
                     <ImgSet/>
                 </div>
             </div>
-        <div className="z-10 lg:h-[319px] bg-gradient-to-l from-orange-100 dark:from-stone-700 rounded-r-[12px] h-[200px] w-[20px] lg:w-[35px]"></div>
         </div>
     )
 }
 
 function MomentBox({image, alt}) {
     return(
-        <img src={image} alt={alt} className="h-[200px] w-[250px] inline-block ml-4 mr-4 rounded-[12px] object-cover lg:w-[286px] lg:h-[319px] border-[1px] border-black dark:border-stone-600 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.40)]" loading="lazy" decoding="async" />
+        <div className="group mx-2 lg:mx-3 shrink-0 relative perspective-1000">
+            {/* Glass Polaroid Container */}
+            <div className="p-3 pb-8 md:p-4 md:pb-12 bg-white/60 dark:bg-card/40 backdrop-blur-2xl border border-white/60 dark:border-white/10 rounded-3xl shadow-xl transition-all duration-500 ease-out hover:-translate-y-4 hover:rotate-3 hover:shadow-[0_20px_40px_rgba(110,159,159,0.2)] hover:z-10 relative">
+                {/* Image Wrapper */}
+                <div className="relative w-[250px] h-[200px] lg:w-[320px] lg:h-[350px] rounded-2xl overflow-hidden bg-muted">
+                    <img 
+                        src={image} 
+                        alt={alt} 
+                        className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-110" 
+                        loading="lazy" 
+                        decoding="async" 
+                    />
+                    {/* Subtle inner shadow overlay */}
+                    <div className="absolute inset-0 shadow-inner rounded-2xl pointer-events-none border border-black/10 dark:border-white/10" />
+                </div>
+            </div>
+        </div>
     )
 }
 

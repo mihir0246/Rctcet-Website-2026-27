@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Meraki Theme Light Mode (RGB values for Tailwind opacity support) */
+    --background: 241 245 249;
+    --card: 255 255 255;
+    --foreground: 15 23 42;
+    --muted: 100 116 139;
+    
+    --primary: 110 159 159;
+    --primary-hover: 90 135 135;
+    --primary-light: 224 242 254;
+    --secondary: 184 128 106;
+  }
+  
+  .dark {
+    /* Meraki Theme Dark Mode */
+    --background: 15 23 42;
+    --card: 30 41 59;
+    --foreground: 248 250 252;
+    --muted: 148 163 184;
+    
+    --primary: 110 159 159;
+    --primary-hover: 129 185 181;
+    --primary-light: 30 41 59;
+    --secondary: 184 128 106;
+  }
+}
+
 * {
     font-family: Poppins;
 }
@@ -12,10 +40,13 @@
     }
 }
 
+html, body {
+  max-width: 100vw;
+}
+
 html {
   scroll-behavior: smooth;
 }
-
 
 /* Hide scrollbar */
 .scrollbar-hide::-webkit-scrollbar {
@@ -41,7 +72,7 @@ html {
 }
 
 .achievement-swiper .swiper-pagination-bullet-active {
-  background: #f97316;
+  background: rgb(var(--primary));
   width: 14px;
   height: 14px;
 }

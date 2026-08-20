@@ -125,13 +125,13 @@ export const Chatbot = () => {
               className="
                 fixed bottom-28 right-6 z-[10000]
                 max-w-[260px]
-                bg-white
+                bg-card
                 text-gray-700
                 text-sm
                 px-4 py-3
                 rounded-2xl
                 shadow-lg
-                border border-orange-100
+                border border-primary
               "
             >
               {hintMessages.map((item, index) => (
@@ -139,7 +139,7 @@ export const Chatbot = () => {
                   <span>{item}</span>
                 </p>
               ))}
-              <div className="absolute bottom-[-6px] right-8 w-3 h-3 bg-white rotate-45 border-r border-b border-orange-100" />
+              <div className="absolute bottom-[-6px] right-8 w-3 h-3 bg-card rotate-45 border-r border-b border-primary" />
             </div>
           )}
 
@@ -152,7 +152,7 @@ export const Chatbot = () => {
             className="
               fixed bottom-5 right-5 z-[10000]
               w-20 h-20 rounded-full
-              bg-white
+              bg-card
               shadow-2xl
               hover:scale-105 transition
               flex items-center justify-center
@@ -183,7 +183,7 @@ export const Chatbot = () => {
               w-[92vw] h-[60vh]
               sm:bottom-16 sm:right-4 sm:left-auto sm:translate-x-0
               sm:w-[360px] sm:h-[72vh]
-              bg-gradient-to-br from-orange-50 to-white
+              bg-gradient-to-br from-primary to-white
               rounded-3xl
               shadow-2xl
               flex flex-col
@@ -218,8 +218,8 @@ export const Chatbot = () => {
                 >
                   <div
                     className={`max-w-[85%] rounded-2xl p-3 shadow ${msg.role === "user"
-                        ? "bg-orange-500 text-white"
-                        : "bg-white/90 text-gray-800"
+                        ? "bg-primary text-white"
+                        : "bg-card/90 text-gray-800"
                       }`}
                   >
                     <div className="prose prose-sm max-w-none prose-p:my-1 prose-pre:whitespace-pre-wrap">
@@ -231,7 +231,7 @@ export const Chatbot = () => {
 
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="max-w-[85%] rounded-2xl p-3 shadow bg-white/90 text-gray-700">
+                  <div className="max-w-[85%] rounded-2xl p-3 shadow bg-card/90 text-gray-700">
                     Thinking...
                   </div>
                 </div>
@@ -240,11 +240,11 @@ export const Chatbot = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="px-3 py-1 bg-white border-t text-[11px] text-gray-500">
+            <div className="px-3 py-1 bg-card border-t text-[11px] text-gray-500">
               Requests sent: {requestLog.length}
             </div>
 
-            <div className="p-3 bg-white border-t flex gap-2">
+            <div className="p-3 bg-card border-t flex gap-2">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -253,17 +253,17 @@ export const Chatbot = () => {
                 placeholder="Ask me anything..."
                 className="
                   flex-1 px-4 py-2 rounded-2xl
-                  border border-orange-200
+                  border border-primary
                   text-sm text-gray-700
-                  bg-orange-50
+                  bg-primary-light
                   resize-none
-                  focus:outline-none focus:ring-2 focus:ring-orange-300
+                  focus:outline-none focus:ring-2 focus:ring-primary
                 "
               />
               <button
                 onClick={sendMessage}
                 disabled={isLoading || !input.trim()}
-                className="w-10 h-10 rounded-full bg-orange-500 text-white disabled:opacity-40"
+                className="w-10 h-10 rounded-full bg-primary text-white disabled:opacity-40"
               >
                 {">"}
               </button>

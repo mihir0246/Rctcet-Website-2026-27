@@ -1,20 +1,28 @@
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-    darkMode: 'class',
+  darkMode: 'class',
   theme: {
     extend: {
       backgroundImage: {
-        'custom-gradient': 'linear-gradient(129.61deg, #FF8627 37.66%, #FFB971 70.67%, #FDBE22 96.09%)',
+        'custom-gradient': 'linear-gradient(135deg, #B8806A 0%, #6E9F9F 50%, #CDE3E2 100%)',
       },
       colors: {
-        'FFD6A8': '#FFD6A8',
-        '9D320F': '#9D320F',
-        'statsBar': '#f5f5f5',
-        'HealthCardColor': '#FFF7ED',
+        background: 'rgb(var(--background) / <alpha-value>)',
+        card: 'rgb(var(--card) / <alpha-value>)',
+        foreground: 'rgb(var(--foreground) / <alpha-value>)',
+        muted: 'rgb(var(--muted) / <alpha-value>)',
+        primary: {
+          DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
+          hover: 'rgb(var(--primary-hover) / <alpha-value>)',
+          light: 'rgb(var(--primary-light) / <alpha-value>)',
+        },
+        secondary: 'rgb(var(--secondary) / <alpha-value>)',
       },
       keyframes: {
         slider: {
@@ -43,5 +51,3 @@ export default {
   },
   plugins: [],
 }
-
-

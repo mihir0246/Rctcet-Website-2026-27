@@ -26,13 +26,13 @@ export default function SaaFineTable() {
   }
 
   return (
-    <div className="p-6 dark:bg-stone-900 min-h-[80vh]">
-      <h2 className="text-2xl font-bold mb-4 text-center text-orange-500">
+    <div className="p-6 dark:bg-card min-h-[80vh]">
+      <h2 className="text-2xl font-bold mb-4 text-center text-primary">
         📋 SaaFine Records
       </h2>
       <div className="overflow-x-auto rounded-lg shadow-lg">
-        <table className="w-full border-collapse bg-white">
-          <thead className="bg-orange-500 dark:bg-orange-800 text-white">
+        <table className="w-full border-collapse bg-card">
+          <thead className="bg-primary dark:bg-primary text-white">
             <tr>
               <th className="px-4 py-2">ID</th>
               <th className="px-4 py-2">Name</th>
@@ -49,12 +49,12 @@ export default function SaaFineTable() {
               data.map((row) => (
                 <tr
                   key={row.id}
-                  className="border-t dark:bg-stone-600 dark:text-white hover:bg-orange-50 transition"
+                  className="border-t dark:bg-card dark:text-white hover:bg-primary-light transition"
                 >
                   <td className="px-4 py-2 text-center">{row.id}</td>
                   <td className="px-4 py-2">{row.name}</td>
                   <td className="px-4 py-2">{row.date}</td>
-                  <td className="px-4 py-2 text-orange-500 font-semibold">
+                  <td className="px-4 py-2 text-primary font-semibold">
                     ₹{row.amount}
                   </td>
                   <td className="px-4 py-2">{row.reason}</td>
@@ -74,7 +74,7 @@ export default function SaaFineTable() {
                         href="https://docs.google.com/forms/your-google-form-link"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-1 rounded-lg shadow-md transition"
+                        className="bg-primary hover:bg-primary-hover text-white px-4 py-1 rounded-lg shadow-md transition"
                       >
                         Pay
                       </a>

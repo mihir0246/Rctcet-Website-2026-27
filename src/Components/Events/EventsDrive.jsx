@@ -49,7 +49,7 @@ export default function EventsDrive() {
 
   return (
     <section className="my-16 px-4">
-      <h2 className="text-3xl font-bold text-center mb-12 text-orange-500 dark:text-yellow-400">
+      <h2 className="text-3xl font-bold text-center mb-12 text-primary dark:text-secondary">
          Events & Drives
       </h2>
 
@@ -58,8 +58,8 @@ export default function EventsDrive() {
           <div
             key={idx}
             className="
-              bg-white dark:bg-stone-800
-              border border-orange-100 dark:border-stone-600
+              bg-card
+              border border-primary dark:border-muted
               rounded-2xl
               p-6
               shadow-md
@@ -74,13 +74,13 @@ export default function EventsDrive() {
               <span className="text-xs uppercase tracking-wide text-gray-400">
                 Event / Drive
               </span>
-              <h3 className="mt-1 text-lg font-semibold text-orange-500 dark:text-yellow-400 leading-snug">
+              <h3 className="mt-1 text-lg font-semibold text-primary dark:text-secondary leading-snug">
                 {event.eventName || "Untitled Event"}
               </h3>
             </div>
 
          
-            <div className="border-t border-gray-200 dark:border-stone-600 my-4"></div>
+            <div className="border-t border-gray-200 dark:border-muted my-4"></div>
 
            
             {event.driveLink && (
@@ -98,11 +98,11 @@ export default function EventsDrive() {
                   text-sm
                   font-medium
                   text-white
-                  bg-orange-500
-                  dark:bg-yellow-600
+                  bg-primary
+                  dark:bg-secondary
                   rounded-lg
-                  hover:bg-orange-600
-                  dark:hover:bg-yellow-700
+                  hover:bg-primary
+                  dark:hover:bg-secondary
                   transition
                 "
               >

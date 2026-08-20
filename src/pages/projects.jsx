@@ -2,6 +2,7 @@ import SEO from "../Components/SEO";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 
 
 function Projects() {
@@ -14,14 +15,29 @@ function Projects() {
     .sort()
     .reverse();
   const [selectedYear, setSelectedYear] = useState(academicYearOptions[0]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  
   const [sections, setSections] = useState([]);
   const [activeTab, setActiveTab] = useState();
+  const [heroImage, setHeroImage] = useState("https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_1200,c_limit/v1756821756/DSC02604_jmaoow.jpg");
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     import(`../data/projects/${selectedYear}.js`)
       .then(module => {
         const newSections = module.projects || [];
         setSections(newSections);
+        if (module.heroImage) setHeroImage(module.heroImage);
         if (newSections.length > 0) setActiveTab(newSections[0].id);
       })
       .catch(e => {
@@ -103,42 +119,93 @@ function Projects() {
   }, [activeTab]);
 
   return (
-    <div className="scroll-smooth bg-white dark:bg-stone-900 min-h-screen">
+    <div className="scroll-smooth bg-card dark:bg-card min-h-screen">
       <SEO title="Our Projects" description="Explore our latest endeavors and community service projects." />
-      {/* HERO — UNCHANGED */}
-      <div className="flex md:min-h-[60vh] justify-center items-center sm:p-8 relative">
-        <div className="relative w-full sm:w-[90%] md:w-[80%] h-[60vh] sm:h-[90vh]">
+      {/* HERO — UPDATED TO CHEF'S KISS AESTHETIC */}
+      <div className="flex md:min-h-[70vh] justify-center items-center sm:p-8 relative">
+        <div className="relative w-full sm:w-[95%] md:w-[90%] h-[60vh] sm:h-[80vh] overflow-hidden rounded-none sm:rounded-3xl shadow-2xl">
           <img
-            src="https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756821756/DSC02604_jmaoow.jpg"
-            alt="Projects"
-            className="h-full w-full object-cover object-[center_95%] rounded-xl"
+            src={heroImage}
+            alt={`Projects ${selectedYear}`}
+            className="absolute inset-0 h-full w-full object-cover object-[center_70%] scale-105 transition-all duration-700"
+            style={{
+              maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
+            }}
           />
-          <div className="absolute inset-0 bg-black/50 rounded-xl" />
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white px-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              EXPLORE OUR{" "}
-              <span className="text-orange-500 dark:text-yellow-400">
+          <div className="absolute inset-0 bg-black/40 mix-blend-multiply" />
+
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6 z-10">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-5xl md:text-7xl lg:text-[5rem] leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 tracking-tighter drop-shadow-sm select-none uppercase mb-4"
+            >
+              EXPLORE OUR <br className="md:hidden" />
+              <span className="bg-gradient-to-b from-primary to-primary/60 bg-clip-text text-transparent">
                 PROJECTS
               </span>
-            </h2>
-            <p className="mt-2 text-sm md:text-base max-w-lg">
-              Discover the transformative initiatives that define our commitment
-              to positive change in the community.
-            </p>
-            <div className="absolute top-4 right-4 z-10">
-              <select
-                className="p-2 border-2 border-orange-500 rounded-full bg-white/10 backdrop-blur-md text-white font-bold outline-none cursor-pointer hover:bg-white/20 transition appearance-none text-center px-4"
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-              >
-                {academicYearOptions.map((year) => (
-                  <option key={year} value={year} className="text-black">
-                    {year}
-                  </option>
-                ))}
-              </select>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="mt-2 text-sm md:text-lg max-w-2xl text-white/80 font-medium tracking-wide drop-shadow-md mb-8"
+            >
+              Discover the transformative initiatives that define our commitment to positive change in the community.
+            </motion.p>
+
+            <div className="absolute top-6 right-6 sm:top-10 sm:right-10 z-20 flex justify-end" ref={dropdownRef}>
+              <div className="relative w-48 sm:w-56">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center justify-between w-full py-2.5 px-5 text-sm sm:text-base border border-white/20 rounded-full bg-black/30 backdrop-blur-xl text-white font-bold outline-none cursor-pointer hover:bg-black/50 transition-all shadow-xl shadow-black/20 uppercase tracking-widest"
+                >
+                  <span className="flex-1 text-center">{selectedYear}</span>
+                  <ChevronDown 
+                    className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} 
+                    size={18} 
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {isDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scaleY: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                      exit={{ opacity: 0, y: -10, scaleY: 0.9 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="absolute top-full right-0 mt-2 w-full bg-black/60 backdrop-blur-2xl border border-white/20 rounded-3xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.4)] origin-top-right z-50 flex flex-col max-h-64 overflow-y-auto custom-scrollbar"
+                    >
+                      {academicYearOptions.map((year) => (
+                        <button
+                          key={year}
+                          onClick={() => {
+                            setSelectedYear(year);
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`w-full text-center py-3 px-5 font-bold text-sm sm:text-base transition-colors duration-300 uppercase tracking-wider shrink-0
+                            ${selectedYear === year 
+                              ? 'bg-primary/40 text-white shadow-inner' 
+                              : 'text-white/80 hover:bg-white/10 hover:text-white'
+                            }
+                          `}
+                        >
+                          {year}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
-            <button
+
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
               onClick={() => {
                 const element = document.getElementById('projects-list-start');
                 if (element) {
@@ -146,24 +213,30 @@ function Projects() {
                   window.scrollTo({ top, behavior: 'smooth' });
                 }
               }}
-              className="mt-6 bg-orange-500 dark:bg-yellow-600 hover:bg-orange-600 dark:hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-lg shadow-lg transition"
+              className="group relative inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-white transition-all duration-300 bg-primary/80 backdrop-blur-md rounded-full hover:bg-primary border border-white/20 shadow-[0_0_20px_rgba(110,159,159,0.3)] hover:shadow-[0_0_30px_rgba(110,159,159,0.6)] hover:-translate-y-1 overflow-hidden"
             >
-              View our Projects!
-            </button>
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+              <span className="relative z-10 flex items-center gap-2">
+                View our Projects!
+                <span className="transform transition-transform duration-300 group-hover:translate-y-1">
+                  ↓
+                </span>
+              </span>
+            </motion.button>
           </div>
         </div>
       </div>
 
       {/* LINKS — UPDATED TAB STYLE */}
-      <div className="sticky top-[4.5rem] z-40 flex justify-center mt-2 mb-8 transition-all duration-300">
-        <div className={`flex justify-center items-center relative bg-white/70 backdrop-blur-xl dark:bg-[#1A1612]/70 border border-stone-200 dark:border-stone-700/50 shadow-lg transition-all duration-500 overflow-hidden mx-auto ${isScrolled ? "rounded-b-3xl rounded-t-xl border-t-0 h-12 w-[90vw] md:w-[65vw]" : "rounded-full h-14 w-[95vw] md:w-[80vw]"}`}>
+      <div className="sticky top-[4.5rem] z-40 flex justify-center mt-6 mb-12 transition-all duration-300">
+        <div className={`flex justify-center items-center relative bg-white/60 dark:bg-black/40 backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] transition-all duration-500 overflow-hidden mx-auto ${isScrolled ? "rounded-b-3xl rounded-t-xl border-t-0 h-14 w-[90vw] md:w-[70vw]" : "rounded-full h-16 w-[95vw] md:w-[85vw]"}`}>
           {/* Left Arrow */}
           {showLeftArrow && (
             <button
               onClick={scrollLeft}
-              className="absolute left-0 top-0 h-full px-4 bg-gradient-to-r from-white/90 dark:from-[#1A1612]/90 to-transparent z-30 flex items-center"
+              className="absolute left-0 top-0 h-full px-4 bg-gradient-to-r from-white/90 dark:from-black/60 to-transparent z-30 flex items-center"
             >
-              <span className={`text-stone-600 dark:text-stone-300 transition-all ${isScrolled ? "text-xs" : "text-sm"}`}>
+              <span className={`text-muted transition-all ${isScrolled ? "text-xs" : "text-sm"}`}>
                 ❮
               </span>
             </button>
@@ -185,15 +258,15 @@ function Projects() {
                 }}
                 className={`relative whitespace-nowrap h-full flex items-center transition-all duration-300 px-2 ${isScrolled ? "text-xs" : "text-sm md:text-base"}
             ${activeTab === sec.id
-                    ? "text-orange-600 dark:text-yellow-400 font-bold"
-                    : "text-stone-700 dark:text-stone-300 hover:text-orange-600 dark:hover:text-yellow-400"
+                    ? "text-primary dark:text-primary font-bold drop-shadow-sm"
+                    : "text-muted hover:text-primary dark:text-white/60 dark:hover:text-white"
                   }
           `}
               >
                 {sec.title}
 
                 {activeTab === sec.id && (
-                  <span className="absolute left-0 bottom-0 h-[3px] w-full bg-orange-500 dark:bg-yellow-400 rounded-full" />
+                  <span className="absolute left-0 bottom-0 h-[3px] w-full bg-primary dark:bg-primary rounded-full shadow-[0_0_10px_rgba(110,159,159,0.5)]" />
                 )}
               </a>
             ))}
@@ -203,9 +276,9 @@ function Projects() {
           {showRightArrow && (
             <button
               onClick={scrollRight}
-              className="absolute right-0 top-0 h-full px-4 bg-gradient-to-l from-white/90 dark:from-[#1A1612]/90 to-transparent z-30 flex items-center"
+              className="absolute right-0 top-0 h-full px-4 bg-gradient-to-l from-white/90 dark:from-black/60 to-transparent z-30 flex items-center"
             >
-              <span className={`text-stone-600 dark:text-stone-300 transition-all ${isScrolled ? "text-xs" : "text-sm"}`}>
+              <span className={`text-muted transition-all ${isScrolled ? "text-xs" : "text-sm"}`}>
                 ❯
               </span>
             </button>
@@ -221,23 +294,26 @@ function Projects() {
       </div>
 
       {/* CTA Section */}
-      <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-stone-800 dark:text-white">
-          Wanna be a part of RCTCET?
+      <div className="flex flex-col items-center justify-center py-24 px-6 text-center relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+
+        <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 dark:from-white dark:to-white/40 tracking-tighter drop-shadow-sm uppercase mb-6 leading-tight">
+          Wanna be a <span className="bg-gradient-to-b from-primary to-primary/60 bg-clip-text text-transparent">part of RCTCET?</span>
         </h2>
-        <p className="text-lg text-stone-600 dark:text-stone-300 mb-8 max-w-2xl">
+        <p className="text-lg md:text-xl text-muted font-medium mb-10 max-w-2xl">
           Join us in making a difference! Get in touch with us to learn more about our upcoming initiatives and how you can contribute.
         </p>
         <Link
           to="/feedback"
-          className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-300 bg-orange-600 rounded-full hover:bg-orange-700 hover:shadow-xl dark:bg-orange-500 dark:hover:bg-orange-600 shadow-orange-500/30 hover:-translate-y-1"
+          className="group relative inline-flex items-center justify-center px-10 py-5 text-xl font-black text-white transition-all duration-300 bg-gradient-to-r from-primary to-secondary rounded-full shadow-[0_10px_30px_rgba(110,159,159,0.4)] hover:shadow-[0_15px_40px_rgba(110,159,159,0.6)] hover:-translate-y-1 overflow-hidden"
         >
-          <span className="relative z-10 flex items-center gap-2">
+          <span className="relative z-10 flex items-center gap-2 uppercase tracking-widest drop-shadow-sm">
             Get in Touch With Us
-            <span className="transform transition-transform duration-300 group-hover:translate-x-1">
+            <span className="transform transition-transform duration-300 group-hover:translate-x-2">
               →
             </span>
           </span>
+          <div className="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 z-0" />
         </Link>
       </div>
     </div>
@@ -281,92 +357,104 @@ function SliderSection({ section, index }) {
   return (
     <motion.section
       id={section.id}
-      className="scroll-mt-[9rem]"
+      className="scroll-mt-[9rem] relative"
       variants={sectionVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
     >
-      <h2 className="text-4xl text-center font-bold mb-8 text-orange-600 dark:text-yellow-400">
+      <div className="absolute -top-20 left-0 w-full h-40 bg-gradient-to-b from-primary/5 to-transparent blur-3xl pointer-events-none" />
+
+      <h2 className="text-4xl md:text-5xl lg:text-6xl text-center font-black mb-12 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 dark:from-white dark:to-white/40 uppercase tracking-tight drop-shadow-sm">
         {section.title}
       </h2>
 
-      <div className="relative max-w-6xl mx-auto bg-stone-100 dark:bg-stone-800 rounded-3xl shadow-xl p-4 sm:p-8">
-        {/* Arrows */}
-        {total > 1 && (
-          <>
-            <button
-              onClick={prev}
-              className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 text-2xl sm:text-3xl text-orange-500 z-10"
-            >
-              ❮
-            </button>
-            <button
-              onClick={next}
-              className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 text-2xl sm:text-3xl text-orange-500 z-10"
-            >
-              ❯
-            </button>
-          </>
-        )}
+      <div className="relative max-w-6xl mx-auto group perspective-1000">
+        <div className="bg-white/40 dark:bg-black/20 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl shadow-2xl shadow-primary/5 p-4 sm:p-8 transition-transform duration-500 hover:-translate-y-2">
 
-        <div className="flex flex-col md:flex-row gap-10 items-center">
-          {/* Left Image */}
-          <div className="w-full md:w-1/2">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="rounded-2xl w-full h-80 object-cover shadow-lg"
-            />
-          </div>
-
-          {/* Right Content */}
-          <div className="w-full md:w-1/2 bg-white dark:bg-stone-700 rounded-2xl p-6 shadow-lg">
-            <h3 className="text-xl font-bold mb-4 text-orange-600 dark:text-yellow-400">
-              {project.title}
-            </h3>
-
-            <p className="font-semibold text-gray-900 dark:text-stone-100">
-              Objective:
-            </p>
-            <p className="mb-4 text-[11px] md:text-[16px] text-gray-700 dark:text-stone-300">
-              {project.objective}
-            </p>
-
-            <p className="font-semibold   text-gray-900 dark:text-stone-100">
-              Impact:
-            </p>
-            <ul className="list-disc list-inside text-[11px] md:text-[15px] space-y-1 text-gray-700 dark:text-stone-300">
-              {project.impact.map((point, i) => (
-                <li key={i}>{point}</li>
-              ))}
-            </ul>
-            <div className="flex items-center justify-end">
-              <a
-                href={project.drivelink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors inline-block"
+          {/* Arrows */}
+          {total > 1 && (
+            <>
+              <button
+                onClick={prev}
+                className="absolute -left-4 sm:-left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-white/80 dark:bg-card border border-white/40 dark:border-white/10 rounded-full shadow-lg text-primary z-20 hover:bg-primary hover:text-white transition-all duration-300 hover:scale-110"
               >
-                View Drive
-              </a>
+                ❮
+              </button>
+              <button
+                onClick={next}
+                className="absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-white/80 dark:bg-card border border-white/40 dark:border-white/10 rounded-full shadow-lg text-primary z-20 hover:bg-primary hover:text-white transition-all duration-300 hover:scale-110"
+              >
+                ❯
+              </button>
+            </>
+          )}
+
+          <div className="flex flex-col md:flex-row gap-8 lg:gap-12 items-center">
+            {/* Left Image */}
+            <div className="w-full md:w-1/2 overflow-hidden rounded-2xl relative">
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent pointer-events-none z-10 mix-blend-overlay" />
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-[300px] sm:h-[400px] object-cover transition-transform duration-700 hover:scale-105"
+              />
+            </div>
+
+            {/* Right Content */}
+            <div className="w-full md:w-1/2 flex flex-col justify-center">
+              <h3 className="text-3xl lg:text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary leading-tight">
+                {project.title}
+              </h3>
+
+              <div className="space-y-6 text-foreground/90 dark:text-muted">
+                <div>
+                  <p className="text-xs tracking-widest uppercase font-bold text-primary mb-2">Objective</p>
+                  <p className="text-sm md:text-base leading-relaxed font-medium">
+                    {project.objective}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-xs tracking-widest uppercase font-bold text-primary mb-2">Impact</p>
+                  <ul className="list-disc list-inside text-sm md:text-base space-y-1.5 font-medium marker:text-primary">
+                    {project.impact.map((point, i) => (
+                      <li key={i}>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-start mt-8">
+                <a
+                  href={project.drivelink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative inline-flex items-center gap-2 px-6 py-2.5 bg-primary/10 text-primary hover:bg-primary hover:text-white font-bold rounded-xl transition-all duration-300"
+                >
+                  View Drive
+                  <span className="transform transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Dots */}
-        {total > 1 && (
-          <div className="flex justify-center mt-8 space-x-3">
-            {section.projects.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrent(index)}
-                className={`w-3 h-3 rounded-full ${current === index ? "bg-orange-500" : "bg-gray-400"
-                  }`}
-              />
-            ))}
-          </div>
-        )}
+          {/* Dots */}
+          {total > 1 && (
+            <div className="flex justify-center mt-10 space-x-2">
+              {section.projects.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrent(index)}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${current === index
+                    ? "w-8 bg-gradient-to-r from-primary to-secondary"
+                    : "w-2.5 bg-muted/30 hover:bg-primary/50"
+                    }`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </motion.section>
   );

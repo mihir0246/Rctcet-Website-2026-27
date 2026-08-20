@@ -131,9 +131,9 @@ const EventRegistration = () => {
 
   if (!eventData) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-[#1A1612]">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Event not found</h2>
-        <Link to="/events" className="text-orange-500 hover:underline font-medium">Browse Upcoming Events</Link>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background">
+        <h2 className="text-2xl font-bold mb-4 text-foreground">Event not found</h2>
+        <Link to="/events" className="text-primary hover:underline font-medium">Browse Upcoming Events</Link>
       </div>
     );
   }
@@ -143,7 +143,7 @@ const EventRegistration = () => {
     : eventData?.price;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#1A1612] transition-colors py-12 px-4 flex justify-center">
+    <div className="min-h-screen bg-background transition-colors py-12 px-4 flex justify-center relative overflow-hidden">
       <SEO title={`Register - ${eventData.title}`} description={eventData.description} />
 
       <motion.div
@@ -154,35 +154,35 @@ const EventRegistration = () => {
       >
         {/* Left Side: Event Details */}
         <div className="md:col-span-2">
-          <div className="sticky top-24 bg-white dark:bg-[#2D241C] rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-[#4A3B2F]">
+          <div className="sticky top-24 bg-white/10 dark:bg-black/30 backdrop-blur-2xl rounded-3xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.4)] border border-white/20 dark:border-white/10">
             <img
               src={eventData.image}
               alt={eventData.title}
               className="w-full h-56 object-cover"
             />
             <div className="p-6">
-              <span className="inline-block bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+              <span className="inline-block bg-primary/10 text-primary px-3 py-1 border border-primary/20 rounded-full text-xs font-bold uppercase tracking-wider mb-3 shadow-inner">
                 Event Registration
               </span>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              <h2 className="text-2xl font-bold text-foreground mb-2">
                 {eventData.title}
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
+              <p className="text-foreground/70 text-sm mb-6">
                 {eventData.description}
               </p>
 
-              <div className="border-t border-gray-100 dark:border-gray-700 pt-4 flex flex-col gap-2">
+              <div className="border-t border-white/20 dark:border-white/10 pt-4 flex flex-col gap-2">
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold text-gray-700 dark:text-gray-300">Member Fee</span>
-                  <span className="text-xl font-bold text-orange-500">
+                  <span className="font-semibold text-foreground/80">Member Fee</span>
+                  <span className="text-xl font-bold text-primary drop-shadow-sm">
                     {eventData.memberPrice !== undefined
                       ? (eventData.memberPrice === "Free" ? "Free" : `₹${eventData.memberPrice}`)
                       : "Free"}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold text-gray-700 dark:text-gray-300">Non-Member Fee</span>
-                  <span className="text-xl font-bold text-orange-500">
+                  <span className="font-semibold text-foreground/80">Non-Member Fee</span>
+                  <span className="text-xl font-bold text-primary drop-shadow-sm">
                     {eventData.price === "Free" ? "Free" : `₹${eventData.price}`}
                   </span>
                 </div>
@@ -192,114 +192,116 @@ const EventRegistration = () => {
         </div>
 
         {/* Right Side: Form */}
-        <div className="md:col-span-3 bg-white dark:bg-[#2D241C] rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100 dark:border-[#4A3B2F]">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-100 dark:border-gray-700 pb-4">
+        <div className="md:col-span-3 bg-white/10 dark:bg-black/30 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-[0_20px_40px_rgba(0,0,0,0.4)] border border-white/20 dark:border-white/10">
+          <h3 className="text-xl font-bold text-foreground mb-6 border-b border-white/20 dark:border-white/10 pb-4">
             Participant Details
           </h3>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name *</label>
+              <label className="block text-sm font-medium text-foreground/80 mb-2">Full Name *</label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full p-2.5 rounded-xl border border-gray-300 dark:border-[#4A3B2F] dark:bg-[#1A1612] dark:text-white focus:border-orange-500 outline-none transition-colors"
+                className="w-full p-3 rounded-xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-foreground/50 shadow-inner"
               />
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address *</label>
+              <label className="block text-sm font-medium text-foreground/80 mb-2">Email Address *</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full p-2.5 rounded-xl border border-gray-300 dark:border-[#4A3B2F] dark:bg-[#1A1612] dark:text-white focus:border-orange-500 outline-none transition-colors"
+                className="w-full p-3 rounded-xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-foreground/50 shadow-inner"
               />
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number *</label>
+              <label className="block text-sm font-medium text-foreground/80 mb-2">Phone Number *</label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="w-full p-2.5 rounded-xl border border-gray-300 dark:border-[#4A3B2F] dark:bg-[#1A1612] dark:text-white focus:border-orange-500 outline-none transition-colors"
+                className="w-full p-3 rounded-xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-foreground/50 shadow-inner"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Branch/Department *</label>
+                <label className="block text-sm font-medium text-foreground/80 mb-2">Branch/Department *</label>
                 <input
                   type="text"
                   name="branch"
                   value={formData.branch}
                   onChange={handleChange}
                   required
-                  className="w-full p-2.5 rounded-xl border border-gray-300 dark:border-[#4A3B2F] dark:bg-[#1A1612] dark:text-white focus:border-orange-500 outline-none transition-colors"
+                  className="w-full p-3 rounded-xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-foreground/50 shadow-inner"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Year of Study *</label>
+                <label className="block text-sm font-medium text-foreground/80 mb-2">Year of Study *</label>
                 <select
                   name="year"
                   value={formData.year}
                   onChange={handleChange}
                   required
-                  className="w-full p-2.5 rounded-xl border border-gray-300 dark:border-[#4A3B2F] dark:bg-[#1A1612] dark:text-white focus:border-orange-500 outline-none transition-colors"
+                  className="w-full p-3 rounded-xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all shadow-inner"
                 >
-                  <option value="" disabled>Select Year</option>
-                  <option value="FE">First Year (FE/FT)</option>
-                  <option value="SE">Second Year (SE/ST)</option>
-                  <option value="TE">Third Year (TE/TT)</option>
-                  <option value="BE">Fourth Year (BE/BT)</option>
+                  <option value="" disabled className="bg-background text-foreground">Select Year</option>
+                  <option value="FE" className="bg-background text-foreground">First Year (FE/FT)</option>
+                  <option value="SE" className="bg-background text-foreground">Second Year (SE/ST)</option>
+                  <option value="TE" className="bg-background text-foreground">Third Year (TE/TT)</option>
+                  <option value="BE" className="bg-background text-foreground">Fourth Year (BE/BT)</option>
                 </select>
               </div>
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Are you a Rotaract Member? *</label>
+              <label className="block text-sm font-medium text-foreground/80 mb-2">Are you a Rotaract Member? *</label>
               <select
                 name="isMember"
                 value={formData.isMember}
                 onChange={handleChange}
                 required
-                className="w-full p-2.5 rounded-xl border border-gray-300 dark:border-[#4A3B2F] dark:bg-[#1A1612] dark:text-white focus:border-orange-500 outline-none transition-colors"
+                className="w-full p-3 rounded-xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all shadow-inner"
               >
-                <option value="No">Not a member</option>
-                <option value="Yes">Member</option>
+                <option value="No" className="bg-background text-foreground">Not a member</option>
+                <option value="Yes" className="bg-background text-foreground">Member</option>
               </select>
             </div>
 
             {/* Payment Section */}
             {effectivePrice !== "Free" && (
-              <div className="mb-8 p-5 rounded-xl border-2 border-orange-100 dark:border-gray-700 bg-orange-50/50 dark:bg-[#1A1612]">
-                <h4 className="font-bold text-gray-900 dark:text-white mb-4 text-center">Payment Details</h4>
-                <p className="text-center text-sm text-gray-600 dark:text-gray-400 mb-4">Please scan the QR code to pay ₹{effectivePrice}</p>
+              <div className="mb-8 p-5 rounded-2xl border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20 backdrop-blur-md shadow-inner">
+                <h4 className="font-bold text-foreground mb-4 text-center">Payment Details</h4>
+                <p className="text-center text-sm text-foreground/70 mb-4">Please scan the QR code to pay ₹{effectivePrice}</p>
 
                 {eventData.qrCode ? (
-                  <img src={eventData.qrCode} alt="Payment Scanner" className="w-40 h-40 mx-auto rounded-lg shadow-sm mb-4 object-contain bg-white p-2" />
+                  <div className="bg-white p-2 rounded-xl w-fit mx-auto mb-4">
+                    <img src={eventData.qrCode} alt="Payment Scanner" className="w-40 h-40 rounded-lg shadow-sm object-contain" />
+                  </div>
                 ) : (
-                  <div className="w-40 h-40 mx-auto rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center mb-4">
-                    <span className="text-xs text-gray-500">Scanner not available</span>
+                  <div className="w-40 h-40 mx-auto rounded-xl bg-white/10 dark:bg-black/40 flex items-center justify-center mb-4 border border-white/10">
+                    <span className="text-xs text-foreground/50 font-medium">Scanner not available</span>
                   </div>
                 )}
 
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Payment Receipt *</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Upload Payment Receipt *</label>
                 <input
                   id="receiptInput"
                   type="file"
                   accept="image/*,.pdf"
                   required
                   onChange={(e) => setPaymentReceipt(e.target.files[0])}
-                  className="w-full p-2 rounded-xl border border-gray-300 dark:border-[#4A3B2F] bg-white dark:bg-[#1A1612] text-gray-800 dark:text-white text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200 dark:file:bg-orange-900/30 dark:file:text-orange-400"
+                  className="w-full p-2.5 rounded-xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 text-foreground text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90 transition-all"
                 />
               </div>
             )}
@@ -307,7 +309,7 @@ const EventRegistration = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-orange-500 text-white p-3.5 rounded-xl hover:bg-orange-600 transition-colors font-bold tracking-wide shadow-lg shadow-orange-500/30 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
+              className={`w-full bg-primary hover:bg-primary/90 text-white p-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 uppercase tracking-widest font-bold text-sm ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
             >
               {isSubmitting ? "SUBMITTING..." : "CONFIRM REGISTRATION"}
             </button>

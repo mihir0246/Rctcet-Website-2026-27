@@ -141,11 +141,11 @@ function AttendanceAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-100 dark:bg-[#1A1612] flex items-center justify-center p-6 pt-24">
+    <div className="min-h-screen bg-background flex items-center justify-center p-6 pt-24">
       <SEO title="Attendance Logger" description="Confidential Attendance Portal" />
 
-      <div className="max-w-xl w-full bg-white dark:bg-stone-800 rounded-2xl shadow-2xl p-8">
-        <h2 className="text-3xl font-bold text-center text-orange-600 dark:text-yellow-400 mb-2">
+      <div className="max-w-xl w-full bg-card rounded-2xl shadow-2xl p-8">
+        <h2 className="text-3xl font-bold text-center text-primary dark:text-secondary mb-2">
           Attendance Portal
         </h2>
 
@@ -158,12 +158,12 @@ function AttendanceAdmin() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* EVENT */}
           <div>
-            <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">Event Name</label>
+            <label className="block text-sm font-medium text-muted mb-1">Event Name</label>
             <input
               type="text"
               value={event}
               onChange={(e) => setEvent(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-gray-100 dark:bg-stone-700 text-stone-800 dark:text-white focus:outline-none cursor-not-allowed"
+              className="w-full px-4 py-3 rounded-lg border border-muted bg-gray-100 dark:bg-card text-foreground focus:outline-none cursor-not-allowed"
               placeholder={fetchingMembers ? "Fetching Active Event..." : "No Active Event found"}
               readOnly
             />
@@ -171,11 +171,11 @@ function AttendanceAdmin() {
 
           {/* ATTENDEE TYPE */}
           <div>
-            <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">Attendee Type</label>
+            <label className="block text-sm font-medium text-muted mb-1">Attendee Type</label>
             <select
               value={type}
               onChange={handleTypeChange}
-              className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="Home Member">Home Member</option>
               <option value="Non Rotarator">Non Rotarator</option>
@@ -185,9 +185,9 @@ function AttendanceAdmin() {
 
           {/* NAME */}
           <div className="relative">
-            <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">
+            <label className="block text-sm font-medium text-muted mb-1">
               Attendee Name
-              {fetchingMembers && <span className="ml-2 text-xs text-orange-500">(Loading members...)</span>}
+              {fetchingMembers && <span className="ml-2 text-xs text-primary">(Loading members...)</span>}
             </label>
             <input
               type="text"
@@ -195,18 +195,18 @@ function AttendanceAdmin() {
               onChange={handleNameChange}
               onFocus={() => { if (name && filteredMembers.length > 0) setShowDropdown(true) }}
               onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-              className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Start typing name..."
               autoComplete="off"
             />
             {/* DROPDOWN */}
             {showDropdown && filteredMembers.length > 0 && (
-              <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-white dark:bg-stone-700 border border-stone-300 dark:border-stone-600 rounded-lg shadow-lg">
+              <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-card dark:bg-card border border-muted rounded-lg shadow-lg">
                 {filteredMembers.map((m, idx) => (
                   <li
                     key={idx}
                     onMouseDown={() => handleSelectMember(m)}
-                    className="px-4 py-2 hover:bg-orange-100 dark:hover:bg-stone-600 cursor-pointer text-stone-800 dark:text-stone-200"
+                    className="px-4 py-2 hover:bg-primary-light dark:hover:bg-stone-600 cursor-pointer text-foreground"
                   >
                     {m.name} {m.club || m.college ? <span className="text-sm opacity-70">({m.club || m.college})</span> : ''}
                   </li>
@@ -218,14 +218,14 @@ function AttendanceAdmin() {
           {/* OTHER CLUB / COLLEGE (Conditional) */}
           {(type === 'Ambassadorial' || type === 'Non Rotarator') && (
             <div>
-              <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">
+              <label className="block text-sm font-medium text-muted mb-1">
                 {type === 'Ambassadorial' ? 'Club Name' : 'College Name'}
               </label>
               <input
                 type="text"
                 value={otherClub}
                 onChange={(e) => setOtherClub(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder={type === 'Ambassadorial' ? 'e.g. RC Wilson College' : 'e.g. TCET'}
                 required
               />
@@ -236,23 +236,23 @@ function AttendanceAdmin() {
           {(type === 'Ambassadorial' || type === 'Non Rotarator') && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">Phone Number</label>
+                <label className="block text-sm font-medium text-muted mb-1">Phone Number</label>
                 <input
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="10-digit number"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-stone-700 dark:text-stone-200 mb-1">Email</label>
+                <label className="block text-sm font-medium text-muted mb-1">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="example@gmail.com"
                   required
                 />
@@ -263,7 +263,7 @@ function AttendanceAdmin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 mt-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-orange-500/30 disabled:opacity-50"
+            className="w-full py-4 mt-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-primary/30 disabled:opacity-50"
           >
             {loading ? 'Submitting...' : 'Log Attendance'}
           </button>

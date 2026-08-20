@@ -5,9 +5,12 @@ import { StatsBar } from '../Components/Stats';
 import { MomentsFrame } from '../Components/Moments';
 import Legacy from '../Components/legacy'
 import EndeavorsCarousel from '../Components/EndeavorsCarousel'
-import Anantya from '../Components/aboutSection';
-import RotaractClubLayout from "../Components/heroSection"
+import Anantya from '../Components/AboutSection';
+import RotaractClubLayout from "../Components/HeroSection"
 import { Magazine } from '../Components/Magazine';
+import { lazy } from "react";
+
+const Chatbot = lazy(() => import("../Components/Chatbot/Chatbot"));
 
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -62,29 +65,23 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      <div className="fixed top-0 left-0 w-full z-0">
+      <div className="relative w-full z-0 h-screen">
         <RotaractClubLayout />
       </div>
 
-      <div className="mt-[85vh] md:mt-[calc(100vh-5rem)] relative z-10 bg-white dark:bg-stone-900 pt-12 pb-20 rounded-t-3xl shadow-[0_-20px_60px_rgba(0,0,0,0.2)] dark:shadow-[0_-20px_60px_rgba(0,0,0,0.8)]">
-        <motion.div variants={fadeUpVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-          <Anantya />
-        </motion.div>
+      <div className="-mt-12 md:-mt-20 relative z-10 flex flex-col w-full">
+        <Anantya />
         <Suspense fallback={<div>Loading...</div>}>
-          <motion.div variants={fadeUpVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-            <Magazine />
-          </motion.div>
-          <motion.div variants={fadeUpVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-            <Legacy />
-          </motion.div>
-          <motion.div variants={fadeUpVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-            <EndeavorsCarousel />
-          </motion.div>
-          <motion.div variants={fadeUpVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-            <MomentsFrame />
-          </motion.div>
+          <Magazine />
+          <Legacy />
+          <EndeavorsCarousel />
+          <MomentsFrame />
         </Suspense>
       </div>
+
+      <Suspense fallback={null}>
+        <Chatbot />
+      </Suspense>
     </div>
   );
 };

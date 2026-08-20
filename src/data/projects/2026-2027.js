@@ -1,3 +1,5 @@
+export const heroImage = "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_1200,c_limit/v1756821756/DSC02604_jmaoow.jpg"; // CHANGE ME WHEN YOU HAVE A 2026-2027 IMAGE!
+
 export const projects = [
   {
     "id": "Community-Service",
@@ -118,6 +120,22 @@ export const projects = [
         ],
         "drivelink": ""
       }
+    ]
+  },
+  {
+    "id": "Digital Communication",
+    "title": "Digital Communication",
+    "projects": [
+      {
+        "image": "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173825/Visual_Velocity.jpg",
+        "title": "Visual Velocity 3.0",
+        "objective": "To enhance creativity, teamwork, and design skills among students through an interactive, time-bound design competition combined with hands-on learning.",
+        "impact": [
+          "Boosted confidence in digital design tools, especially Canva, even among beginners",
+          "Strengthened creativity, collaboration, and problem-solving under pressure."
+        ],
+        "drivelink": ""
+      },
     ]
   }
 ];

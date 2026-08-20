@@ -1,3 +1,5 @@
+export const heroImage = "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_1200,c_limit/v1756821756/DSC02604_jmaoow.jpg";
+
 export const projects = [
   {
     "id": "Club-Service",
