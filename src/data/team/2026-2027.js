@@ -78,7 +78,7 @@ export const teamMembers = [
   },
   {
     "id": 12,
-    "name": "Rtr. Julee Palav",
+    "name": "Rtr. Juilee Palav",
     "role": "Chairperson Publications",
     "image": "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173248/Juilee_palav.png",
     "year": "2026-2027"
@@ -165,7 +165,7 @@ export const boardOfDirectors = [
   },
   {
     "id": 24,
-    "name": "Rtr. Ashwin Mourya",
+    "name": "Rtr. Ashwin Maurya",
     "role": "Sports ",
     "image": "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173184/Ashwin.png",
     "year": "2026-2027"
@@ -214,7 +214,7 @@ export const boardOfDirectors = [
   },
   {
     "id": 31,
-    "name": "Rtr. Muksha Gandhi",
+    "name": "Rtr. Moksha Gandhi",
     "role": "Digital Communication",
     "image": "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173188/Moksha.png",
     "year": "2026-2027"
@@ -228,7 +228,7 @@ export const boardOfDirectors = [
   },
   {
     "id": 33,
-    "name": "Rtr. Fatima Vani",
+    "name": "Rtr. Fatima Wani",
     "role": "Digital Communication",
     "image": "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787235670/fatima-removebg-preview.png",
     "year": "2026-2027"
@@ -249,7 +249,7 @@ export const boardOfDirectors = [
   },
   {
     "id": 36,
-    "name": "Rtr. Drishti Patel",
+    "name": "Rtr. Dhristi Patel",
     "role": "Partner in Service",
     "image": "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173185/Dhrishti.png",
     "year": "2026-2027"
@@ -294,6 +294,14 @@ export const boardOfDirectors = [
     "name": "Rtr. Ojas Mahadik",
     "role": "Marketing",
     "image": "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173188/Ojas.png",
+    "year": "2026-2027"
+  },
+
+  {
+    "id": 43,
+    "name": "Rtr. Gyanendra Dubey",
+    "role": "Club Ambassador",
+    "image": "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173185/Gyanendra.png",
     "year": "2026-2027"
   }
 ];

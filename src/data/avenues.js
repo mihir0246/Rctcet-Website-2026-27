@@ -69,13 +69,19 @@ export const avenuesInfo = [
     title: "International Service Development",
     img: "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173155/International_Service.png",
     description:
-      "Engages in international projects, promotes global understanding, and connects with clubs worldwide.",
+      "This Avenue focuses on international projects, global understanding, and building connections and collaborating with clubs worldwide.",
   },
   {
     title: "Marketing",
     img: "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173156/Marketing.png",
     description:
-      "Engages in international projects, promotes global understanding, and connects with clubs worldwide.",
+      "Promotes and publicizes the projects, initiatives, and activities of the club. They also focus on public relations and connecting with the media and the general public.",
+  },
+  {
+    title: "Club Ambassador",
+    img: "https://res.cloudinary.com/aaqzfmzc/image/upload/v1787173185/Gyanendra.png",
+    description:
+      "Represents the club beyond its boundaries by building strong relationships, and connecting with other Rotaract clubs and organizations.",
   }
 ];
 
@@ -93,4 +99,5 @@ export const avenuesSlides = [
   { id: 11, title: "Professional Development Team", description: `The Professional Development team is dedicated to enhancing the skills and knowledge of our members through innovative activities and seminars. Guided by the motto, “Tell me and I forget, teach me and I may remember, involve me and I learn,” this avenue focuses on fostering growth and teamwork, ensuring that every member has the opportunity to develop professionally and personally throughout the year.`, imageUrl: "upload/v1756701730/Professional_Development_kqiiod.png" },
   { id: 12, title: "International Service Development Team", description: `The International Service Development team focuses on expanding our club's global outreach in an era of globalization. With the vision to promote the presence of the Rotaract Club of TCET across districts and around the world, this team works to uphold our club's ideology on an international level. Their efforts foster connections and collaborations, enhancing our impact beyond borders.`, imageUrl: "upload/v1756701724/International_Service_knpfwk.png" },
   { id: 13, title: "Marketing Team", description: `The marketing team focuses on securing partnerships and resources to support our club’s initiatives. By building strong relationships with sponsors, they ensure the financial backing needed to drive our events and projects. Their efforts play a crucial role in sustaining and expanding the impact of the Rotaract Club of TCET.`, imageUrl: "upload/v1757666593/Untitled_design_ocbq9f.png" },
+  { id: 14, title: "Club Ambassador", description: `The Club Ambassador Avenue focuses on representing the Rotaract Club of TCET beyond its boundaries by building strong connections with other Rotaract clubs and organizations. It promotes collaboration, fellowship, and the exchange of ideas, while showcasing the club’s values, achievements, and initiatives on a wider platform. Through meaningful interactions and networking, the avenue strengthens the club’s presence and fosters lasting relationships within the Rotaract community.`, imageUrl: "upload/v1757666632/Club_Ambassador_cxl9qj.png" }
 ];
