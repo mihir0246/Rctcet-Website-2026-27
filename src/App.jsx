@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './layout';
 import { ThemeProvider } from './context/themeContext';
 import { HelmetProvider } from 'react-helmet-async';
+import { AdminAuthProvider } from './context/AdminAuthContext';
+import ProtectedRoute from './Components/Admin/ProtectedRoute';
 
 const Home = lazy(() => import('./pages/Home'));
 const Achievement = lazy(() => import('./pages/Achievement').then(m => ({ default: m.Achievement })));
@@ -17,6 +19,12 @@ const Avenue = lazy(() => import('./Components/Avenue').then(m => ({ default: m.
 const SaaFineTable = lazy(() => import('./Components/Admin/SaaFineTable'));
 const FeedBack = lazy(() => import('./Components/Feedback/FeedBack'));
 const AttendanceAdmin = lazy(() => import('./pages/AttendanceAdmin'));
+
+// Admin pages (outside main Layout — no navbar/footer)
+const AdminLogin = lazy(() => import('./pages/Admin/Login'));
+const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'));
+const AdminCreateEvent = lazy(() => import('./pages/Admin/CreateEvent'));
+
 function App() {
   useEffect(() => {
     // Coldstart the backend
@@ -25,33 +33,45 @@ function App() {
       .catch(err => console.error('Failed to wake up backend:', err));
   }, []);
 
+  const Loader = (
+    <div className="flex h-screen w-full items-center justify-center p-4">
+      <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <Router basename="/">
-          <Suspense fallback={<div className="flex h-screen w-full items-center justify-center p-4"><p className="text-xl font-semibold">Loading...</p></div>}>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="projects" element={<Projects />} />
-                <Route path="about" element={<About />} />
-                {/* club hub start */}
-                <Route path="avenue" element={<Avenue />} />
-                <Route path="achievement" element={<Achievement />} />
-                <Route path="saa-fine" element={<SaaFineTable />} />
-                <Route path="meet-the-team" element={<TeamPage />} />
-                <Route path="feedback" element={<FeedBack />} />
-                <Route path="admin/attendance" element={<AttendanceAdmin />} />
+        <AdminAuthProvider>
+          <Router basename="/">
+            <Suspense fallback={Loader}>
+              <Routes>
+                {/* ── Admin routes (no Layout wrapper) ── */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+                <Route path="/admin/create-event" element={<ProtectedRoute><AdminCreateEvent /></ProtectedRoute>} />
 
-                {/* club hub finish */}
-                <Route path="join" element={<RegistrationForm />} />
-                <Route path="events" element={<UpcomingEvents />} />
-                <Route path="event/:eventId" element={<EventRegistration />} />
-
-              </Route>
-            </Routes>
-          </Suspense>
-        </Router>
+                {/* ── Public routes (with Layout) ── */}
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Home />} />
+                  <Route path="projects" element={<Projects />} />
+                  <Route path="about" element={<About />} />
+                  {/* club hub start */}
+                  <Route path="avenue" element={<Avenue />} />
+                  <Route path="achievement" element={<Achievement />} />
+                  <Route path="saa-fine" element={<SaaFineTable />} />
+                  <Route path="meet-the-team" element={<TeamPage />} />
+                  <Route path="feedback" element={<FeedBack />} />
+                  <Route path="admin/attendance" element={<AttendanceAdmin />} />
+                  {/* club hub finish */}
+                  <Route path="join" element={<RegistrationForm />} />
+                  <Route path="events" element={<UpcomingEvents />} />
+                  <Route path="event/:eventId" element={<EventRegistration />} />
+                </Route>
+              </Routes>
+            </Suspense>
+          </Router>
+        </AdminAuthProvider>
       </ThemeProvider>
     </HelmetProvider>
   );
