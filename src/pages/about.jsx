@@ -1,11 +1,11 @@
 import SEO from "../Components/SEO";
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { OurJourney } from '../Components/AboutPage/OurJourney';
+import { OurJourney } from '../Components/aboutpage/OurJourney';
 import AboutAvenue from '../Components/AboutAvenue';
 import { Link } from 'react-router-dom';
-const AboutSection = React.lazy(() => import('../Components/AboutPage/About'));
-const Objectives = React.lazy(() => import('../Components/AboutPage/objective'));
+const AboutSection = React.lazy(() => import('../Components/aboutpage/about'));
+const Objectives = React.lazy(() => import('../Components/aboutpage/objective'));
 
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 40 },

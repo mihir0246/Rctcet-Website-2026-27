@@ -5,8 +5,8 @@ import { StatsBar } from '../Components/Stats';
 import { MomentsFrame } from '../Components/Moments';
 import Legacy from '../Components/legacy'
 import EndeavorsCarousel from '../Components/EndeavorsCarousel'
-import Anantya from '../Components/AboutSection';
-import RotaractClubLayout from "../Components/HeroSection"
+import Anantya from '../Components/aboutSection';
+import RotaractClubLayout from "../Components/heroSection"
 import { Magazine } from '../Components/Magazine';
 import { lazy } from "react";
 
