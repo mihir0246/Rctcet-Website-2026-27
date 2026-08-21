@@ -71,7 +71,7 @@ const Anantya = () => {
             </h2>
             <div className="text-muted space-y-6 text-lg leading-relaxed">
               <p>
-                <strong className="text-primary font-bold">Meraki</strong>, meaning to do something with soul, creativity, and love, reflects the belief that everything becomes meaningful when a part of ourselves is poured into it. <strong className="text-foreground font-semibold">“Infinite by Souls”</strong> celebrates the people, connections, and efforts that make every Rotaract journey truly unforgettable.
+                <strong className="text-primary font-bold">Meraki</strong>, meaning to do something with soul, creativity, and love, reflects the belief that everything becomes meaningful when a part of ourselves is poured into it. <strong className="text-foreground font-semibold">“Infinite by Soul”</strong> celebrates the people, connections, and efforts that make every Rotaract journey truly unforgettable.
               </p>
               <p>
                 It reminds us that what we create is not measured only by its outcome, but by the hearts behind it—the friendships we build, the lives we touch, and the moments we leave behind. Every act of service, every bond, and every shared experience carries a piece of the souls that shaped it.
