@@ -287,19 +287,19 @@ const EventRegistration = () => {
                   </select>
                 )}
                 {field.type === "radio" && (
-                  <div className="flex flex-wrap gap-3 mt-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1.5">
                     {field.options?.map(o => (
-                      <label key={o} className="flex items-center gap-2 text-sm text-foreground/70 cursor-pointer">
-                        <input type="radio" name={field.label} value={o} required={field.required} onChange={() => handleCustomChange(field.label, o)} className="accent-primary" />
-                        {o}
+                      <label key={o} className="flex items-center gap-3 p-3.5 rounded-xl border border-white/10 bg-white/10 dark:bg-black/20 hover:bg-white/20 dark:hover:bg-black/30 transition-colors cursor-pointer shadow-sm">
+                        <input type="radio" name={field.label} value={o} required={field.required} onChange={() => handleCustomChange(field.label, o)} className="w-4 h-4 accent-primary flex-shrink-0" />
+                        <span className="text-sm font-semibold text-foreground/80">{o}</span>
                       </label>
                     ))}
                   </div>
                 )}
                 {field.type === "checkbox" && (
-                  <div className="flex flex-wrap gap-3 mt-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1.5">
                     {field.options?.map(o => (
-                      <label key={o} className="flex items-center gap-2 text-sm text-foreground/70 cursor-pointer">
+                      <label key={o} className="flex items-center gap-3 p-3.5 rounded-xl border border-white/10 bg-white/10 dark:bg-black/20 hover:bg-white/20 dark:hover:bg-black/30 transition-colors cursor-pointer shadow-sm">
                         <input
                           type="checkbox"
                           value={o}
@@ -308,9 +308,9 @@ const EventRegistration = () => {
                             const next = e.target.checked ? [...prev, o] : prev.filter(x => x !== o);
                             handleCustomChange(field.label, next.join(","));
                           }}
-                          className="accent-primary"
+                          className="w-4 h-4 accent-primary rounded flex-shrink-0"
                         />
-                        {o}
+                        <span className="text-sm font-semibold text-foreground/80">{o}</span>
                       </label>
                     ))}
                   </div>

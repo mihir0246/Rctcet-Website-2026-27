@@ -1,6 +1,6 @@
 
 import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './layout';
 import { ThemeProvider } from './context/themeContext';
 import { HelmetProvider } from 'react-helmet-async';
@@ -9,9 +9,9 @@ import ProtectedRoute from './Components/Admin/ProtectedRoute';
 
 const Home = lazy(() => import('./pages/home'));
 const Achievement = lazy(() => import('./pages/Achievement').then(m => ({ default: m.Achievement })));
-const TeamPage = lazy(() => import('./pages/meetTheTeam'));
+const TeamPage = lazy(() => import('./pages/MeetTheTeam'));
 const About = lazy(() => import('./pages/about'));
-const Projects = lazy(() => import('./pages/projects'));
+const Projects = lazy(() => import('./pages/Projects'));
 const RegistrationForm = lazy(() => import('./pages/Registration'));
 const UpcomingEvents = lazy(() => import('./pages/UpcomingEvents'));
 const EventRegistration = lazy(() => import('./pages/EventRegistration'));
@@ -24,6 +24,7 @@ const AttendanceAdmin = lazy(() => import('./pages/AttendanceAdmin'));
 const AdminLogin = lazy(() => import('./pages/Admin/Login'));
 const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'));
 const AdminCreateEvent = lazy(() => import('./pages/Admin/CreateEvent'));
+const AdminEditEvent = lazy(() => import('./pages/Admin/EditEvent'));
 
 function App() {
   useEffect(() => {
@@ -47,9 +48,11 @@ function App() {
             <Suspense fallback={Loader}>
               <Routes>
                 {/* ── Admin routes (no Layout wrapper) ── */}
+                <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
                 <Route path="/admin/create-event" element={<ProtectedRoute><AdminCreateEvent /></ProtectedRoute>} />
+                <Route path="/admin/edit-event/:eventId" element={<ProtectedRoute><AdminEditEvent /></ProtectedRoute>} />
 
                 {/* ── Public routes (with Layout) ── */}
                 <Route path="/" element={<Layout />}>

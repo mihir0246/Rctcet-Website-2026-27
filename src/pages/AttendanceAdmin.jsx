@@ -141,133 +141,149 @@ function AttendanceAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-6 pt-24">
+    <div className="relative min-h-screen p-6 md:p-12 lg:p-24 bg-background flex items-center justify-center overflow-hidden pt-32 lg:pt-40">
       <SEO title="Attendance Logger" description="Confidential Attendance Portal" />
 
-      <div className="max-w-xl w-full bg-card rounded-2xl shadow-2xl p-8">
-        <h2 className="text-3xl font-bold text-center text-primary dark:text-secondary mb-2">
-          Attendance Portal
-        </h2>
+      {/* Background Glows */}
+      <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none z-0" />
+      <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-primary/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/3 pointer-events-none z-0" />
 
-        {message.text && (
-          <div className={`p-4 rounded-lg mb-6 ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-            {message.text}
-          </div>
-        )}
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none z-0" 
+        style={{ backgroundImage: `url('https://res.cloudinary.com/dtc2xaeaf/image/upload/v1771630629/Baseline_grid_bg_zywtov.svg')`, backgroundSize: '100px' }}
+      />
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* EVENT */}
-          <div>
-            <label className="block text-sm font-medium text-muted mb-1">Event Name</label>
-            <input
-              type="text"
-              value={event}
-              onChange={(e) => setEvent(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-muted bg-gray-100 dark:bg-card text-foreground focus:outline-none cursor-not-allowed"
-              placeholder={fetchingMembers ? "Fetching Active Event..." : "No Active Event found"}
-              readOnly
-            />
+      <div className="max-w-2xl w-full relative z-20">
+        <div className="relative bg-white/10 dark:bg-black/40 backdrop-blur-3xl border border-white/20 dark:border-white/10 p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+          
+          <div className="mb-10 text-center">
+            <h2 className="text-4xl md:text-5xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 dark:from-white dark:to-white/40 tracking-tight">
+              Attendance Portal
+            </h2>
+            <p className="text-muted text-lg">Strictly for Core & Board Members</p>
           </div>
 
-          {/* ATTENDEE TYPE */}
-          <div>
-            <label className="block text-sm font-medium text-muted mb-1">Attendee Type</label>
-            <select
-              value={type}
-              onChange={handleTypeChange}
-              className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="Home Member">Home Member</option>
-              <option value="Non Rotarator">Non Rotarator</option>
-              <option value="Ambassadorial">Ambassadorial</option>
-            </select>
-          </div>
+          {message.text && (
+            <div className={`p-4 rounded-xl mb-8 font-medium border ${message.type === 'success' ? 'bg-green-500/20 text-green-700 dark:text-green-400 border-green-500/30' : 'bg-red-500/20 text-red-700 dark:text-red-400 border-red-500/30'}`}>
+              {message.text}
+            </div>
+          )}
 
-          {/* NAME */}
-          <div className="relative">
-            <label className="block text-sm font-medium text-muted mb-1">
-              Attendee Name
-              {fetchingMembers && <span className="ml-2 text-xs text-primary">(Loading members...)</span>}
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={handleNameChange}
-              onFocus={() => { if (name && filteredMembers.length > 0) setShowDropdown(true) }}
-              onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-              className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Start typing name..."
-              autoComplete="off"
-            />
-            {/* DROPDOWN */}
-            {showDropdown && filteredMembers.length > 0 && (
-              <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-card dark:bg-card border border-muted rounded-lg shadow-lg">
-                {filteredMembers.map((m, idx) => (
-                  <li
-                    key={idx}
-                    onMouseDown={() => handleSelectMember(m)}
-                    className="px-4 py-2 hover:bg-primary-light dark:hover:bg-stone-600 cursor-pointer text-foreground"
-                  >
-                    {m.name} {m.club || m.college ? <span className="text-sm opacity-70">({m.club || m.college})</span> : ''}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+            {/* EVENT */}
+            <div className="flex flex-col">
+              <label className="text-sm font-bold mb-3 text-foreground/80 uppercase tracking-wider">Event Name</label>
+              <input
+                type="text"
+                value={event}
+                onChange={(e) => setEvent(e.target.value)}
+                className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium cursor-not-allowed opacity-70"
+                placeholder={fetchingMembers ? "Fetching Active Event..." : "No Active Event found"}
+                readOnly
+              />
+            </div>
 
-          {/* OTHER CLUB / COLLEGE (Conditional) */}
-          {(type === 'Ambassadorial' || type === 'Non Rotarator') && (
-            <div>
-              <label className="block text-sm font-medium text-muted mb-1">
-                {type === 'Ambassadorial' ? 'Club Name' : 'College Name'}
+            {/* ATTENDEE TYPE */}
+            <div className="flex flex-col">
+              <label className="text-sm font-bold mb-3 text-foreground/80 uppercase tracking-wider">Attendee Type</label>
+              <select
+                value={type}
+                onChange={handleTypeChange}
+                className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground font-medium"
+              >
+                <option className="bg-background text-foreground" value="Home Member">Home Member</option>
+                <option className="bg-background text-foreground" value="Non Rotarator">Non Rotarator</option>
+                <option className="bg-background text-foreground" value="Ambassadorial">Ambassadorial</option>
+              </select>
+            </div>
+
+            {/* NAME */}
+            <div className="relative flex flex-col">
+              <label className="text-sm font-bold mb-3 text-foreground/80 uppercase tracking-wider">
+                Attendee Name
+                {fetchingMembers && <span className="ml-2 text-xs normal-case text-primary font-medium animate-pulse">(Loading members...)</span>}
               </label>
               <input
                 type="text"
-                value={otherClub}
-                onChange={(e) => setOtherClub(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder={type === 'Ambassadorial' ? 'e.g. RC Wilson College' : 'e.g. TCET'}
-                required
+                value={name}
+                onChange={handleNameChange}
+                onFocus={() => { if (name && filteredMembers.length > 0) setShowDropdown(true) }}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium"
+                placeholder="Start typing name..."
+                autoComplete="off"
               />
+              {/* DROPDOWN */}
+              {showDropdown && filteredMembers.length > 0 && (
+                <ul className="absolute z-30 w-full mt-[84px] max-h-60 overflow-auto bg-white/90 dark:bg-black/90 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] custom-scrollbar">
+                  {filteredMembers.map((m, idx) => (
+                    <li
+                      key={idx}
+                      onMouseDown={() => handleSelectMember(m)}
+                      className="px-5 py-3 hover:bg-primary/20 dark:hover:bg-primary/30 cursor-pointer text-foreground font-medium transition-colors border-b border-white/10 dark:border-white/5 last:border-b-0"
+                    >
+                      {m.name} {m.club || m.college ? <span className="text-sm opacity-60 ml-1">({m.club || m.college})</span> : ''}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-          )}
 
-          {/* PHONE & EMAIL (Conditional) */}
-          {(type === 'Ambassadorial' || type === 'Non Rotarator') && (
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-muted mb-1">Phone Number</label>
+            {/* OTHER CLUB / COLLEGE (Conditional) */}
+            {(type === 'Ambassadorial' || type === 'Non Rotarator') && (
+              <div className="flex flex-col">
+                <label className="text-sm font-bold mb-3 text-foreground/80 uppercase tracking-wider">
+                  {type === 'Ambassadorial' ? 'Club Name' : 'College Name'} <span className="text-primary">*</span>
+                </label>
                 <input
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="10-digit number"
+                  type="text"
+                  value={otherClub}
+                  onChange={(e) => setOtherClub(e.target.value)}
+                  className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium"
+                  placeholder={type === 'Ambassadorial' ? 'e.g. RC Wilson College' : 'e.g. TCET'}
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-muted mb-1">Email</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-muted bg-card dark:bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="example@gmail.com"
-                  required
-                />
-              </div>
-            </div>
-          )}
+            )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-4 mt-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-primary/30 disabled:opacity-50"
-          >
-            {loading ? 'Submitting...' : 'Log Attendance'}
-          </button>
-        </form>
+            {/* PHONE & EMAIL (Conditional) */}
+            {(type === 'Ambassadorial' || type === 'Non Rotarator') && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div className="flex flex-col">
+                  <label className="text-sm font-bold mb-3 text-foreground/80 uppercase tracking-wider">Phone Number <span className="text-primary">*</span></label>
+                  <input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium"
+                    placeholder="10-digit number"
+                    required
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label className="text-sm font-bold mb-3 text-foreground/80 uppercase tracking-wider">Email <span className="text-primary">*</span></label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium"
+                    placeholder="example@gmail.com"
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full inline-flex justify-center items-center gap-3 bg-gradient-to-r from-primary to-primary-hover hover:from-primary-hover hover:to-primary text-white font-black text-lg py-4 px-10 rounded-full shadow-[0_10px_30px_rgba(110,159,159,0.3)] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(110,159,159,0.4)] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none mt-6"
+            >
+              {loading ? "SUBMITTING..." : "LOG ATTENDANCE"}
+              {!loading && <span className="text-2xl leading-none">↗</span>}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

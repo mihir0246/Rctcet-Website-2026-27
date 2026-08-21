@@ -1,18 +1,22 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock, Mail, Eye, EyeOff, ShieldCheck } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import SEO from '../../Components/SEO';
 
 const AdminLogin = () => {
-  const { login } = useAdminAuth();
+  const { login, admin } = useAdminAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  if (admin) {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

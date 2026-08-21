@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, Power, Trash2, Users, Calendar, ChevronRight, LogOut, RefreshCw } from 'lucide-react';
+import { Plus, Power, Trash2, Users, Calendar, ChevronRight, LogOut, RefreshCw, Edit2 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import SEO from '../../Components/SEO';
 
@@ -20,7 +20,10 @@ const AdminDashboard = () => {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvents`);
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'getAllEvents', adminKey: ADMIN_KEY }),
+      });
       const data = await res.json();
       setEvents(data);
     } catch {
@@ -178,6 +181,13 @@ const AdminDashboard = () => {
                             ? <span className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin block" />
                             : <Power size={14} />}
                         </button>
+                        <Link
+                          to={`/admin/edit-event/${event.eventId}`}
+                          title="Edit Event"
+                          className="p-2 rounded-lg border border-white/10 hover:border-blue-500/30 hover:bg-blue-500/10 text-foreground/50 hover:text-blue-500 transition-all"
+                        >
+                          <Edit2 size={14} />
+                        </Link>
                         <button
                           onClick={() => handleDelete(event.eventId, event.eventName)}
                           disabled={actionLoading === event.eventId + '_delete'}

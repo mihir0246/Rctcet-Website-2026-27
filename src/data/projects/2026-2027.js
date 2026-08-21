@@ -1,4 +1,4 @@
-export const heroImage = "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_1200,c_limit/v1756821756/DSC02604_jmaoow.jpg"; // CHANGE ME WHEN YOU HAVE A 2026-2027 IMAGE!
+export const heroImage = "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1787322152/Collage.jpg_j5roys.jpg";
 
 export const projects = [
   {
