@@ -9,9 +9,9 @@ import ProtectedRoute from './Components/Admin/ProtectedRoute';
 
 const Home = lazy(() => import('./pages/home'));
 const Achievement = lazy(() => import('./pages/Achievement').then(m => ({ default: m.Achievement })));
-const TeamPage = lazy(() => import('./pages/MeetTheTeam'));
+const TeamPage = lazy(() => import('./pages/meetTheTeam'));
 const About = lazy(() => import('./pages/about'));
-const Projects = lazy(() => import('./pages/Projects'));
+const Projects = lazy(() => import('./pages/projects'));
 const RegistrationForm = lazy(() => import('./pages/Registration'));
 const UpcomingEvents = lazy(() => import('./pages/UpcomingEvents'));
 const EventRegistration = lazy(() => import('./pages/EventRegistration'));
