@@ -109,7 +109,7 @@ export const personalAchievementsByYear = {
       id: 2,
       title: "Outstanding Secretary",
       name: "Rtr. Aaditya Yadav",
-      image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1786986813/Outstanding_Secretary_fkhpu3.jpg", // CHANGE ME
+      image: "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1787342634/Outstanding_Secretary_fkhpu3.jpg", // CHANGE ME
     },
     {
       id: 3,
