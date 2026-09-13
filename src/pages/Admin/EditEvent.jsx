@@ -21,6 +21,8 @@ const FIELD_TYPES = [
   { value: 'radio', label: 'Multiple Choice (Radio)' },
   { value: 'dropdown', label: 'Dropdown' },
   { value: 'checkbox', label: 'Checkboxes' },
+  { value: 'file', label: 'File Upload (Image/PDF)' },
+  { value: 'section', label: 'Section Header' },
 ];
 
 const emptyField = () => ({
@@ -306,7 +308,7 @@ const EditEvent = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                       <input
                         type="text"
-                        placeholder="Field label (e.g. T-Shirt Size)"
+                        placeholder={field.type === 'section' ? "Section Title" : "Field label (e.g. T-Shirt Size)"}
                         value={field.label}
                         onChange={e => updateField(field.id, 'label', e.target.value)}
                         className={input}
@@ -315,6 +317,18 @@ const EditEvent = () => {
                         {FIELD_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
                       </select>
                     </div>
+
+                    {field.type === 'section' && (
+                      <div className="mb-3">
+                        <textarea
+                          placeholder="Section Description (Optional)"
+                          value={field.optionInput}
+                          onChange={e => updateField(field.id, 'optionInput', e.target.value)}
+                          className={input}
+                          rows={2}
+                        />
+                      </div>
+                    )}
 
                     {/* Options for radio/dropdown/checkbox */}
                     {['radio', 'dropdown', 'checkbox'].includes(field.type) && (
@@ -344,15 +358,19 @@ const EditEvent = () => {
                     )}
 
                     <div className="flex items-center justify-between">
-                      <label className="flex items-center gap-2 text-sm text-foreground/70 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={field.required}
-                          onChange={e => updateField(field.id, 'required', e.target.checked)}
-                          className="accent-primary"
-                        />
-                        Required
-                      </label>
+                      {field.type !== 'section' ? (
+                        <label className="flex items-center gap-2 text-sm text-foreground/70 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={field.required}
+                            onChange={e => updateField(field.id, 'required', e.target.checked)}
+                            className="accent-primary"
+                          />
+                          Required
+                        </label>
+                      ) : (
+                        <div />
+                      )}
                       <button type="button" onClick={() => removeField(field.id)} className="text-red-500/60 hover:text-red-500 transition-colors">
                         <Trash2 size={15} />
                       </button>

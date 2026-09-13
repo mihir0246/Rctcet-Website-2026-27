@@ -53,6 +53,7 @@ function App() {
                 <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
                 <Route path="/admin/create-event" element={<ProtectedRoute><AdminCreateEvent /></ProtectedRoute>} />
                 <Route path="/admin/edit-event/:eventId" element={<ProtectedRoute><AdminEditEvent /></ProtectedRoute>} />
+                <Route path="/admin/attendance" element={<ProtectedRoute><AttendanceAdmin /></ProtectedRoute>} />
 
                 {/* ── Public routes (with Layout) ── */}
                 <Route path="/" element={<Layout />}>
@@ -65,7 +66,6 @@ function App() {
                   <Route path="saa-fine" element={<SaaFineTable />} />
                   <Route path="meet-the-team" element={<TeamPage />} />
                   <Route path="feedback" element={<FeedBack />} />
-                  <Route path="admin/attendance" element={<AttendanceAdmin />} />
                   {/* club hub finish */}
                   <Route path="join" element={<RegistrationForm />} />
                   <Route path="events" element={<UpcomingEvents />} />

@@ -27,11 +27,17 @@ const EventRegistration = () => {
 
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "",
-    branch: "", collegeName: "", yearOfStudy: "",
+    branch: "", collegeName: "TCET", yearOfStudy: "",
     division: "", rollNumber: "",
     isMember: "No",
   });
   const [customFieldData, setCustomFieldData] = useState({});
+
+  // Autocomplete states
+  const [members, setMembers] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [fetchingMembers, setFetchingMembers] = useState(false);
 
   // Load event from Apps Script
   useEffect(() => {
@@ -61,12 +67,58 @@ const EventRegistration = () => {
         setLoadingEvent(false);
       }
     };
+
+    const loadMembers = async () => {
+      setFetchingMembers(true);
+      try {
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=getMembers`);
+        const data = await res.json();
+        if (data.status === 'success' && data.members) {
+          setMembers(data.members);
+        }
+      } catch (err) {
+        console.error("Failed to load members", err);
+      } finally {
+        setFetchingMembers(false);
+      }
+    };
+
     load();
+    loadMembers();
   }, [eventId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+
+    if (name === "name") {
+      if (value.trim() === '') {
+        setFilteredMembers([]);
+        setShowDropdown(false);
+      } else {
+        const filtered = members.filter(m => 
+          (m.Name || m.name || "").toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredMembers(filtered);
+        setShowDropdown(true);
+      }
+    }
+  };
+
+  const handleSelectMember = (m) => {
+    setFormData(prev => ({
+      ...prev,
+      name: m.Name || m.name || "",
+      email: m.Email || m.email || prev.email,
+      phone: m["Phone Number"] || m.phone || prev.phone,
+      branch: m.Department || m.branch || prev.branch,
+      yearOfStudy: m["Year of Study"] || m.yearOfStudy || prev.yearOfStudy,
+      division: m.Division || m.division || prev.division,
+      rollNumber: m["Roll No"] || m.rollNumber || prev.rollNumber,
+      isMember: "Yes"
+    }));
+    setIsFromTcet(true);
+    setShowDropdown(false);
   };
 
   const handleCustomChange = (label, value) => {
@@ -118,8 +170,21 @@ const EventRegistration = () => {
         rollNumber: isFromTcet ? formData.rollNumber : "",
         isMember: formData.isMember,
         receiptUrl,
-        ...customFieldData,
       };
+
+      // Handle custom fields (including files)
+      for (const field of (eventData.formFields || [])) {
+        if (field.type === 'section') continue;
+        const val = customFieldData[field.label];
+        
+        if (field.type === 'file' && val instanceof File) {
+          toast.loading(`Uploading ${field.label}...`, { id: `upload-${field.label}` });
+          payload[field.label] = await uploadReceipt(val);
+          toast.dismiss(`upload-${field.label}`);
+        } else {
+          payload[field.label] = val || "";
+        }
+      }
 
       const res = await fetch(APPS_SCRIPT_URL, {
         method: "POST",
@@ -243,7 +308,37 @@ const EventRegistration = () => {
             )}
 
             {/* Standard fields */}
-            <Input label="Full Name *" name="name" value={formData.name} onChange={handleChange} required />
+            <div className="relative flex flex-col mb-4">
+              <label className={labelCls}>
+                Full Name *
+                {fetchingMembers && <span className="ml-2 text-xs normal-case text-primary font-medium animate-pulse">(Loading members database...)</span>}
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                onFocus={() => { if (formData.name && filteredMembers.length > 0) setShowDropdown(true) }}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                className={inputCls}
+                required
+                autoComplete="off"
+              />
+              {showDropdown && filteredMembers.length > 0 && (
+                <ul className="absolute z-30 w-full mt-[72px] max-h-60 overflow-auto bg-white dark:bg-black/90 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-xl custom-scrollbar">
+                  {filteredMembers.map((m, idx) => (
+                    <li
+                      key={idx}
+                      onMouseDown={() => handleSelectMember(m)}
+                      className="px-5 py-3 hover:bg-primary/20 cursor-pointer text-foreground font-medium transition-colors border-b border-white/10 dark:border-white/5 last:border-b-0"
+                    >
+                      {m.Name || m.name} <span className="text-sm opacity-60 ml-1">({m.Department || m.branch || "TCET"})</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
             <Input label="Email Address *" name="email" type="email" value={formData.email} onChange={handleChange} required />
             <Input label="Phone Number *" name="phone" type="tel" value={formData.phone} onChange={handleChange} required />
 
@@ -274,49 +369,69 @@ const EventRegistration = () => {
             </div>
 
             {/* Custom fields */}
-            {eventData.formFields?.map((field) => (
-              <div key={field.name}>
-                <label className={labelCls}>{field.label}{field.required ? " *" : ""}</label>
-                {field.type === "text" && <input type="text" required={field.required} onChange={e => handleCustomChange(field.label, e.target.value)} className={inputCls} />}
-                {field.type === "textarea" && <textarea rows={3} required={field.required} onChange={e => handleCustomChange(field.label, e.target.value)} className={inputCls} />}
-                {field.type === "number" && <input type="number" required={field.required} onChange={e => handleCustomChange(field.label, e.target.value)} className={inputCls} />}
-                {field.type === "dropdown" && (
-                  <select required={field.required} onChange={e => handleCustomChange(field.label, e.target.value)} className={inputCls}>
-                    <option value="">Select...</option>
-                    {field.options?.map(o => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                )}
-                {field.type === "radio" && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1.5">
-                    {field.options?.map(o => (
-                      <label key={o} className="flex items-center gap-3 p-3.5 rounded-xl border border-white/10 bg-white/10 dark:bg-black/20 hover:bg-white/20 dark:hover:bg-black/30 transition-colors cursor-pointer shadow-sm">
-                        <input type="radio" name={field.label} value={o} required={field.required} onChange={() => handleCustomChange(field.label, o)} className="w-4 h-4 accent-primary flex-shrink-0" />
-                        <span className="text-sm font-semibold text-foreground/80">{o}</span>
-                      </label>
-                    ))}
+            {eventData.formFields?.map((field) => {
+              if (field.type === "section") {
+                return (
+                  <div key={field.label} className="mt-8 mb-4 border-b border-white/10 pb-4">
+                    <h3 className="text-xl font-black text-foreground tracking-tight">{field.label}</h3>
+                    {field.optionInput && <p className="text-foreground/60 text-sm mt-1 whitespace-pre-wrap">{field.optionInput}</p>}
                   </div>
-                )}
-                {field.type === "checkbox" && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1.5">
-                    {field.options?.map(o => (
-                      <label key={o} className="flex items-center gap-3 p-3.5 rounded-xl border border-white/10 bg-white/10 dark:bg-black/20 hover:bg-white/20 dark:hover:bg-black/30 transition-colors cursor-pointer shadow-sm">
-                        <input
-                          type="checkbox"
-                          value={o}
-                          onChange={e => {
-                            const prev = (customFieldData[field.label] || "").split(",").filter(Boolean);
-                            const next = e.target.checked ? [...prev, o] : prev.filter(x => x !== o);
-                            handleCustomChange(field.label, next.join(","));
-                          }}
-                          className="w-4 h-4 accent-primary rounded flex-shrink-0"
-                        />
-                        <span className="text-sm font-semibold text-foreground/80">{o}</span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+                );
+              }
+
+              return (
+                <div key={field.label}>
+                  <label className={labelCls}>{field.label}{field.required ? " *" : ""}</label>
+                  {field.type === "text" && <input type="text" required={field.required} onChange={e => handleCustomChange(field.label, e.target.value)} className={inputCls} />}
+                  {field.type === "textarea" && <textarea rows={3} required={field.required} onChange={e => handleCustomChange(field.label, e.target.value)} className={inputCls} />}
+                  {field.type === "number" && <input type="number" required={field.required} onChange={e => handleCustomChange(field.label, e.target.value)} className={inputCls} />}
+                  {field.type === "dropdown" && (
+                    <select required={field.required} onChange={e => handleCustomChange(field.label, e.target.value)} className={inputCls}>
+                      <option value="">Select...</option>
+                      {field.options?.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  )}
+                  {field.type === "radio" && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1.5">
+                      {field.options?.map(o => (
+                        <label key={o} className="flex items-center gap-3 p-3.5 rounded-xl border border-white/10 bg-white/10 dark:bg-black/20 hover:bg-white/20 dark:hover:bg-black/30 transition-colors cursor-pointer shadow-sm">
+                          <input type="radio" name={field.label} value={o} required={field.required} onChange={() => handleCustomChange(field.label, o)} className="w-4 h-4 accent-primary flex-shrink-0" />
+                          <span className="text-sm font-semibold text-foreground/80">{o}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  {field.type === "checkbox" && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1.5">
+                      {field.options?.map(o => (
+                        <label key={o} className="flex items-center gap-3 p-3.5 rounded-xl border border-white/10 bg-white/10 dark:bg-black/20 hover:bg-white/20 dark:hover:bg-black/30 transition-colors cursor-pointer shadow-sm">
+                          <input
+                            type="checkbox"
+                            value={o}
+                            onChange={e => {
+                              const prev = (customFieldData[field.label] || "").split(",").filter(Boolean);
+                              const next = e.target.checked ? [...prev, o] : prev.filter(x => x !== o);
+                              handleCustomChange(field.label, next.join(","));
+                            }}
+                            className="w-4 h-4 accent-primary rounded flex-shrink-0"
+                          />
+                          <span className="text-sm font-semibold text-foreground/80">{o}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  {field.type === "file" && (
+                    <input
+                      type="file"
+                      required={field.required}
+                      disabled={uploadingReceipt}
+                      onChange={e => handleCustomChange(field.label, e.target.files[0])}
+                      className={`${inputCls} file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-primary file:text-white hover:file:bg-primary/90`}
+                    />
+                  )}
+                </div>
+              );
+            })}
 
             {/* Payment section */}
             {effectivePrice !== "Free" && (

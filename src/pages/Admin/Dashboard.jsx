@@ -95,6 +95,12 @@ const AdminDashboard = () => {
               <LogOut size={15} /> Logout
             </button>
             <Link
+              to="/admin/attendance"
+              className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-lg shadow-blue-600/20 transition-all uppercase tracking-wider"
+            >
+              <Users size={16} /> Attendance
+            </Link>
+            <Link
               to="/admin/create-event"
               className="flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-black text-sm rounded-xl shadow-lg shadow-primary/20 transition-all uppercase tracking-wider"
             >
