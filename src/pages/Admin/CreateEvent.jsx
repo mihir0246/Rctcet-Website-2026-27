@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowLeft, Upload, GripVertical, ChevronDown } from 'lucide-react';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import SEO from '../../Components/SEO';
 
 const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
@@ -32,6 +33,8 @@ const emptyField = () => ({
   required: false,
   options: [],
   optionInput: '',
+  nextSection: '',
+  conditionalRouting: {},
 });
 
 const CreateEvent = () => {
@@ -49,6 +52,7 @@ const CreateEvent = () => {
     externalAllowed: false,
     memberPrice: 'Free',
     nonMemberPrice: 'Free',
+    otherCollegePrice: '',
     registrationLimit: '',
     registrationDeadline: '',
     upiId: '',
@@ -79,17 +83,37 @@ const CreateEvent = () => {
   const removeField = (id) => setCustomFields(f => f.filter(x => x.id !== id));
   const updateField = (id, key, value) =>
     setCustomFields(f => f.map(x => x.id === id ? { ...x, [key]: value } : x));
+  
+  const updateConditionalRouting = (fieldId, option, value) => {
+    setCustomFields(f => f.map(x => {
+      if (x.id !== fieldId) return x;
+      return { ...x, conditionalRouting: { ...x.conditionalRouting, [option]: value } };
+    }));
+  };
+
   const addOption = (id) =>
     setCustomFields(f => f.map(x => {
       if (x.id !== id || !x.optionInput.trim()) return x;
       return { ...x, options: [...x.options, x.optionInput.trim()], optionInput: '' };
     }));
   const removeOption = (id, opt) =>
-    setCustomFields(f => f.map(x => x.id === id ? { ...x, options: x.options.filter(o => o !== opt) } : x));
+    setCustomFields(f => f.map(x => {
+      if (x.id !== id) return x;
+      const newRouting = { ...x.conditionalRouting };
+      delete newRouting[opt];
+      return { ...x, options: x.options.filter(o => o !== opt), conditionalRouting: newRouting };
+    }));
+
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+    const items = Array.from(customFields);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setCustomFields(items);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.eventImage) return alert('Please upload an event banner image.');
     setSubmitting(true);
     try {
       const payload = {
@@ -117,15 +141,22 @@ const CreateEvent = () => {
     }
   };
 
-  const isPaid = form.memberPrice !== 'Free' || form.nonMemberPrice !== 'Free';
+  const isPaid = form.memberPrice !== 'Free' || form.nonMemberPrice !== 'Free' || (form.otherCollegePrice && form.otherCollegePrice !== 'Free');
+  const sectionFields = customFields.filter(f => f.type === 'section');
+
+  const renderRoutingDropdown = (value, onChange, placeholder = "Continue to next section") => (
+    <select value={value || ''} onChange={e => onChange(e.target.value)} className="w-full p-2 text-xs rounded border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20 text-foreground focus:outline-none focus:border-primary">
+      <option value="">{placeholder}</option>
+      {sectionFields.map(s => <option key={s.id} value={s.id}>Go to section: {s.label || 'Untitled Section'}</option>)}
+      <option value="submit">Submit Form</option>
+    </select>
+  );
 
   return (
     <div className="min-h-screen bg-background py-12 px-4">
       <SEO title="Create Event" description="Admin — Create a new event" />
 
       <div className="max-w-3xl mx-auto">
-
-        {/* Back */}
         <Link to="/admin/dashboard" className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground text-sm font-semibold mb-8 transition-colors">
           <ArrowLeft size={16} /> Back to Dashboard
         </Link>
@@ -133,8 +164,7 @@ const CreateEvent = () => {
         <h1 className="text-3xl font-black text-foreground tracking-tight mb-8">Create New Event</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-
-          {/* ── Section 1: Event Info ── */}
+          {/* Section 1: Event Info */}
           <Section title="Event Information">
             <Field label="Event Name *">
               <input type="text" required value={form.eventName} onChange={e => updateForm('eventName', e.target.value)} placeholder="e.g. Versova Beach Cleanup" className={input} />
@@ -184,14 +214,17 @@ const CreateEvent = () => {
             </div>
           </Section>
 
-          {/* ── Section 2: Pricing ── */}
+          {/* Section 2: Pricing */}
           <Section title="Pricing">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Field label="Member Price">
                 <input type="text" value={form.memberPrice} onChange={e => updateForm('memberPrice', e.target.value)} placeholder="Free or 150" className={input} />
               </Field>
               <Field label="Non-Member Price">
                 <input type="text" value={form.nonMemberPrice} onChange={e => updateForm('nonMemberPrice', e.target.value)} placeholder="Free or 200" className={input} />
+              </Field>
+              <Field label="Other College Price">
+                <input type="text" value={form.otherCollegePrice} onChange={e => updateForm('otherCollegePrice', e.target.value)} placeholder="Optional fallback" className={input} />
               </Field>
             </div>
             <AnimatePresence>
@@ -205,7 +238,7 @@ const CreateEvent = () => {
             </AnimatePresence>
           </Section>
 
-          {/* ── Section 3: Media ── */}
+          {/* Section 3: Media */}
           <Section title="Event Banner">
             {form.eventImage ? (
               <div className="relative rounded-2xl overflow-hidden">
@@ -223,7 +256,7 @@ const CreateEvent = () => {
                 {imageUploading
                   ? <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
                   : <Upload className="text-foreground/30" size={32} />}
-                <p className="text-sm text-foreground/50 font-medium">{imageUploading ? 'Uploading...' : 'Click to upload event banner'}</p>
+                <p className="text-sm text-foreground/50 font-medium">{imageUploading ? 'Uploading...' : 'Click to upload event banner (Optional)'}</p>
                 <input
                   type="file"
                   accept="image/*"
@@ -238,102 +271,128 @@ const CreateEvent = () => {
             )}
           </Section>
 
-          {/* ── Section 4: Custom Fields ── */}
+          {/* Section 4: Custom Fields */}
           <Section title="Custom Form Fields">
-            <p className="text-sm text-foreground/50 mb-4">These will appear after the standard fields (Name, Email, Phone, etc.) in the registration form.</p>
+            <p className="text-sm text-foreground/50 mb-4">These appear after the standard fields (Name, Email, Phone, etc.). Use Section Headers to create a multi-page form.</p>
 
-            <div className="flex flex-col gap-3">
-              <AnimatePresence>
-                {customFields.map((field) => (
-                  <motion.div
-                    key={field.id}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-2xl p-5"
-                  >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                      <input
-                        type="text"
-                        placeholder={field.type === 'section' ? "Section Title" : "Field label (e.g. T-Shirt Size)"}
-                        value={field.label}
-                        onChange={e => updateField(field.id, 'label', e.target.value)}
-                        className={input}
-                      />
-                      <select value={field.type} onChange={e => updateField(field.id, 'type', e.target.value)} className={input}>
-                        {FIELD_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-                      </select>
-                    </div>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="custom-fields">
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef} className="flex flex-col gap-3">
+                    <AnimatePresence>
+                      {customFields.map((field, index) => (
+                        <Draggable key={field.id} draggableId={field.id} index={index}>
+                          {(provided, snapshot) => (
+                            <motion.div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              className={`bg-white/10 dark:bg-black/20 border ${snapshot.isDragging ? 'border-primary shadow-lg shadow-primary/20' : 'border-white/20 dark:border-white/10'} rounded-2xl p-5`}
+                            >
+                              <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/10">
+                                <div className="flex items-center gap-2 text-foreground/50 hover:text-foreground transition-colors" {...provided.dragHandleProps}>
+                                  <GripVertical size={20} />
+                                </div>
+                                <button type="button" onClick={() => removeField(field.id)} className="text-red-500/60 hover:text-red-500 transition-colors">
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
 
-                    {field.type === 'section' && (
-                      <div className="mb-3">
-                        <textarea
-                          placeholder="Section Description (Optional)"
-                          value={field.optionInput}
-                          onChange={e => updateField(field.id, 'optionInput', e.target.value)}
-                          className={input}
-                          rows={2}
-                        />
-                      </div>
-                    )}
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                                <input
+                                  type="text"
+                                  placeholder={field.type === 'section' ? "Section Title" : "Field label (e.g. T-Shirt Size)"}
+                                  value={field.label}
+                                  onChange={e => updateField(field.id, 'label', e.target.value)}
+                                  className={input}
+                                />
+                                <select value={field.type} onChange={e => updateField(field.id, 'type', e.target.value)} className={input}>
+                                  {FIELD_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                                </select>
+                              </div>
 
-                    {/* Options for radio/dropdown/checkbox */}
-                    {['radio', 'dropdown', 'checkbox'].includes(field.type) && (
-                      <div className="mb-3">
-                        <div className="flex gap-2 mb-2">
-                          <input
-                            type="text"
-                            placeholder="Add an option..."
-                            value={field.optionInput}
-                            onChange={e => updateField(field.id, 'optionInput', e.target.value)}
-                            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addOption(field.id); } }}
-                            className={`${input} flex-1`}
-                          />
-                          <button type="button" onClick={() => addOption(field.id)} className="px-4 py-2 bg-primary/10 text-primary border border-primary/20 rounded-xl text-sm font-bold hover:bg-primary/20 transition-all">
-                            Add
-                          </button>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                          {field.options.map(opt => (
-                            <span key={opt} className="flex items-center gap-1.5 bg-primary/10 text-primary text-xs font-semibold px-3 py-1.5 rounded-full border border-primary/20">
-                              {opt}
-                              <button type="button" onClick={() => removeOption(field.id, opt)} className="hover:text-red-500 transition-colors">×</button>
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                              {field.type === 'section' && (
+                                <div className="mb-3 flex flex-col gap-3">
+                                  <textarea
+                                    placeholder="Section Description (Optional)"
+                                    value={field.optionInput}
+                                    onChange={e => updateField(field.id, 'optionInput', e.target.value)}
+                                    className={input}
+                                    rows={2}
+                                  />
+                                  <div className="p-3 bg-primary/5 rounded-xl border border-primary/20">
+                                    <label className="block text-xs font-bold text-primary mb-2 uppercase tracking-wide">After section, go to</label>
+                                    {renderRoutingDropdown(field.nextSection, val => updateField(field.id, 'nextSection', val))}
+                                  </div>
+                                </div>
+                              )}
 
-                    <div className="flex items-center justify-between">
-                      {field.type !== 'section' ? (
-                        <label className="flex items-center gap-2 text-sm text-foreground/70 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={field.required}
-                            onChange={e => updateField(field.id, 'required', e.target.checked)}
-                            className="accent-primary"
-                          />
-                          Required
-                        </label>
-                      ) : (
-                        <div />
-                      )}
-                      <button type="button" onClick={() => removeField(field.id)} className="text-red-500/60 hover:text-red-500 transition-colors">
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+                              {['radio', 'dropdown', 'checkbox'].includes(field.type) && (
+                                <div className="mb-3">
+                                  <div className="flex gap-2 mb-2">
+                                    <input
+                                      type="text"
+                                      placeholder="Add an option..."
+                                      value={field.optionInput}
+                                      onChange={e => updateField(field.id, 'optionInput', e.target.value)}
+                                      onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addOption(field.id); } }}
+                                      className={`${input} flex-1`}
+                                    />
+                                    <button type="button" onClick={() => addOption(field.id)} className="px-4 py-2 bg-primary/10 text-primary border border-primary/20 rounded-xl text-sm font-bold hover:bg-primary/20 transition-all">
+                                      Add
+                                    </button>
+                                  </div>
+                                  <div className="flex flex-col gap-2 mt-4">
+                                    {field.options.map(opt => (
+                                      <div key={opt} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white/5 p-2 rounded-lg border border-white/10">
+                                        <div className="flex items-center gap-2 pl-2 text-sm font-semibold">
+                                          <button type="button" onClick={() => removeOption(field.id, opt)} className="text-red-400 hover:text-red-500 transition-colors">×</button>
+                                          {opt}
+                                        </div>
+                                        {(field.type === 'radio' || field.type === 'dropdown') && (
+                                          <div className="w-full sm:w-48">
+                                            {renderRoutingDropdown(field.conditionalRouting?.[opt], val => updateConditionalRouting(field.id, opt, val))}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
 
-              <button
-                type="button"
-                onClick={addField}
-                className="flex items-center justify-center gap-2 w-full py-3 border-2 border-dashed border-white/20 dark:border-white/10 rounded-2xl text-sm font-bold text-foreground/50 hover:border-primary/40 hover:text-primary transition-all"
-              >
-                <Plus size={16} /> Add Custom Field
-              </button>
-            </div>
+                              {field.type !== 'section' && (
+                                <div className="flex items-center justify-start mt-4 pt-4 border-t border-white/10">
+                                  <label className="flex items-center gap-2 text-sm font-semibold text-foreground/70 cursor-pointer">
+                                    <input
+                                      type="checkbox"
+                                      checked={field.required}
+                                      onChange={e => updateField(field.id, 'required', e.target.checked)}
+                                      className="accent-primary w-4 h-4"
+                                    />
+                                    Required
+                                  </label>
+                                </div>
+                              )}
+                            </motion.div>
+                          )}
+                        </Draggable>
+                      ))}
+                    </AnimatePresence>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+
+            <button
+              type="button"
+              onClick={addField}
+              className="flex items-center justify-center gap-2 w-full py-4 mt-2 border-2 border-dashed border-white/20 dark:border-white/10 rounded-2xl text-sm font-bold text-foreground/50 hover:border-primary/40 hover:text-primary transition-all"
+            >
+              <Plus size={16} /> Add Field
+            </button>
           </Section>
 
           {/* Submit */}
@@ -345,7 +404,7 @@ const CreateEvent = () => {
             {submitting ? (
               <span className="flex items-center justify-center gap-2">
                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Creating Event...
+                Publishing...
               </span>
             ) : 'Publish Event'}
           </button>
