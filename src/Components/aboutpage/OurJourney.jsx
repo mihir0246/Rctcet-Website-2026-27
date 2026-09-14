@@ -78,10 +78,9 @@ const DesktopJourney = ({ onSelectYear }) => {
                 <motion.path
                     d={pathData}
                     fill="none"
-                    stroke="#6e9f9f"
                     strokeWidth="8"
                     strokeLinecap="round"
-                    className="drop-shadow-[0_0_12px_rgba(110,159,159,1)]"
+                    className="stroke-primary drop-shadow-[0_0_12px_rgb(var(--primary))]"
                     initial={{ pathLength: 0, pathOffset: 0, opacity: 1 }}
                     whileInView={{
                         pathLength: [0, 1, 1, 1],
@@ -121,7 +120,7 @@ const DesktopJourney = ({ onSelectYear }) => {
                             className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20 transition-transform duration-300 hover:scale-110 hover:z-30 w-20 h-20 xl:w-24 xl:h-24"
                         >
                             {/* The Circle Shape */}
-                            <div className="w-full h-full bg-card border-4 border-primary rounded-full shadow-[0_0_15px_rgba(110,159,159,0.6)] p-1 flex items-center justify-center">
+                            <div className="w-full h-full bg-card border-4 border-primary rounded-full shadow-[0_0_15px_rgb(var(--primary)/0.6)] p-1 flex items-center justify-center">
                                 <div className="w-full h-full rounded-full overflow-hidden border-2 border-muted dark:border-muted bg-card">
                                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                                 </div>
@@ -168,7 +167,7 @@ const MobileJourney = ({ onSelectYear }) => {
                         repeat: Infinity,
                         repeatDelay: 0.5
                     }}
-                    className="absolute left-0 w-full bg-primary shadow-[0_0_12px_rgba(110,159,159,1)] rounded-full"
+                    className="absolute left-0 w-full bg-primary shadow-[0_0_12px_rgb(var(--primary))] rounded-full"
                 />
             </div>
 
@@ -241,7 +240,7 @@ export const OurJourney = () => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="w-24 h-1.5 bg-primary mx-auto mt-6 rounded-full shadow-[0_0_15px_rgba(110,159,159,0.5)]"
+                        className="w-24 h-1.5 bg-primary mx-auto mt-6 rounded-full shadow-[0_0_15px_rgb(var(--primary)/0.5)]"
                     />
                 </div>
 

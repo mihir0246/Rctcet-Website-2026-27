@@ -40,7 +40,7 @@ export const Avenue = () => {
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full max-w-2xl h-1.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent rounded-full mb-8 shadow-[0_0_15px_rgba(110,159,159,0.3)]"
+          className="w-full max-w-2xl h-1.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent rounded-full mb-8 shadow-[0_0_15px_rgba(var(--primary)_/_0.3)]"
         />
 
         <motion.p 
@@ -85,7 +85,7 @@ export const Avenue = () => {
 
               {/* Content Area */}
               <div className="w-full flex-grow flex flex-col items-center p-6 text-center z-20 pt-2">
-                <div className="w-12 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mb-4 opacity-50 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_10px_rgba(110,159,159,0.5)]" />
+                <div className="w-12 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mb-4 opacity-50 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_10px_rgba(var(--primary)_/_0.5)]" />
                 <h3 className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-3 uppercase tracking-tight drop-shadow-md">
                   {item.title}
                 </h3>

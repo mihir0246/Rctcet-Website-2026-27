@@ -189,7 +189,7 @@ function Header() {
         <div className="hidden lg:flex flex-1 justify-end space-x-3 items-center">
           <Link
             to="/join"
-            className="relative group bg-gradient-to-br from-primary to-[#568181] text-white font-semibold py-2 px-5 rounded-full shadow-[0_0_15px_rgba(110,159,159,0.3)] hover:shadow-[0_0_25px_rgba(110,159,159,0.6)] transition-all duration-300 hover:-translate-y-0.5 whitespace-nowrap overflow-hidden"
+            className="relative group bg-gradient-to-br from-primary to-header-end text-white font-semibold py-2 px-5 rounded-full shadow-[0_0_15px_rgb(var(--primary)/0.3)] hover:shadow-[0_0_25px_rgb(var(--primary)/0.6)] transition-all duration-300 hover:-translate-y-0.5 whitespace-nowrap overflow-hidden"
           >
             <span className="relative z-10 text-sm tracking-wide">Become a member</span>
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out" />
@@ -294,7 +294,7 @@ function Header() {
                 <Link
                   to="/join"
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex justify-center w-full bg-gradient-to-r from-primary to-[#568181] text-white font-bold py-3 px-4 rounded-xl shadow-[0_0_15px_rgba(110,159,159,0.3)] hover:shadow-[0_0_25px_rgba(110,159,159,0.6)] transition-all"
+                  className="flex justify-center w-full bg-gradient-to-r from-primary to-header-end text-white font-bold py-3 px-4 rounded-xl shadow-[0_0_15px_rgb(var(--primary)/0.3)] hover:shadow-[0_0_25px_rgb(var(--primary)/0.6)] transition-all"
                 >
                   Become a member!
                 </Link>

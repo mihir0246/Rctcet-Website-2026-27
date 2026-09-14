@@ -5,7 +5,7 @@ export const Magazine = () => {
   const scrollItems = [...magazines, ...magazines, ...magazines, ...magazines, ...magazines, ...magazines];
 
   return (
-    <section className="py-24 bg-card dark:bg-[#0c111c] transition-colors duration-500 overflow-hidden relative">
+    <section className="py-24 bg-card transition-colors duration-500 overflow-hidden relative">
       
       {/* Soft Organic SVG Divider at Top */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-none z-10">

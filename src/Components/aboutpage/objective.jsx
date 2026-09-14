@@ -63,7 +63,7 @@ const Objectives = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-24 h-1.5 bg-primary mx-auto rounded-full shadow-[0_0_15px_rgba(110,159,159,0.5)]"
+            className="w-24 h-1.5 bg-primary mx-auto rounded-full shadow-[0_0_15px_rgb(var(--primary)/0.5)]"
           />
         </div>
 

@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="relative z-20 w-full pt-16 pb-8 border-t border-primary/20 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] bg-gradient-to-b from-white to-[#eef7f9] dark:from-[#1e293b] dark:to-[#0f172a]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(110,159,159,0.05)_0%,transparent_100%)] pointer-events-none" />
+    <footer className="relative z-20 w-full pt-16 pb-8 border-t border-primary/20 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] bg-gradient-to-b from-footer-start to-footer-end">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgb(var(--primary)/0.05)_0%,transparent_100%)] pointer-events-none" />
       <div className="relative max-w-screen-xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 z-10">
 
         {/* Section 1: Logo & Address */}

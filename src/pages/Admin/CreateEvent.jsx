@@ -300,7 +300,7 @@ const CreateEvent = () => {
                                 <div className="flex items-center gap-2 text-foreground/50 hover:text-foreground transition-colors" {...provided.dragHandleProps}>
                                   <GripVertical size={20} />
                                 </div>
-                                <button type="button" onClick={() => removeField(field.id)} className="text-red-500/60 hover:text-red-500 transition-colors">
+                                <button type="button" onClick={() => removeField(field.id)} className="text-danger/60 hover:text-danger transition-colors">
                                   <Trash2 size={16} />
                                 </button>
                               </div>
@@ -353,7 +353,7 @@ const CreateEvent = () => {
                                     {field.options.map(opt => (
                                       <div key={opt} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white/5 p-2 rounded-lg border border-white/10">
                                         <div className="flex items-center gap-2 pl-2 text-sm font-semibold">
-                                          <button type="button" onClick={() => removeOption(field.id, opt)} className="text-red-400 hover:text-red-500 transition-colors">×</button>
+                                          <button type="button" onClick={() => removeOption(field.id, opt)} className="text-danger/80 hover:text-danger transition-colors">×</button>
                                           {opt}
                                         </div>
                                         {(field.type === 'radio' || field.type === 'dropdown') && field.enableRouting && (

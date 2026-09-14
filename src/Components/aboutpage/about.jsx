@@ -28,7 +28,7 @@ const AboutSection = () => {
   return (
     <div className="relative bg-background min-h-[90vh] flex flex-col justify-center overflow-hidden pt-10 pb-20">
       {/* Dynamic Background Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(110,159,159,0.08)_0%,transparent_100%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgb(var(--primary)/0.08)_0%,transparent_100%)] pointer-events-none" />
 
       {/* Background Image (faded) */}
       <LazyLoadImage
@@ -54,7 +54,7 @@ const AboutSection = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-32 h-1.5 bg-primary mx-auto mt-8 rounded-full shadow-[0_0_15px_rgba(110,159,159,0.5)]"
+            className="w-32 h-1.5 bg-primary mx-auto mt-8 rounded-full shadow-[0_0_15px_rgb(var(--primary)/0.5)]"
           />
         </div>
 
@@ -96,7 +96,7 @@ const AboutSection = () => {
             transition={{ duration: 1, type: "spring" }}
             className="relative rounded-[2.5rem] p-6 lg:p-10 aspect-square w-full max-w-[400px] md:max-w-none md:w-[28vw] overflow-visible flex-shrink-0 bg-white/40 dark:bg-card/40 backdrop-blur-3xl border border-primary/20 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] group hover:border-primary/40 transition-colors duration-500"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(110,159,159,0.1)_0%,transparent_70%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgb(var(--primary)/0.1)_0%,transparent_70%)]" />
             <LazyLoadImage
               src={aboutImages.themeLogo}
               alt="Theme Logo Meraki"

@@ -109,7 +109,7 @@ const EndeavorsCarousel = () => {
                   <div className="relative w-full bg-black/20 p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl transform translate-y-8 opacity-0 group-hover/card:translate-y-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 pointer-events-auto text-center flex flex-col items-center z-20">
                     <h3 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-wide drop-shadow-lg">{slide.title}</h3>
                     <div className="w-24 h-1 bg-primary mx-auto mb-6 rounded-full" />
-                    <p className="text-base md:text-xl text-gray-200 leading-relaxed font-medium">{slide.description}</p>
+                    <p className="text-base md:text-xl text-white/80 leading-relaxed font-medium">{slide.description}</p>
                   </div>
               </div>
             </div>

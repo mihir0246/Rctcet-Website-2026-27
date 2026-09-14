@@ -155,7 +155,7 @@ const Projectachievement = ({ selectedYear }) => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="relative group bg-gradient-to-br from-white/40 to-white/10 dark:from-black/40 dark:to-black/10 backdrop-blur-2xl border border-white/40 dark:border-white/10 p-10 rounded-[3rem] shadow-2xl hover:shadow-[0_20px_40px_rgba(110,159,159,0.2)] hover:-translate-y-3 transition-all duration-500 overflow-hidden"
+            className="relative group bg-gradient-to-br from-white/40 to-white/10 dark:from-black/40 dark:to-black/10 backdrop-blur-2xl border border-white/40 dark:border-white/10 p-10 rounded-[3rem] shadow-2xl hover:shadow-[0_20px_40px_rgba(var(--primary)_/_0.2)] hover:-translate-y-3 transition-all duration-500 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="absolute -right-8 -bottom-8 text-primary/5 group-hover:text-primary/10 transition-all duration-500 rotate-[-15deg] group-hover:rotate-0 group-hover:scale-110">

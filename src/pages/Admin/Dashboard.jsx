@@ -96,7 +96,7 @@ const AdminDashboard = () => {
             </button>
             <Link
               to="/admin/attendance"
-              className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-lg shadow-blue-600/20 transition-all uppercase tracking-wider"
+              className="flex items-center gap-2 px-5 py-2.5 bg-info hover:bg-info/90 text-white font-black text-sm rounded-xl shadow-lg shadow-info/20 transition-all uppercase tracking-wider"
             >
               <Users size={16} /> Attendance
             </Link>
@@ -169,8 +169,8 @@ const AdminDashboard = () => {
                     <td className="px-4 py-4">
                       <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
                         event.isActive
-                          ? 'bg-green-500/10 text-green-500 border-green-500/20'
-                          : 'bg-red-500/10 text-red-500 border-red-500/20'
+                          ? 'bg-success/10 text-success border-success/20'
+                          : 'bg-danger/10 text-danger border-danger/20'
                       }`}>
                         {event.isActive ? 'Active' : 'Inactive'}
                       </span>
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
                         <Link
                           to={`/admin/edit-event/${event.eventId}`}
                           title="Edit Event"
-                          className="p-2 rounded-lg border border-white/10 hover:border-blue-500/30 hover:bg-blue-500/10 text-foreground/50 hover:text-blue-500 transition-all"
+                          className="p-2 rounded-lg border border-white/10 hover:border-info/30 hover:bg-info/10 text-foreground/50 hover:text-info transition-all"
                         >
                           <Edit2 size={14} />
                         </Link>
@@ -198,10 +198,10 @@ const AdminDashboard = () => {
                           onClick={() => handleDelete(event.eventId, event.eventName)}
                           disabled={actionLoading === event.eventId + '_delete'}
                           title="Deactivate & Archive"
-                          className="p-2 rounded-lg border border-white/10 hover:border-red-500/30 hover:bg-red-500/10 text-foreground/50 hover:text-red-500 transition-all"
+                          className="p-2 rounded-lg border border-white/10 hover:border-danger/30 hover:bg-danger/10 text-foreground/50 hover:text-danger transition-all"
                         >
                           {actionLoading === event.eventId + '_delete'
-                            ? <span className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin block" />
+                            ? <span className="w-4 h-4 border-2 border-danger border-t-transparent rounded-full animate-spin block" />
                             : <Trash2 size={14} />}
                         </button>
                       </div>

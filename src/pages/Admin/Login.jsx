@@ -102,7 +102,7 @@ const AdminLogin = () => {
 
             {/* Error */}
             {error && (
-              <p className="text-red-500 text-sm font-medium text-center bg-red-500/10 border border-red-500/20 rounded-xl py-2.5 px-4">
+              <p className="text-danger text-sm font-medium text-center bg-danger/10 border border-danger/20 rounded-xl py-2.5 px-4">
                 {error}
               </p>
             )}

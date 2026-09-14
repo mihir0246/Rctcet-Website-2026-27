@@ -164,7 +164,7 @@ function AttendanceAdmin() {
           </div>
 
           {message.text && (
-            <div className={`p-4 rounded-xl mb-8 font-medium border ${message.type === 'success' ? 'bg-green-500/20 text-green-700 dark:text-green-400 border-green-500/30' : 'bg-red-500/20 text-red-700 dark:text-red-400 border-red-500/30'}`}>
+            <div className={`p-4 rounded-xl mb-8 font-medium border ${message.type === 'success' ? 'bg-success/20 text-success border-success/30' : 'bg-danger/20 text-danger border-danger/30'}`}>
               {message.text}
             </div>
           )}
@@ -277,7 +277,7 @@ function AttendanceAdmin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex justify-center items-center gap-3 bg-gradient-to-r from-primary to-primary-hover hover:from-primary-hover hover:to-primary text-white font-black text-lg py-4 px-10 rounded-full shadow-[0_10px_30px_rgba(110,159,159,0.3)] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(110,159,159,0.4)] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none mt-6"
+              className="w-full inline-flex justify-center items-center gap-3 bg-gradient-to-r from-primary to-primary-hover hover:from-primary-hover hover:to-primary text-white font-black text-lg py-4 px-10 rounded-full shadow-[0_10px_30px_rgba(var(--primary)_/_0.3)] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(var(--primary)_/_0.4)] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none mt-6"
             >
               {loading ? "SUBMITTING..." : "LOG ATTENDANCE"}
               {!loading && <span className="text-2xl leading-none">↗</span>}

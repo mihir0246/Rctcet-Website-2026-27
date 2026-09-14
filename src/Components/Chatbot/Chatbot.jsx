@@ -238,7 +238,7 @@ export const Chatbot = () => {
                   <div
                     className={`max-w-[85%] px-4 py-3 shadow-md ${msg.role === "user"
                         ? "bg-primary text-white rounded-2xl rounded-br-sm"
-                        : "bg-white dark:bg-gray-800 text-foreground rounded-2xl rounded-bl-sm border border-black/5 dark:border-white/5"
+                        : "bg-card text-foreground rounded-2xl rounded-bl-sm border border-black/5 dark:border-white/5"
                       }`}
                   >
                     <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-black/10 dark:prose-pre:bg-white/10 prose-pre:text-foreground">
@@ -250,7 +250,7 @@ export const Chatbot = () => {
 
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="max-w-[85%] px-5 py-4 rounded-2xl rounded-bl-sm shadow-md bg-white dark:bg-gray-800 text-foreground border border-black/5 dark:border-white/5 flex items-center gap-2">
+                  <div className="max-w-[85%] px-5 py-4 rounded-2xl rounded-bl-sm shadow-md bg-card text-foreground border border-black/5 dark:border-white/5 flex items-center gap-2">
                     <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                     <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                     <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -263,7 +263,7 @@ export const Chatbot = () => {
 
             {/* Input Area */}
             <div className="p-4 bg-white/50 dark:bg-black/50 backdrop-blur-md border-t border-black/5 dark:border-white/5">
-              <div className="flex items-center gap-3 bg-white dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-full px-2 py-2 shadow-inner">
+              <div className="flex items-center gap-3 bg-card border border-black/10 dark:border-white/10 rounded-full px-2 py-2 shadow-inner">
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}

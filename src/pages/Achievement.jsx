@@ -61,7 +61,7 @@ export const Achievement = () => {
               transition={{ duration: 0.8 }}
               className="mb-8"
             >
-              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 shadow-[0_0_30px_rgba(254,112,17,0.3)]">
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 shadow-[0_0_30px_rgba(var(--secondary)_/_0.3)]">
                 <Trophy size={18} className="text-secondary flex-shrink-0" />
                 <p className="text-sm md:text-base font-bold tracking-widest text-white uppercase drop-shadow-md">
                   <span className="text-secondary font-black">{bestClubRankByYear[selectedYear] || "Best Club"}</span> in R.I.D 3141
@@ -153,7 +153,7 @@ export const Achievement = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="relative bg-primary/10 dark:bg-[#0a0a0a]/80 backdrop-blur-3xl border border-primary/20 dark:border-white/5 rounded-[2.5rem] p-12 md:p-24 shadow-2xl max-w-4xl mx-auto overflow-hidden group"
+              className="relative bg-primary/10 dark:bg-achievement-bg/80 backdrop-blur-3xl border border-primary/20 dark:border-white/5 rounded-[2.5rem] p-12 md:p-24 shadow-2xl max-w-4xl mx-auto overflow-hidden group"
             >
               <div className="relative z-10 flex flex-col items-center">
                 <span className="text-primary font-black text-xs md:text-sm tracking-[0.3em] uppercase mb-8 border border-primary/20 px-5 py-2.5 rounded-full bg-primary/10 dark:bg-primary/5">
@@ -171,7 +171,7 @@ export const Achievement = () => {
 
                 <a
                   href="#"
-                  className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-primary text-white dark:bg-white dark:text-black font-black text-lg rounded-full overflow-hidden hover:scale-105 hover:shadow-[0_0_40px_rgba(254,112,17,0.3)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-500"
+                  className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-primary text-white dark:bg-white dark:text-black font-black text-lg rounded-full overflow-hidden hover:scale-105 hover:shadow-[0_0_40px_rgba(var(--secondary)_/_0.3)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-500"
                 >
                   <span className="relative z-10 uppercase tracking-widest">Be a part of us</span>
                   <ArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" size={20} />
@@ -225,7 +225,7 @@ export const Achievement = () => {
                   {districtEventNameByYear[selectedYear] || "Dashak"}
                 </h2>
 
-                <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mb-10 shadow-[0_0_15px_rgba(110,159,159,0.5)]" />
+                <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mb-10 shadow-[0_0_15px_rgba(var(--primary)_/_0.5)]" />
 
                 <div className="flex flex-col items-center lg:items-start bg-white/60 dark:bg-black/30 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-2xl rounded-3xl p-8 sm:p-10 max-w-lg transition-transform hover:-translate-y-2 w-full">
                   {(() => {

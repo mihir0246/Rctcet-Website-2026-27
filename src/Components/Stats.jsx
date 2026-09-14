@@ -18,7 +18,7 @@ const AnimatedCounter20 = () => {
     }, [count2]);
 
     return (
-        <div className="text-3xl font-medium text-black dark:text-white w-20 text-center lg:mb-2 lg:ml-1 lg:text-5xl ">
+        <div className="text-3xl font-medium text-foreground w-20 text-center lg:mb-2 lg:ml-1 lg:text-5xl ">
             {count2}+
         </div>
     );
@@ -26,7 +26,7 @@ const AnimatedCounter20 = () => {
 
 function StatsBar() {
     return(
-        <div className="font-poppins flex flex-wrap gap-x-4 gap-y-9 content-center justify-around h-fit p-2 lg:flex lg:flex-row lg:items-center lg:h-40 lg:space-y-0 lg:space-x-0 bg-gray-100 dark:bg-card">
+        <div className="font-poppins flex flex-wrap gap-x-4 gap-y-9 content-center justify-around h-fit p-2 lg:flex lg:flex-row lg:items-center lg:h-40 lg:space-y-0 lg:space-x-0 bg-background dark:bg-card">
             <Zone name="Zone" data="2" image={zone} alt="Zone"/>
             <District name="District" data="3141" image={district} alt="District"/>
             <TotalProjects name="Total Projects" image={totalProjects} alt="TotalProject"/>
@@ -41,8 +41,8 @@ function Zone({name, image, alt, data}) {
         <div className="flex justify-start items-center w-32 md:w-fit">
             <img src={image} alt={alt} className="w-11 mr-2 lg:mr-4 lg:w-16" loading={"lazy"}/>
             <div className="flex flex-col">
-                <p className="text-3xl font-medium text-black dark:text-white text-center lg:mb-2 lg:text-5xl">{data}</p>
-                <p className="text-center text-gray-500 text-sm lg:text-base">{name}</p>
+                <p className="text-3xl font-medium text-foreground text-center lg:mb-2 lg:text-5xl">{data}</p>
+                <p className="text-center text-muted text-sm lg:text-base">{name}</p>
             </div>
         </div>
     )
@@ -53,8 +53,8 @@ function District({name, image, alt, data}) {
         <div className="flex justify-center items-center w-32 md:w-fit">
             <img src={image} alt={alt} className="w-12 mr-2 lg:mr-3 lg:w-20" loading={"lazy"}/>
             <div className="flex flex-col">
-                <p className="text-3xl font-medium text-black dark:text-white text-center lg:mb-2 lg:text-5xl">{data}</p>
-                <p className="text-center text-gray-500 text-sm lg:text-base">{name}</p>
+                <p className="text-3xl font-medium text-foreground text-center lg:mb-2 lg:text-5xl">{data}</p>
+                <p className="text-center text-muted text-sm lg:text-base">{name}</p>
             </div>
         </div>
     )
@@ -66,7 +66,7 @@ function TotalProjects({name, image, alt}) {
             <img src={image} alt={alt} className="w-12 lg:mr-3 lg:w-20" loading={"lazy"}/>
             <div className="flex flex-col">
                 <AnimatedCounter20/>
-                <p className="text-center text-gray-500 text-sm lg:text-base">{name}</p>
+                <p className="text-center text-muted text-sm lg:text-base">{name}</p>
             </div>
         </div>
     )

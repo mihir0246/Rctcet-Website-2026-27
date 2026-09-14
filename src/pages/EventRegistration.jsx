@@ -325,9 +325,9 @@ const EventRegistration = () => {
 
   // ── Closed / Full / Inactive banners ──
   const statusScreens = {
-    inactive: { icon: XCircle, color: "text-red-500", bg: "bg-red-500/10 border-red-500/20", title: "Event Not Found", desc: "This event is no longer available." },
-    closed: { icon: AlertCircle, color: "text-yellow-500", bg: "bg-yellow-500/10 border-yellow-500/20", title: "Registration Closed", desc: `The registration deadline for ${eventData?.eventName} has passed.` },
-    full: { icon: Users, color: "text-orange-500", bg: "bg-orange-500/10 border-orange-500/20", title: "Registrations Full", desc: `All ${eventData?.registrationLimit} spots for ${eventData?.eventName} have been filled.` },
+    inactive: { icon: XCircle, color: "text-danger", bg: "bg-danger/10 border-danger/20", title: "Event Not Found", desc: "This event is no longer available." },
+    closed: { icon: AlertCircle, color: "text-warning", bg: "bg-warning/10 border-warning/20", title: "Registration Closed", desc: `The registration deadline for ${eventData?.eventName} has passed.` },
+    full: { icon: Users, color: "text-warning", bg: "bg-warning/10 border-warning/20", title: "Registrations Full", desc: `All ${eventData?.registrationLimit} spots for ${eventData?.eventName} have been filled.` },
   };
 
   if (eventStatus !== "open") {

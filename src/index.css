@@ -14,6 +14,29 @@
     --primary-hover: 90 135 135;
     --primary-light: 224 242 254;
     --secondary: 184 128 106;
+
+    /* Semantic Status Colors */
+    --danger: 239 68 68;
+    --success: 34 197 94;
+    --warning: 249 115 22;
+    --info: 37 99 235;
+
+    /* Custom Gradients & Theming */
+    --header-end: 86 129 129;
+    --footer-start: 255 255 255;
+    --footer-end: 238 247 249;
+    
+    --avenue-grad-start: 152 67 10;
+    --avenue-grad-end: 253 210 76;
+    --avenue-btn: 255 237 212;
+    --avenue-card: 254 249 235;
+    --avenue-border: 204 204 204;
+    --avenue-active: 254 112 17;
+
+    --achievement-bg: 110 159 159;
+    --magazine-bg: 255 255 255;
+    --layout-bg: 241 245 249;
+    --swiper-bullet: 0 0 0;
   }
   
   .dark {
@@ -27,6 +50,29 @@
     --primary-hover: 129 185 181;
     --primary-light: 30 41 59;
     --secondary: 184 128 106;
+
+    /* Semantic Status Colors */
+    --danger: 248 113 113;
+    --success: 74 222 128;
+    --warning: 251 146 60;
+    --info: 96 165 250;
+
+    /* Custom Gradients & Theming */
+    --header-end: 86 129 129;
+    --footer-start: 30 41 59;
+    --footer-end: 15 23 42;
+
+    --avenue-grad-start: 152 67 10;
+    --avenue-grad-end: 253 210 76;
+    --avenue-btn: 255 237 212;
+    --avenue-card: 254 249 235;
+    --avenue-border: 204 204 204;
+    --avenue-active: 254 112 17;
+
+    --achievement-bg: 10 10 10;
+    --magazine-bg: 12 17 28;
+    --layout-bg: 26 20 16;
+    --swiper-bullet: 255 255 255;
   }
 }
 
@@ -65,7 +111,7 @@ html {
 
 /* Style bullets */
 .achievement-swiper .swiper-pagination-bullet {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(var(--swiper-bullet), 0.7);
   width: 10px;
   height: 10px;
   opacity: 1;

@@ -162,7 +162,7 @@ const TeamPage = () => {
 
                   {/* Content Overlay */}
                   <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 flex flex-col justify-end z-20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500 text-center">
-                    <div className="w-12 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mb-5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 shadow-[0_0_10px_rgba(110,159,159,0.5)]" />
+                    <div className="w-12 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mb-5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 shadow-[0_0_10px_rgba(var(--primary)_/_0.5)]" />
                     <h2 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2 uppercase drop-shadow-lg leading-tight tracking-tight">
                       {member.role}
                     </h2>
@@ -223,7 +223,7 @@ const TeamPage = () => {
 
                   {/* Content Overlay */}
                   <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 flex flex-col justify-end z-20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500 text-center">
-                    <div className="w-12 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mb-5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 shadow-[0_0_10px_rgba(110,159,159,0.5)]" />
+                    <div className="w-12 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mb-5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 shadow-[0_0_10px_rgba(var(--primary)_/_0.5)]" />
                     <h2 className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2 uppercase drop-shadow-lg leading-tight tracking-tight">
                       {bod.role}
                     </h2>

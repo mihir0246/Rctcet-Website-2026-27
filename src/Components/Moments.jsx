@@ -16,7 +16,7 @@ function HeadText() {
             <h1 className="text-4xl md:text-5xl lg:text-5xl leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 dark:from-white dark:to-white/40 tracking-tighter drop-shadow-sm select-none uppercase">
                 Moments to Remember
             </h1>
-            <div className="w-24 h-1.5 bg-primary mx-auto mt-4 rounded-full shadow-[0_0_15px_rgba(110,159,159,0.5)]" />
+            <div className="w-24 h-1.5 bg-primary mx-auto mt-4 rounded-full shadow-[0_0_15px_rgb(var(--primary)/0.5)]" />
         </div>
     )
 }
@@ -61,7 +61,7 @@ function MomentBox({image, alt}) {
     return(
         <div className="group mx-2 lg:mx-3 shrink-0 relative perspective-1000">
             {/* Glass Polaroid Container */}
-            <div className="p-3 pb-8 md:p-4 md:pb-12 bg-white/60 dark:bg-card/40 backdrop-blur-2xl border border-white/60 dark:border-white/10 rounded-3xl shadow-xl transition-all duration-500 ease-out hover:-translate-y-4 hover:rotate-3 hover:shadow-[0_20px_40px_rgba(110,159,159,0.2)] hover:z-10 relative">
+            <div className="p-3 pb-8 md:p-4 md:pb-12 bg-white/60 dark:bg-card/40 backdrop-blur-2xl border border-white/60 dark:border-white/10 rounded-3xl shadow-xl transition-all duration-500 ease-out hover:-translate-y-4 hover:rotate-3 hover:shadow-[0_20px_40px_rgb(var(--primary)/0.2)] hover:z-10 relative">
                 {/* Image Wrapper */}
                 <div className="relative w-[250px] h-[200px] lg:w-[320px] lg:h-[350px] rounded-2xl overflow-hidden bg-muted">
                     <img 

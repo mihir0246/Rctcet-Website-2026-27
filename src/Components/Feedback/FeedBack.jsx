@@ -63,7 +63,7 @@ export default function FeedBackForm() {
         <div className="lg:w-1/3 flex flex-col gap-6 justify-center mt-12 lg:mt-0">
 
           {/* Card 1: Email */}
-          <div className="relative bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-6 md:p-8 rounded-[2rem] shadow-xl transform transition-all duration-500 lg:-rotate-3 hover:rotate-0 hover:scale-105 hover:z-20 group hover:border-primary/50 hover:shadow-[0_0_30px_rgba(110,159,159,0.2)] z-10">
+          <div className="relative bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-6 md:p-8 rounded-[2rem] shadow-xl transform transition-all duration-500 lg:-rotate-3 hover:rotate-0 hover:scale-105 hover:z-20 group hover:border-primary/50 hover:shadow-[0_0_30px_rgba(var(--primary)_/_0.2)] z-10">
             <div className="absolute -top-4 left-6 text-primary drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] z-20">
               <FaThumbtack className="text-4xl transform -rotate-45 group-hover:-translate-y-1 transition-transform duration-300" />
             </div>
@@ -78,7 +78,7 @@ export default function FeedBackForm() {
           </div>
 
           {/* Card 2: Location */}
-          <div className="relative bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-6 md:p-8 rounded-[2rem] shadow-xl transform transition-all duration-500 lg:rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 group hover:border-primary/50 hover:shadow-[0_0_30px_rgba(110,159,159,0.2)] z-10">
+          <div className="relative bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-6 md:p-8 rounded-[2rem] shadow-xl transform transition-all duration-500 lg:rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 group hover:border-primary/50 hover:shadow-[0_0_30px_rgba(var(--primary)_/_0.2)] z-10">
             <div className="absolute -top-4 left-6 text-primary drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] z-20">
               <FaThumbtack className="text-4xl transform -rotate-45 group-hover:-translate-y-1 transition-transform duration-300" />
             </div>
@@ -94,7 +94,7 @@ export default function FeedBackForm() {
           </div>
 
           {/* Card 3: Connect */}
-          <div className="relative bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-6 md:p-8 rounded-[2rem] shadow-xl transform transition-all duration-500 lg:-rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 group hover:border-primary/50 hover:shadow-[0_0_30px_rgba(110,159,159,0.2)] z-10">
+          <div className="relative bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 p-6 md:p-8 rounded-[2rem] shadow-xl transform transition-all duration-500 lg:-rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 group hover:border-primary/50 hover:shadow-[0_0_30px_rgba(var(--primary)_/_0.2)] z-10">
             <div className="absolute -top-4 left-6 text-primary drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] z-20">
               <FaThumbtack className="text-4xl transform -rotate-45 group-hover:-translate-y-1 transition-transform duration-300" />
             </div>
@@ -129,10 +129,10 @@ export default function FeedBackForm() {
             </div>
 
             {successMsg && (
-              <div className="bg-green-500/20 text-green-700 dark:text-green-400 border border-green-500/30 p-4 rounded-xl mb-8 font-medium">{successMsg}</div>
+              <div className="bg-success/20 text-success border border-success/30 p-4 rounded-xl mb-8 font-medium">{successMsg}</div>
             )}
             {errorMsg && (
-              <div className="bg-red-500/20 text-red-700 dark:text-red-400 border border-red-500/30 p-4 rounded-xl mb-8 font-medium">{errorMsg}</div>
+              <div className="bg-danger/20 text-danger border border-danger/30 p-4 rounded-xl mb-8 font-medium">{errorMsg}</div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
@@ -212,7 +212,7 @@ export default function FeedBackForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full sm:w-auto inline-flex justify-center items-center gap-3 bg-gradient-to-r from-primary to-primary-hover hover:from-primary-hover hover:to-primary text-white font-black text-lg py-4 px-10 rounded-full shadow-[0_10px_30px_rgba(110,159,159,0.3)] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(110,159,159,0.4)] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none mt-4"
+                className="w-full sm:w-auto inline-flex justify-center items-center gap-3 bg-gradient-to-r from-primary to-primary-hover hover:from-primary-hover hover:to-primary text-white font-black text-lg py-4 px-10 rounded-full shadow-[0_10px_30px_rgba(var(--primary)_/_0.3)] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(var(--primary)_/_0.4)] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none mt-4"
               >
                 {loading ? "SUBMITTING..." : "SEND MESSAGE"}
                 {!loading && <span className="text-2xl leading-none">↗</span>}

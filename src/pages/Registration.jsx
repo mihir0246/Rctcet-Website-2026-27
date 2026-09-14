@@ -13,7 +13,7 @@ const generalMembershipEvent = {
 const InputField = ({ label, name, type = "text", required = true, placeholder = "", options = null, isTextarea = false, formData, handleChange }) => (
   <div className="mb-4 w-full">
     <label className="block text-sm font-semibold text-foreground mb-1.5 ml-1">
-      {label} {required && <span className="text-red-500">*</span>}
+      {label} {required && <span className="text-danger">*</span>}
     </label>
     {options ? (
       <select
@@ -54,7 +54,7 @@ const InputField = ({ label, name, type = "text", required = true, placeholder =
 const CheckboxGroup = ({ label, field, options, required = true, formData, handleCheckboxChange }) => (
   <div className="mb-6 w-full">
     <label className="block text-sm font-semibold text-foreground mb-3 ml-1">
-      {label} {required && <span className="text-red-500">*</span>}
+      {label} {required && <span className="text-danger">*</span>}
     </label>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       {options.map((opt) => (
@@ -76,7 +76,7 @@ const CheckboxGroup = ({ label, field, options, required = true, formData, handl
 const RadioGroup = ({ label, name, options, required = true, formData, handleChange }) => (
   <div className="mb-4 w-full">
     <label className="block text-sm font-semibold text-foreground mb-3 ml-1">
-      {label} {required && <span className="text-red-500">*</span>}
+      {label} {required && <span className="text-danger">*</span>}
     </label>
     <div className="flex flex-wrap gap-4">
       {options.map((opt) => (
@@ -379,7 +379,7 @@ const RegistrationForm = () => {
                 <h4 className="text-center font-bold text-foreground mb-2 text-xl">Registration Fee: ₹{generalMembershipEvent.price}</h4>
                 <p className="text-center text-sm text-foreground/70 mb-6">Scan the QR code below to pay with any UPI app</p>
                 
-                <div className="bg-white p-4 rounded-2xl w-fit mx-auto mb-6 shadow-lg border border-gray-200">
+                <div className="bg-card p-4 rounded-2xl w-fit mx-auto mb-6 shadow-lg border border-muted/20">
                   <img src={qrUrl} alt="Dynamic UPI QR Code" className="w-56 h-56 rounded-lg object-contain mix-blend-multiply" />
                 </div>
 
@@ -392,7 +392,7 @@ const RegistrationForm = () => {
                   <p><span className="font-bold">UPI ID:</span> ajayboss004@okaxis</p>
                 </div>
                 
-                <label className="block text-sm font-semibold text-foreground mb-3 text-center">Upload Payment Screenshot <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-semibold text-foreground mb-3 text-center">Upload Payment Screenshot <span className="text-danger">*</span></label>
                 <div className="flex justify-center">
                   <input 
                     id="receiptInput"
@@ -412,7 +412,7 @@ const RegistrationForm = () => {
                 ALL OF THE DETAILS FILLED BY YOU IS KEPT CONFIDENTIAL WITH US AND WITH ONLY A LIMITED ACCESS. YOU DO NOT HAVE TO WORRY ABOUT ANY SORT OF DATA/PRIVACY BREACH. 
                 WE AT ROTARACT CLUB OF TCET ASSURE THAT ALL OF THIS DATA WOULD BE KEPT CONFIDENTIAL AT ALL COST.
               </p>
-              <h4 className="font-bold text-red-500 dark:text-red-400 mb-2 uppercase tracking-wider">Important Notice</h4>
+              <h4 className="font-bold text-danger mb-2 uppercase tracking-wider">Important Notice</h4>
               <p className="text-sm font-medium leading-relaxed mb-4 text-foreground/90">
                 AFTER FILLING UP OF THIS FORM, ALL THE DETAILS ENTERED WILL BE SCRUTINIZED AND YOU'LL BE ADDED TO THE ROTARACT CLUB OF TCET'S OFFICIAL GROUP WITHIN 3 DAYS. IN CASE YOU HAVEN'T BEEN ADDED FOR MORE THAN 3 DAYS, PLEASE FEEL FREE TO CONTACT THE FOLLOWING AND APPROACH THEM WITH THE SAME:
               </p>
@@ -484,7 +484,7 @@ const RegistrationForm = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`px-10 py-3 font-black text-white bg-gradient-to-r from-primary to-secondary hover:shadow-[0_10px_30px_rgba(110,159,159,0.5)] border border-white/20 rounded-xl transition-all shadow-xl hover:-translate-y-1 tracking-widest uppercase
+                className={`px-10 py-3 font-black text-white bg-gradient-to-r from-primary to-secondary hover:shadow-[0_10px_30px_rgba(var(--primary)_/_0.5)] border border-white/20 rounded-xl transition-all shadow-xl hover:-translate-y-1 tracking-widest uppercase
                            ${isSubmitting ? "opacity-70 cursor-not-allowed transform-none hover:shadow-none" : ""}`}
               >
                 {isSubmitting ? "SUBMITTING..." : "SUBMIT FORM"}
