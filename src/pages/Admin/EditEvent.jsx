@@ -188,6 +188,13 @@ const EditEvent = () => {
   const isPaid = form.memberPrice !== 'Free' || form.nonMemberPrice !== 'Free' || (form.otherCollegePrice && form.otherCollegePrice !== 'Free');
   const sectionFields = customFields.filter(f => f.type === 'section');
 
+  const getCurrentSectionId = (fieldIndex) => {
+    for (let i = fieldIndex; i >= 0; i--) {
+      if (customFields[i].type === 'section') return customFields[i].id;
+    }
+    return 'root';
+  };
+
   const renderRoutingDropdown = (value, onChange, placeholder = "Continue to next section", currentSectionId = null) => (
     <select value={value || ''} onChange={e => onChange(e.target.value)} className="w-full p-2 text-xs rounded border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20 text-foreground focus:outline-none focus:border-primary">
       <option value="">{placeholder}</option>
@@ -398,7 +405,7 @@ const EditEvent = () => {
                                         </div>
                                         {(field.type === 'radio' || field.type === 'dropdown') && field.enableRouting && (
                                           <div className="w-full sm:w-48">
-                                            {renderRoutingDropdown(field.conditionalRouting?.[opt], val => updateConditionalRouting(field.id, opt, val), "Continue to next section", field.id)}
+                                            {renderRoutingDropdown(field.conditionalRouting?.[opt], val => updateConditionalRouting(field.id, opt, val), "Continue to next section", getCurrentSectionId(index))}
                                           </div>
                                         )}
                                       </div>
