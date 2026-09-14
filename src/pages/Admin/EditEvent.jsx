@@ -186,10 +186,10 @@ const EditEvent = () => {
   const isPaid = form.memberPrice !== 'Free' || form.nonMemberPrice !== 'Free' || (form.otherCollegePrice && form.otherCollegePrice !== 'Free');
   const sectionFields = customFields.filter(f => f.type === 'section');
 
-  const renderRoutingDropdown = (value, onChange, placeholder = "Continue to next section") => (
+  const renderRoutingDropdown = (value, onChange, placeholder = "Continue to next section", currentSectionId = null) => (
     <select value={value || ''} onChange={e => onChange(e.target.value)} className="w-full p-2 text-xs rounded border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20 text-foreground focus:outline-none focus:border-primary">
       <option value="">{placeholder}</option>
-      {sectionFields.map(s => <option key={s.id} value={s.id}>Go to section: {s.label || 'Untitled Section'}</option>)}
+      {sectionFields.filter(s => s.id !== currentSectionId).map(s => <option key={s.id} value={s.id}>Go to section: {s.label || 'Untitled Section'}</option>)}
       <option value="submit">Submit Form</option>
     </select>
   );
@@ -280,7 +280,7 @@ const EditEvent = () => {
                   <Field label="UPI ID (for payment QR)">
                     <input type="text" value={form.upiId} onChange={e => updateForm('upiId', e.target.value)} placeholder="e.g. rctcet@upi" className={input} />
                   </Field>
-                </motion.div>
+                </div>
               )}
             </AnimatePresence>
           </Section>
@@ -326,16 +326,12 @@ const EditEvent = () => {
               <Droppable droppableId="custom-fields">
                 {(provided) => (
                   <div {...provided.droppableProps} ref={provided.innerRef} className="flex flex-col gap-3">
-                    <AnimatePresence>
-                      {customFields.map((field, index) => (
+                    {customFields.map((field, index) => (
                         <Draggable key={field.id} draggableId={field.id} index={index}>
                           {(provided, snapshot) => (
-                            <motion.div
+                            <div
                               ref={provided.innerRef}
                               {...provided.draggableProps}
-                              initial={{ opacity: 0, y: -10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -10 }}
                               className={`bg-white/10 dark:bg-black/20 border ${snapshot.isDragging ? 'border-primary shadow-lg shadow-primary/20' : 'border-white/20 dark:border-white/10'} rounded-2xl p-5`}
                             >
                               <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/10">
@@ -371,7 +367,7 @@ const EditEvent = () => {
                                   />
                                   <div className="p-3 bg-primary/5 rounded-xl border border-primary/20">
                                     <label className="block text-xs font-bold text-primary mb-2 uppercase tracking-wide">After section, go to</label>
-                                    {renderRoutingDropdown(field.nextSection, val => updateField(field.id, 'nextSection', val))}
+                                    {renderRoutingDropdown(field.nextSection, val => updateField(field.id, 'nextSection', val), "Continue to next section", field.id)}
                                   </div>
                                 </div>
                               )}
@@ -400,7 +396,7 @@ const EditEvent = () => {
                                         </div>
                                         {(field.type === 'radio' || field.type === 'dropdown') && (
                                           <div className="w-full sm:w-48">
-                                            {renderRoutingDropdown(field.conditionalRouting?.[opt], val => updateConditionalRouting(field.id, opt, val))}
+                                            {renderRoutingDropdown(field.conditionalRouting?.[opt], val => updateConditionalRouting(field.id, opt, val), "Continue to next section", field.id)}
                                           </div>
                                         )}
                                       </div>
@@ -422,11 +418,10 @@ const EditEvent = () => {
                                   </label>
                                 </div>
                               )}
-                            </motion.div>
+                            </div>
                           )}
                         </Draggable>
                       ))}
-                    </AnimatePresence>
                     {provided.placeholder}
                   </div>
                 )}
