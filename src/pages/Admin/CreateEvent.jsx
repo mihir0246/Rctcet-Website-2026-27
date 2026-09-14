@@ -11,8 +11,10 @@ const CLOUDINARY_CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dtc2xaea
 const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'rctcet_unsigned';
 
 const AVENUES = [
-  'Club Service', 'Community Service', 'International Service',
-  'Professional Development', 'The Rotaract Foundation', 'Sports & Well-being'
+  'Sports', 'Shiksha', 'Club Service', 'Community Service', 'Public Relations',
+  'Digital Communication', 'Social media relations', 'Entrepreneurship Development',
+  'Editorial Service', 'Partners in Service', 'Professional Development',
+  'International Service', 'Marketing', 'Club Ambassador'
 ];
 
 const FIELD_TYPES = [
@@ -413,7 +415,7 @@ const CreateEvent = () => {
 const input = "w-full p-3 rounded-xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/40 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all text-sm";
 
 const Section = ({ title, children }) => (
-  <div className="bg-white/10 dark:bg-black/20 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-3xl p-6 shadow-lg">
+  <div className="bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-3xl p-6 shadow-lg">
     <h2 className="text-sm font-black uppercase tracking-widest text-foreground/50 mb-5">{title}</h2>
     <div className="flex flex-col gap-4">{children}</div>
   </div>
