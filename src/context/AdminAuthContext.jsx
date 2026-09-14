@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { initializeApp, getApps } from 'firebase/app';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const db = getFirestore(app);
+const auth = getAuth(app);
 
 const AdminAuthContext = createContext(null);
 
@@ -21,31 +21,28 @@ export const AdminAuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Restore session from localStorage on mount
-    const stored = localStorage.getItem('rctcet_admin');
-    if (stored) {
-      try { setAdmin(JSON.parse(stored)); } catch (_) {}
-    }
-    setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAdmin({ email: user.email, uid: user.uid });
+      } else {
+        setAdmin(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const login = async (email, password) => {
-    const q = query(
-      collection(db, 'admins'),
-      where('email', '==', email),
-      where('password', '==', password)
-    );
-    const snap = await getDocs(q);
-    if (snap.empty) throw new Error('Invalid credentials');
-    const adminData = { email, role: snap.docs[0].data().role || 'admin' };
-    setAdmin(adminData);
-    localStorage.setItem('rctcet_admin', JSON.stringify(adminData));
-    return adminData;
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    setAdmin({ email: user.email, uid: user.uid });
+    return user;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await signOut(auth);
     setAdmin(null);
-    localStorage.removeItem('rctcet_admin');
   };
 
   return (

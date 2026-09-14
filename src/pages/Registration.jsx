@@ -230,6 +230,10 @@ const RegistrationForm = () => {
         throw new Error("Google Apps Script URL is missing! Add VITE_GOOGLE_APPS_SCRIPT_MEMBERSHIP_URL to your .env file.");
       }
 
+      const allowedKeys = ["email", "personalEmail", "gsuiteId", "firstName", "middleName", "lastName", "dob", "gender", "bloodGroup", "phone", "year", "department", "division", "rollNumber", "addressLine1", "addressLine2", "addressLine3", "pincode", "city", "railwayStation", "fatherName", "fatherAge", "fatherOccupation", "motherName", "motherAge", "motherOccupation", "motherOccupationOther", "parentContact", "hasSiblings", "siblingCount", "rotaractYear", "hobbies", "helpWith", "playSports", "sportsAchievement", "culturalActivities", "culturalAchievement", "paymentMethod"];
+      const safeData = {};
+      allowedKeys.forEach(key => safeData[key] = formData[key] || "");
+
       await fetch(scriptUrl, {
         method: "POST",
         mode: "no-cors",
@@ -237,7 +241,7 @@ const RegistrationForm = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...formData,
+          ...safeData,
           receiptUrl: receiptUrl,
           eventId: generalMembershipEvent.id,
           eventName: generalMembershipEvent.title,

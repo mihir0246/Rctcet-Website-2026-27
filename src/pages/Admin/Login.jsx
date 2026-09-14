@@ -26,7 +26,13 @@ const AdminLogin = () => {
       await login(email, password);
       navigate('/admin/dashboard');
     } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+        setError('Invalid email or password.');
+      } else if (err.code === 'auth/too-many-requests') {
+        setError('Too many failed login attempts. Please try again later.');
+      } else {
+        setError(err.message || 'An error occurred during login.');
+      }
     } finally {
       setLoading(false);
     }

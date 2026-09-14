@@ -146,6 +146,7 @@ export default function FeedBackForm() {
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={handleChange}
+                    maxLength={100}
                     className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium"
                     required
                   />
@@ -158,6 +159,7 @@ export default function FeedBackForm() {
                     placeholder="john@college.edu"
                     value={formData.mail}
                     onChange={handleChange}
+                    maxLength={100}
                     className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium"
                     required
                   />
@@ -173,6 +175,7 @@ export default function FeedBackForm() {
                     placeholder="Beach Cleanup"
                     value={formData.event}
                     onChange={handleChange}
+                    maxLength={150}
                     className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium"
                     required
                   />
@@ -185,6 +188,7 @@ export default function FeedBackForm() {
                     placeholder="Rotaract Club of TCET"
                     value={formData.clubname}
                     onChange={handleChange}
+                    maxLength={150}
                     className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-foreground/30 font-medium"
                     required
                   />
@@ -198,6 +202,7 @@ export default function FeedBackForm() {
                   placeholder="How can we collaborate together?"
                   value={formData.feedback}
                   onChange={handleChange}
+                  maxLength={1000}
                   rows={5}
                   className="w-full px-5 py-4 bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-2xl focus:outline-none focus:border-primary/60 dark:focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all resize-none text-foreground placeholder:text-foreground/30 font-medium"
                   required

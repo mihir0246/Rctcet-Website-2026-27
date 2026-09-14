@@ -52,7 +52,7 @@ const AdminDashboard = () => {
     try {
       await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        body: JSON.stringify({ action: 'deleteEvent', id: eventId, adminKey: ADMIN_KEY }),
+        body: JSON.stringify({ action: 'softDelete', id: eventId, adminKey: ADMIN_KEY }),
       });
       await fetchEvents();
     } finally {

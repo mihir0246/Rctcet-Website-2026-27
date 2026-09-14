@@ -101,7 +101,7 @@ function AttendanceAdmin() {
     setMessage({ type: '', text: '' });
 
     const payload = {
-      pin: 'rctcet',
+      pin: import.meta.env.VITE_ATTENDANCE_PIN,
       event,
       name,
       type,

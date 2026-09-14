@@ -27,3 +27,6 @@ dist-ssr
 
 # Ignoring work complied environment
 rc-tcet-build/
+
+# Scripts
+scripts/seed_admin.mjs

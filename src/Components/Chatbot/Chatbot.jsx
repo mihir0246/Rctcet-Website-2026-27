@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-const BOT_URL = `${import.meta.env.VITE_CHATBOT_API_URL}/chat`;
+const BOT_URL = "/api/chat";
 
 export const Chatbot = () => {
   const [isChatOpen, setChatOpen] = useState(false);
@@ -16,7 +16,7 @@ export const Chatbot = () => {
         "Hello! I am **Roto**. Ask me anything about RC-TCET.",
     },
   ]);
-  const [requestLog, setRequestLog] = useState([]);
+
 
   const messagesEndRef = useRef(null);
 
@@ -64,6 +64,19 @@ export const Chatbot = () => {
     const question = input.trim();
     if (!question || isLoading) return;
 
+    if (question.length > 500) {
+      setMessages((prev) => [...prev, { role: "bot", content: "Sorry, your message is too long. Please keep it under 500 characters." }]);
+      setIsLoading(false);
+      return;
+    }
+
+    const injectionPattern = /system:|ignore all|bypass|prompt:|act as/i;
+    if (injectionPattern.test(question)) {
+      setMessages((prev) => [...prev, { role: "bot", content: "I cannot process this request. Please ask a valid question about RC-TCET." }]);
+      setIsLoading(false);
+      return;
+    }
+
     setMessages((prev) => [...prev, { role: "user", content: question }]);
     setInput("");
     setIsLoading(true);
@@ -77,16 +90,6 @@ export const Chatbot = () => {
       query: question,
       history: formattedHistory,
     };
-
-    setRequestLog((prev) => [
-      ...prev,
-      {
-        question,
-        payload,
-        endpoint: BOT_URL,
-        requestedAt: new Date().toISOString(),
-      },
-    ]);
 
     try {
       const response = await axios.post(BOT_URL, payload);
@@ -266,7 +269,8 @@ export const Chatbot = () => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   rows={1}
-                  placeholder="Ask me anything..."
+                  maxLength={500}
+                  placeholder="Ask me anything... (max 500 chars)"
                   className="
                     flex-1 px-4 py-2 bg-transparent
                     text-sm text-foreground font-medium
