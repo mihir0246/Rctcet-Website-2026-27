@@ -280,7 +280,7 @@ const EditEvent = () => {
                   <Field label="UPI ID (for payment QR)">
                     <input type="text" value={form.upiId} onChange={e => updateForm('upiId', e.target.value)} placeholder="e.g. rctcet@upi" className={input} />
                   </Field>
-                </div>
+                </motion.div>
               )}
             </AnimatePresence>
           </Section>
