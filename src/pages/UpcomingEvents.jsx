@@ -96,7 +96,7 @@ const UpcomingEvents = () => {
               >
                 <div className="overflow-hidden relative">
                   <img
-                    src={event.eventImage}
+                    src={event.eventImage || "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1757125056/logo_pdqctw_ztwsvl.png"}
                     alt={event.eventName}
                     className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
                   />
