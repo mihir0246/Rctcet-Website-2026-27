@@ -396,7 +396,7 @@ const EditEvent = () => {
                                           <button type="button" onClick={() => removeOption(field.id, opt)} className="text-red-400 hover:text-red-500 transition-colors">×</button>
                                           {opt}
                                         </div>
-                                        {(field.type === 'radio' || field.type === 'dropdown') && (
+                                        {(field.type === 'radio' || field.type === 'dropdown') && field.enableRouting && (
                                           <div className="w-full sm:w-48">
                                             {renderRoutingDropdown(field.conditionalRouting?.[opt], val => updateConditionalRouting(field.id, opt, val), "Continue to next section", field.id)}
                                           </div>
@@ -418,6 +418,20 @@ const EditEvent = () => {
                                     />
                                     Required
                                   </label>
+                                  {(field.type === 'radio' || field.type === 'dropdown') && (
+                                    <label className="flex items-center gap-2 text-sm font-semibold text-foreground/70 cursor-pointer ml-6 border-l border-white/10 pl-6">
+                                      <input
+                                        type="checkbox"
+                                        checked={field.enableRouting || false}
+                                        onChange={e => {
+                                          updateField(field.id, 'enableRouting', e.target.checked);
+                                          if (!e.target.checked) updateField(field.id, 'conditionalRouting', {});
+                                        }}
+                                        className="accent-primary w-4 h-4"
+                                      />
+                                      Go to section based on answer
+                                    </label>
+                                  )}
                                 </div>
                               )}
                             </div>
