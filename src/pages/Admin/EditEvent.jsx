@@ -62,6 +62,7 @@ const EditEvent = () => {
     upiId: '',
     eventImage: '',
     eventDescription: '',
+    submitMessage: '',
   });
 
   const [customFields, setCustomFields] = useState([]);
@@ -90,8 +91,12 @@ const EditEvent = () => {
           upiId: data.upiId || '',
           eventImage: data.eventImage || '',
           eventDescription: data.eventDescription || '',
+          submitMessage: data.submitMessage || '',
         });
-        setCustomFields(data.formFields || []);
+        setCustomFields((data.formFields || []).map(f => ({
+          ...f,
+          id: f.id || Math.random().toString(36).slice(2)
+        })));
       } catch (e) {
         alert("Failed to load event: " + e.message);
       } finally {
@@ -159,7 +164,7 @@ const EditEvent = () => {
         adminKey: ADMIN_KEY,
         ...form,
         externalAllowed: form.externalAllowed,
-        formFields: customFields.map(({ id, optionInput, ...rest }) => rest),
+        formFields: customFields.map(({ optionInput, ...rest }) => rest),
       };
       
       // Clean up empty date/time fields so we don't accidentally overwrite with empty if they didn't change it
@@ -227,6 +232,9 @@ const EditEvent = () => {
             </Field>
             <Field label="Event Description *">
               <textarea required rows={3} value={form.eventDescription} onChange={e => updateForm('eventDescription', e.target.value)} placeholder="Short description shown on the event card..." className={input} />
+            </Field>
+            <Field label="Success / Submit Message (Optional)">
+              <textarea rows={3} value={form.submitMessage} onChange={e => updateForm('submitMessage', e.target.value)} placeholder="Message to show after successful registration. Markdown is supported (links, bold, etc)." className={input} />
             </Field>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Field label="Date (Leave blank to keep existing)">

@@ -60,6 +60,7 @@ const CreateEvent = () => {
     upiId: '',
     eventImage: '',
     eventDescription: '',
+    submitMessage: '',
   });
 
   const [customFields, setCustomFields] = useState([]);
@@ -123,7 +124,7 @@ const CreateEvent = () => {
         adminKey: ADMIN_KEY,
         ...form,
         externalAllowed: form.externalAllowed,
-        formFields: customFields.map(({ id, optionInput, ...rest }) => rest),
+        formFields: customFields.map(({ optionInput, ...rest }) => rest),
       };
       const res = await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
@@ -180,6 +181,9 @@ const CreateEvent = () => {
             </Field>
             <Field label="Event Description *">
               <textarea required rows={3} value={form.eventDescription} onChange={e => updateForm('eventDescription', e.target.value)} placeholder="Short description shown on the event card..." className={input} />
+            </Field>
+            <Field label="Success / Submit Message (Optional)">
+              <textarea rows={3} value={form.submitMessage} onChange={e => updateForm('submitMessage', e.target.value)} placeholder="Message to show after successful registration. Markdown is supported (links, bold, etc)." className={input} />
             </Field>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Field label="Date *">

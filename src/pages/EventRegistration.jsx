@@ -1,4 +1,5 @@
 import SEO from "../Components/SEO";
+import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -300,7 +301,7 @@ const EventRegistration = () => {
 
       if (result.success) {
         toast.success("Registration submitted successfully!");
-        setTimeout(() => navigate("/events"), 2000);
+        setEventStatus("success");
       } else if (result.reason === "FORM_FULL") {
         setEventStatus("full");
         toast.error("Registrations are now full!");
@@ -328,6 +329,7 @@ const EventRegistration = () => {
     inactive: { icon: XCircle, color: "text-danger", bg: "bg-danger/10 border-danger/20", title: "Event Not Found", desc: "This event is no longer available." },
     closed: { icon: AlertCircle, color: "text-warning", bg: "bg-warning/10 border-warning/20", title: "Registration Closed", desc: `The registration deadline for ${eventData?.eventName} has passed.` },
     full: { icon: Users, color: "text-warning", bg: "bg-warning/10 border-warning/20", title: "Registrations Full", desc: `All ${eventData?.registrationLimit} spots for ${eventData?.eventName} have been filled.` },
+    success: { icon: CheckCircle, color: "text-primary", bg: "bg-primary/10 border-primary/20", title: "Registration Successful", desc: eventData?.submitMessage || "Thank you for registering! We have received your details." },
   };
 
   if (eventStatus !== "open") {
@@ -339,8 +341,28 @@ const EventRegistration = () => {
         <div className={`inline-flex flex-col items-center gap-4 p-10 rounded-3xl border ${s.bg} backdrop-blur-xl`}>
           <Icon className={s.color} size={56} />
           <h2 className="text-2xl font-black text-foreground">{s.title}</h2>
-          <p className="text-foreground/60 max-w-xs">{s.desc}</p>
-          <Link to="/events" className="mt-2 text-primary font-bold hover:underline">← Browse all events</Link>
+          {eventStatus === "success" ? (
+            <div className="text-foreground/80 max-w-md text-left text-sm leading-relaxed">
+              <ReactMarkdown
+                components={{
+                  a: ({node, ...props}) => <a className="text-primary hover:underline font-bold" {...props} target="_blank" rel="noopener noreferrer" />,
+                  p: ({node, ...props}) => <p className="mb-3 last:mb-0" {...props} />,
+                  h1: ({node, ...props}) => <h1 className="text-xl font-bold mt-4 mb-2 text-foreground" {...props} />,
+                  h2: ({node, ...props}) => <h2 className="text-lg font-bold mt-3 mb-2 text-foreground" {...props} />,
+                  h3: ({node, ...props}) => <h3 className="text-base font-bold mt-2 mb-1 text-foreground" {...props} />,
+                  ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-3" {...props} />,
+                  ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-3" {...props} />,
+                  strong: ({node, ...props}) => <strong className="font-bold text-foreground" {...props} />,
+                  blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-primary/50 pl-3 italic text-foreground/70 my-3" {...props} />,
+                }}
+              >
+                {s.desc}
+              </ReactMarkdown>
+            </div>
+          ) : (
+            <p className="text-foreground/60 max-w-xs">{s.desc}</p>
+          )}
+          <Link to="/events" className="mt-4 px-6 py-2 bg-primary/20 text-primary font-bold hover:bg-primary/30 transition-colors rounded-full">← Browse all events</Link>
         </div>
       </div>
     );
