@@ -16,6 +16,10 @@ function Header() {
   const clubDropdownRef = useRef(null);
 
   useEffect(() => {
+    // Close dropdowns on route change
+    setIsClubDropdownOpen(false);
+    setIsMenuOpen(false);
+    
     const path = location.pathname;
     if (path === "/") setActiveLink("Home");
     else if (path === "/about") setActiveLink("About us");
