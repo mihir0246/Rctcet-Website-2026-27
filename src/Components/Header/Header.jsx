@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "../themeButton";
 import { Users, Compass, Award, MessageSquare, ChevronDown, Menu, X } from "lucide-react";
 
+import LimelightIndicator from "./LimelightIndicator";
+
 function Header() {
   const [activeLink, setActiveLink] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -100,13 +102,7 @@ function Header() {
               to={link.to}
               className="relative px-3 py-2 rounded-full text-base font-bold tracking-wide group transition-colors"
             >
-              {activeLink === link.name && (
-                <motion.div
-                  layoutId="activeNavPill"
-                  className="absolute inset-0 bg-primary/15 dark:bg-primary/25 rounded-full z-0"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
+              {activeLink === link.name && <LimelightIndicator />}
               <span
                 className={`relative z-10 transition-colors duration-300 ${
                   activeLink === link.name ? "text-primary" : "text-foreground group-hover:text-primary"
@@ -128,13 +124,7 @@ function Header() {
               onClick={() => setIsClubDropdownOpen(!isClubDropdownOpen)}
               className="relative px-3 py-2 rounded-full text-base font-bold tracking-wide group flex items-center gap-1.5 transition-colors"
             >
-              {activeLink === "Club hub" && (
-                <motion.div
-                  layoutId="activeNavPill"
-                  className="absolute inset-0 bg-primary/15 dark:bg-primary/25 rounded-full z-0"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
+              {activeLink === "Club hub" && <LimelightIndicator />}
               <span
                 className={`relative z-10 flex items-center gap-1.5 transition-colors duration-300 ${
                   activeLink === "Club hub" ? "text-primary" : "text-foreground group-hover:text-primary"
@@ -194,14 +184,14 @@ function Header() {
             <span className="relative z-10 text-sm tracking-wide">Become a member</span>
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out" />
           </Link>
-          <div className="p-1 bg-background rounded-full border border-primary/10 shadow-sm flex items-center justify-center h-10 w-10">
+          <div className="flex items-center justify-center">
             <ThemeToggle />
           </div>
         </div>
 
         {/* Mobile Menu Button & Theme Toggle */}
         <div className="lg:hidden flex flex-1 justify-end items-center space-x-3">
-          <div className="p-1 bg-background rounded-full border border-primary/10 shadow-sm flex items-center justify-center h-10 w-10">
+          <div className="bg-background rounded-full border border-primary/10 shadow-sm flex items-center justify-center p-1.5 transition-colors">
             <ThemeToggle />
           </div>
           <button

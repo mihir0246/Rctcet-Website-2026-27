@@ -1,74 +1,47 @@
 import { useTheme } from '../hooks/useTheme';
+import './themeButton.css';
 
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
-  
+
   return (
-    <button 
-      onClick={toggleTheme}
-      className="relative flex items-center justify-center w-full h-full rounded-full bg-transparent hover:bg-primary/10 text-primary transition-colors focus:outline-none group"
-      aria-label="Toggle theme"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="22"
-        height="22"
-        viewBox="0 0 24 24"
-        fill="none"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="transition-transform duration-500 ease-in-out drop-shadow-sm"
-        style={{ transform: isDark ? 'rotate(-90deg)' : 'rotate(45deg)' }}
-      >
-        <mask id="moon-mask">
-          <rect x="0" y="0" width="100%" height="100%" fill="white" />
-          {/* 
-            In Light Mode (Sun): Move mask circle completely out of view (cx=25, cy=0)
-            In Dark Mode (Moon): Move mask circle to cut a sleek crescent (cx=17, cy=7) 
-          */}
-          <circle 
-            cx={isDark ? "17" : "25"} 
-            cy={isDark ? "7" : "0"} 
-            r="9" 
-            fill="black" 
-            className="transition-all duration-500 ease-in-out" 
-          />
-        </mask>
-        
-        {/* 
-          Main circle. 
-          Use solid fill and no stroke to avoid the "watermelon rind" effect on the moon!
-        */}
-        <circle 
-          cx="12" 
-          cy="12" 
-          r={isDark ? "9" : "5"} 
-          mask="url(#moon-mask)" 
-          className="fill-primary stroke-transparent group-hover:fill-primary/80 transition-all duration-500 ease-in-out" 
+    <div className="theme-switch-wrapper flex items-center justify-center">
+      <label className="theme-switch" aria-label="Toggle theme">
+        <input
+          type="checkbox"
+          className="theme-switch__checkbox"
+          checked={isDark}
+          onChange={toggleTheme}
+          aria-checked={isDark}
         />
-        
-        {/* Rays of the sun */}
-        <g 
-          className="stroke-primary group-hover:stroke-primary/80 transition-all duration-500 ease-in-out"
-          style={{ 
-            opacity: isDark ? 0 : 1,
-            transform: isDark ? 'scale(0.3)' : 'scale(1)',
-            transformOrigin: 'center'
-          }}
-        >
-          <line x1="12" y1="1" x2="12" y2="3" />
-          <line x1="12" y1="21" x2="12" y2="23" />
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-          <line x1="1" y1="12" x2="3" y2="12" />
-          <line x1="21" y1="12" x2="23" y2="12" />
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-        </g>
-      </svg>
-    </button>
+        <div className="theme-switch__container">
+          <div className="theme-switch__clouds" />
+          <div className="theme-switch__stars-container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 144 55"
+              fill="none"
+              className="theme-switch__stars"
+            >
+              <path
+                fill="var(--stars-color)"
+                d="M13.85 4.15a1 1 0 0 0-1.7 0l-.6 1.15a1 1 0 0 1-.5.5l-1.15.6a1 1 0 0 0 0 1.7l1.15.6a1 1 0 0 1 .5.5l.6 1.15a1 1 0 0 0 1.7 0l.6-1.15a1 1 0 0 1 .5-.5l1.15-.6a1 1 0 0 0 0-1.7l-1.15-.6a1 1 0 0 1-.5-.5l-.6-1.15ZM26 15.5a.75.75 0 0 0-1.3 0l-.4.8a.75.75 0 0 1-.4.4l-.8.4a.75.75 0 0 0 0 1.3l.8.4a.75.75 0 0 1 .4.4l.4.8a.75.75 0 0 0 1.3 0l.4-.8a.75.75 0 0 1 .4-.4l.8-.4a.75.75 0 0 0 0-1.3l-.8-.4a.75.75 0 0 1-.4-.4l-.4-.8ZM15 28.5a.65.65 0 0 0-1.15 0l-.35.7a.65.65 0 0 1-.35.35l-.7.35a.65.65 0 0 0 0 1.15l.7.35a.65.65 0 0 1 .35.35l.35.7a.65.65 0 0 0 1.15 0l.35-.7a.65.65 0 0 1 .35-.35l.7-.35a.65.65 0 0 0 0-1.15l-.7-.35a.65.65 0 0 1-.35-.35l-.35-.7ZM30 36.5a.65.65 0 0 0-1.15 0l-.35.7a.65.65 0 0 1-.35.35l-.7.35a.65.65 0 0 0 0 1.15l.7.35a.65.65 0 0 1 .35.35l.35.7a.65.65 0 0 0 1.15 0l.35-.7a.65.65 0 0 1 .35-.35l.7-.35a.65.65 0 0 0 0-1.15l-.7-.35a.65.65 0 0 1-.35-.35l-.35-.7ZM40 12.5a.5.5 0 0 0-.9 0l-.25.5a.5.5 0 0 1-.25.25l-.5.25a.5.5 0 0 0 0 .9l.5.25a.5.5 0 0 1 .25.25l.25.5a.5.5 0 0 0 .9 0l.25-.5a.5.5 0 0 1 .25-.25l.5-.25a.5.5 0 0 0 0-.9l-.5-.25a.5.5 0 0 1-.25-.25l-.25-.5ZM42 30.5a.5.5 0 0 0-.9 0l-.25.5a.5.5 0 0 1-.25.25l-.5.25a.5.5 0 0 0 0 .9l.5.25a.5.5 0 0 1 .25.25l.25.5a.5.5 0 0 0 .9 0l.25-.5a.5.5 0 0 1 .25-.25l.5-.25a.5.5 0 0 0 0-.9l-.5-.25a.5.5 0 0 1-.25-.25l-.25-.5Z"
+              />
+            </svg>
+          </div>
+          <div className="theme-switch__circle-container">
+            <div className="theme-switch__sun-moon-container">
+              <div className="theme-switch__moon">
+                <div className="theme-switch__spot" />
+                <div className="theme-switch__spot" />
+                <div className="theme-switch__spot" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
+    </div>
   );
 };
 
