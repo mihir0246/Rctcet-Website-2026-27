@@ -4,27 +4,27 @@
 
 @layer base {
   :root {
-    /* Meraki Theme Light Mode (RGB values for Tailwind opacity support) */
-    --background: 241 245 249;
+    /* Meraki Theme Light Mode - Warm Orange & Beige (RGB values for Tailwind opacity support) */
+    --background: 253 248 243; /* Warm Beige */
     --card: 255 255 255;
-    --foreground: 15 23 42;
-    --muted: 100 116 139;
+    --foreground: 31 16 11; /* Deep dark brown/orange for text */
+    --muted: 115 100 95;
     
-    --primary: 110 159 159;
-    --primary-hover: 90 135 135;
-    --primary-light: 224 242 254;
-    --secondary: 184 128 106;
+    --primary: 234 88 12; /* #EA580C (Orange-600) */
+    --primary-hover: 194 65 12; /* #C2410C (Orange-700) */
+    --primary-light: 255 237 213; /* #FFEDD5 (Orange-100) */
+    --secondary: 249 115 22; /* #F97316 (Orange-500) */
 
     /* Semantic Status Colors */
     --danger: 239 68 68;
     --success: 34 197 94;
-    --warning: 249 115 22;
+    --warning: 245 158 11; /* #F59E0B (Rotary Gold) */
     --info: 37 99 235;
 
     /* Custom Gradients & Theming */
-    --header-end: 86 129 129;
+    --header-end: 251 191 36; /* #FBBF24 (Logo Gradient Yellow) */
     --footer-start: 255 255 255;
-    --footer-end: 238 247 249;
+    --footer-end: 255 237 213; /* Warm footer fade */
     
     --avenue-grad-start: 152 67 10;
     --avenue-grad-end: 253 210 76;
@@ -33,10 +33,10 @@
     --avenue-border: 204 204 204;
     --avenue-active: 254 112 17;
 
-    --achievement-bg: 110 159 159;
+    --achievement-bg: 234 88 12; /* Matches new Primary */
     --magazine-bg: 255 255 255;
-    --layout-bg: 241 245 249;
-    --swiper-bullet: 0 0 0;
+    --layout-bg: 253 248 243; /* Matches new Background */
+    --swiper-bullet: 234 88 12;
   }
   
   .dark {
