@@ -147,13 +147,21 @@ const EventRegistration = () => {
     const memberVal = (m._type === 'TCET Rotaractor' || m._type === 'Other college Rotaractor') ? 'Yes' : 'No';
     const isTCET = (m._type === 'TCET Rotaractor' || m._type === 'Non Rotaractor' && (!m.college || m.college.toUpperCase() === 'TCET'));
     
+    let yearVal = m.yearOfStudy || m['Year of Study'] || m.Year || prev.yearOfStudy;
+    if (yearVal && typeof yearVal === 'string') {
+      if (yearVal.toUpperCase().startsWith("FE")) yearVal = "FE";
+      else if (yearVal.toUpperCase().startsWith("SE")) yearVal = "SE";
+      else if (yearVal.toUpperCase().startsWith("TE")) yearVal = "TE";
+      else if (yearVal.toUpperCase().startsWith("BE")) yearVal = "BE";
+    }
+
     setFormData(prev => ({
       ...prev,
       name: m.name || m.Name || prev.name,
       email: m.email || m.Email || prev.email,
       phone: m.number || m.phone || m['Phone Number'] || m.Mobile || prev.phone,
       branch: m.department || m.Department || m.branch || prev.branch,
-      yearOfStudy: m.yearOfStudy || m['Year of Study'] || m.Year || prev.yearOfStudy,
+      yearOfStudy: yearVal,
       division: m.division || m.Division || prev.division,
       rollNumber: m.rollNumber || m['Roll No'] || m['Roll Number'] || prev.rollNumber,
       collegeName: m.college || m.club || (isTCET ? 'TCET' : prev.collegeName),
