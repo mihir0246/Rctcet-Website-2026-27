@@ -22,7 +22,7 @@ const EventRegistration = () => {
   const [eventData, setEventData] = useState(null);
   const [loadingEvent, setLoadingEvent] = useState(true);
   const [eventStatus, setEventStatus] = useState("open"); // open | closed | full | inactive
-  
+
   // Participant State
   const [isFromTcet, setIsFromTcet] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,7 +46,7 @@ const EventRegistration = () => {
   // Pagination / Conditional Routing
   const [formSections, setFormSections] = useState([]);
   const [navigationHistory, setNavigationHistory] = useState(['root']); // Stack for going back
-  
+
   const currentSectionId = navigationHistory[navigationHistory.length - 1];
   const isPaymentStep = currentSectionId === 'submit';
   const currentSection = formSections.find(s => s.id === currentSectionId) || formSections[0];
@@ -63,7 +63,7 @@ const EventRegistration = () => {
         // Parse Sections
         const sections = [];
         let curr = { id: 'root', title: 'Participant Details', description: '', nextSection: '', fields: [] };
-        
+
         (data.formFields || []).forEach(field => {
           if (field.type === 'section') {
             sections.push(curr);
@@ -133,7 +133,7 @@ const EventRegistration = () => {
         setFilteredMembers([]);
         setShowDropdown(false);
       } else {
-        const filtered = members.filter(m => 
+        const filtered = members.filter(m =>
           (m.name || m.Name || "").toLowerCase().includes(value.toLowerCase())
         );
         setFilteredMembers(filtered);
@@ -146,24 +146,16 @@ const EventRegistration = () => {
     // Determine membership status based on the list they came from
     const memberVal = (m._type === 'TCET Rotaractor' || m._type === 'Other college Rotaractor') ? 'Yes' : 'No';
     const isTCET = (m._type === 'TCET Rotaractor' || m._type === 'Non Rotaractor' && (!m.college || m.college.toUpperCase() === 'TCET'));
-    
-    let yearVal = m.yearOfStudy || m['Year of Study'] || m.Year || prev.yearOfStudy;
-    if (yearVal && typeof yearVal === 'string') {
-      if (yearVal.toUpperCase().startsWith("FE")) yearVal = "FE";
-      else if (yearVal.toUpperCase().startsWith("SE")) yearVal = "SE";
-      else if (yearVal.toUpperCase().startsWith("TE")) yearVal = "TE";
-      else if (yearVal.toUpperCase().startsWith("BE")) yearVal = "BE";
-    }
 
     setFormData(prev => ({
       ...prev,
       name: m.name || m.Name || prev.name,
       email: m.email || m.Email || prev.email,
-      phone: m.number || m.phone || m['Phone Number'] || m.Mobile || prev.phone,
-      branch: m.department || m.Department || m.branch || prev.branch,
-      yearOfStudy: yearVal,
-      division: m.division || m.Division || prev.division,
-      rollNumber: m.rollNumber || m['Roll No'] || m['Roll Number'] || prev.rollNumber,
+      phone: m.number || m.phone || m['Phone Number'] || prev.phone,
+      branch: m.department || m.branch || prev.branch,
+      yearOfStudy: m.yearOfStudy || m['Year of Study'] || prev.yearOfStudy,
+      division: m.division || prev.division,
+      rollNumber: m.rollNumber || m['Roll No'] || prev.rollNumber,
       collegeName: m.college || m.club || (isTCET ? 'TCET' : prev.collegeName),
       isMember: memberVal
     }));
@@ -217,7 +209,7 @@ const EventRegistration = () => {
 
     // Determine next section ID
     let target = 'submit';
-    
+
     // Check conditional routing on fields first (last matched field wins)
     let routingFound = null;
     currentSection.fields.forEach(field => {
@@ -251,7 +243,7 @@ const EventRegistration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Only validate if it's not the payment step, or if it is the payment step, ensure receipt is provided if needed
     if (isPaid && !paymentReceipt) {
       toast.error("Please upload a payment receipt.");
@@ -290,7 +282,7 @@ const EventRegistration = () => {
       for (const section of formSections) {
         for (const field of section.fields) {
           const val = customFieldData[field.label];
-          
+
           if (field.type === 'file' && val instanceof File) {
             toast.loading(`Uploading ${field.label}...`, { id: `upload-${field.label}` });
             payload[field.label] = await uploadFileToCloudinary(val);
@@ -353,15 +345,15 @@ const EventRegistration = () => {
             <div className="text-foreground/80 max-w-md text-left text-sm leading-relaxed">
               <ReactMarkdown
                 components={{
-                  a: ({node, ...props}) => <a className="text-primary hover:underline font-bold" {...props} target="_blank" rel="noopener noreferrer" />,
-                  p: ({node, ...props}) => <p className="mb-3 last:mb-0" {...props} />,
-                  h1: ({node, ...props}) => <h1 className="text-xl font-bold mt-4 mb-2 text-foreground" {...props} />,
-                  h2: ({node, ...props}) => <h2 className="text-lg font-bold mt-3 mb-2 text-foreground" {...props} />,
-                  h3: ({node, ...props}) => <h3 className="text-base font-bold mt-2 mb-1 text-foreground" {...props} />,
-                  ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-3" {...props} />,
-                  ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-3" {...props} />,
-                  strong: ({node, ...props}) => <strong className="font-bold text-foreground" {...props} />,
-                  blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-primary/50 pl-3 italic text-foreground/70 my-3" {...props} />,
+                  a: ({ node, ...props }) => <a className="text-primary hover:underline font-bold" {...props} target="_blank" rel="noopener noreferrer" />,
+                  p: ({ node, ...props }) => <p className="mb-3 last:mb-0" {...props} />,
+                  h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-4 mb-2 text-foreground" {...props} />,
+                  h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-3 mb-2 text-foreground" {...props} />,
+                  h3: ({ node, ...props }) => <h3 className="text-base font-bold mt-2 mb-1 text-foreground" {...props} />,
+                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-3" {...props} />,
+                  ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-3" {...props} />,
+                  strong: ({ node, ...props }) => <strong className="font-bold text-foreground" {...props} />,
+                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-3 italic text-foreground/70 my-3" {...props} />,
                 }}
               >
                 {s.desc}
@@ -430,7 +422,7 @@ const EventRegistration = () => {
         <div className="md:col-span-3">
           <form onSubmit={navigateNext} className="bg-white/10 dark:bg-black/30 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 dark:border-white/10">
             <AnimatePresence mode="wait">
-              
+
               {/* PAYMENT STEP */}
               {isPaymentStep && (
                 <motion.div
@@ -441,7 +433,7 @@ const EventRegistration = () => {
                   className="flex flex-col gap-4"
                 >
                   <h3 className="text-xl font-black text-foreground mb-2 border-b border-white/10 pb-4 uppercase tracking-wider">Final Step</h3>
-                  
+
                   {isPaid ? (
                     <div className="p-5 rounded-2xl border border-white/20 dark:border-white/10 bg-white/10 dark:bg-black/20">
                       <h4 className="font-black text-foreground mb-1">Payment — ₹{effectivePrice}</h4>
