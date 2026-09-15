@@ -92,16 +92,16 @@ const AdminDashboard = () => {
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-10 w-full overflow-hidden">
           <div>
             <h1 className="text-3xl font-black text-foreground tracking-tight">
               Event Dashboard
             </h1>
-            <p className="text-foreground/50 text-sm mt-1">
+            <p className="text-foreground/50 text-sm mt-1 break-all">
               Signed in as <span className="text-primary font-semibold">{admin?.email}</span>
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
             <button
               onClick={fetchEvents}
               className="p-2.5 rounded-xl border border-white/20 dark:border-white/10 bg-white/10 dark:bg-black/20 text-foreground/60 hover:text-foreground transition-all"
@@ -143,8 +143,8 @@ const AdminDashboard = () => {
             </Link>
           </div>
         ) : (
-          <div className="bg-white/10 dark:bg-black/20 backdrop-blur-xl rounded-3xl border border-white/20 dark:border-white/10 overflow-hidden shadow-xl">
-            <table className="w-full">
+          <div className="bg-white/10 dark:bg-black/20 backdrop-blur-xl rounded-3xl border border-white/20 dark:border-white/10 overflow-x-auto shadow-xl">
+            <table className="w-full min-w-[900px]">
               <thead>
                 <tr className="border-b border-white/10 dark:border-white/5">
                   <th className="text-left text-xs font-black uppercase tracking-widest text-foreground/50 px-6 py-4">Event</th>
@@ -191,11 +191,10 @@ const AdminDashboard = () => {
                       </div>
                     </td>
                     <td className="px-4 py-4">
-                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
-                        event.isActive
-                          ? 'bg-success/10 text-success border-success/20'
-                          : 'bg-danger/10 text-danger border-danger/20'
-                      }`}>
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${event.isActive
+                        ? 'bg-success/10 text-success border-success/20'
+                        : 'bg-danger/10 text-danger border-danger/20'
+                        }`}>
                         {event.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>

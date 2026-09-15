@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const BG_DESKTOP = "f_auto,q_auto:low,w_1400,c_fill,g_auto";
-const BG_MOBILE = "f_auto,q_auto:low,w_600,c_fill,g_auto";
+const BG_DESKTOP = "f_auto,q_auto:good,w_1920,c_limit";
+const BG_MOBILE = "f_auto,q_auto:good,w_1080,c_limit";
 
 import { heroImages as imagesData } from "../data/heroImages";
 
@@ -44,6 +44,7 @@ export default function RotaractClubLayout() {
           src={bgUrl}
           alt={imagesData[bgIndex].title}
           className="absolute inset-0 w-full h-full object-cover z-0"
+          style={{ objectPosition: isMobile ? (imagesData[bgIndex].mobilePosition || "center") : "center" }}
         />
       </AnimatePresence>
 
@@ -72,7 +73,7 @@ export default function RotaractClubLayout() {
       </div>
 
       {/* Top Right: Event Name */}
-      <div className="absolute top-24 md:top-10 right-4 md:right-5 z-30">
+      <div className="absolute top-20 right-4 md:top-28 md:right-8 lg:top-12 z-30 max-w-[70vw] md:max-w-md">
         <AnimatePresence mode="wait">
           <motion.div
             key={bgIndex}
@@ -80,9 +81,9 @@ export default function RotaractClubLayout() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.5 }}
-            className="px-4 py-2"
+            className="py-2 flex justify-end"
           >
-            <h2 className="text-white text-xl md:text-xl font-bold tracking-wider drop-shadow-lg">
+            <h2 className="text-white text-right text-lg md:text-2xl font-black tracking-widest drop-shadow-[0_4px_15px_rgba(0,0,0,0.8)] uppercase leading-tight">
               {imagesData[bgIndex].title}
             </h2>
           </motion.div>

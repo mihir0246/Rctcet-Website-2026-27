@@ -1,7 +1,8 @@
 export const heroImages = [
   {
     title: "Pawsome Sunday",
-    id: "v1786986050/Pawsome_Sunday_wws04e.jpg"
+    id: "v1786986050/Pawsome_Sunday_wws04e.jpg",
+    mobilePosition: "66% 50%" // Tweak the 75% (50% is center, 100% is full right)
   },
   {
     title: "Yaariyaan",

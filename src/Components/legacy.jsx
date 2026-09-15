@@ -36,14 +36,14 @@ function FounderCard() {
 
 function Card({ title, image, description, isBig, url }) {
   return (
-    <div className="relative w-full rounded-[2rem] shadow-lg overflow-hidden group h-full min-h-[350px]">
-      <img src={image} alt={title} className="absolute inset-0 w-full h-full object-cover object-[center_10%] transform group-hover:scale-105 transition-transform duration-1000" loading={"lazy"} />
+    <div className="relative w-full rounded-[2rem] shadow-lg overflow-hidden group h-full min-h-[350px] md:min-h-[400px] flex flex-col justify-end">
+      <img src={image} alt={title} className="absolute inset-0 w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-1000" loading={"lazy"} />
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none" />
       <div className="absolute inset-0 backdrop-blur-none group-hover:backdrop-blur-md bg-black/0 group-hover:bg-black/30 transition-all duration-700 ease-in-out pointer-events-none" />
 
-      <div className="absolute inset-0 flex flex-col p-6 md:p-10 z-10 pointer-events-none">
-        <div className="mt-auto pointer-events-auto">
+      <div className="relative p-6 md:p-10 z-10 pointer-events-none mt-auto">
+        <div className="pointer-events-auto">
           <h2 className="font-black text-3xl md:text-4xl text-white mb-0 group-hover:mb-4 drop-shadow-md transform transition-all duration-500 ease-out">{title}</h2>
 
           <div className="grid transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100">
