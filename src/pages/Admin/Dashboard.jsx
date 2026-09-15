@@ -14,6 +14,8 @@ const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(null);
+  const [counts, setCounts] = useState({});
+  const [loadingCounts, setLoadingCounts] = useState(false);
 
   useEffect(() => { fetchEvents(); }, []);
 
@@ -26,10 +28,28 @@ const AdminDashboard = () => {
       });
       const data = await res.json();
       setEvents(data);
+      // Kick off the slow registration counts fetch in the background
+      fetchCounts();
     } catch {
       setEvents([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCounts = async () => {
+    setLoadingCounts(true);
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'getEventCounts', adminKey: ADMIN_KEY }),
+      });
+      const data = await res.json();
+      setCounts(data);
+    } catch {
+      console.error("Failed to fetch registration counts");
+    } finally {
+      setLoadingCounts(false);
     }
   };
 
@@ -162,7 +182,11 @@ const AdminDashboard = () => {
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-1.5 text-sm text-foreground/70">
                         <Users size={13} />
-                        <span>{event.registrationCount ?? '—'}</span>
+                        {loadingCounts ? (
+                          <span className="w-4 h-4 border-2 border-foreground/30 border-t-foreground/60 rounded-full animate-spin" />
+                        ) : (
+                          <span>{counts[event.eventId] ?? event.registrationCount ?? '0'}</span>
+                        )}
                         {event.registrationLimit && <span className="text-foreground/40">/ {event.registrationLimit}</span>}
                       </div>
                     </td>

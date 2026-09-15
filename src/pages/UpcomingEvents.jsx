@@ -13,10 +13,33 @@ const UpcomingEvents = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
+      const cached = sessionStorage.getItem('rctcet_events');
+      
+      // If we have cached data, show it immediately (0.01s load)
+      if (cached) {
+        setEvents(JSON.parse(cached));
+        setLoading(false);
+        
+        // Background fetch to ensure data is perfectly up-to-date (Stale-While-Revalidate)
+        fetch(`${APPS_SCRIPT_URL}?action=getEvents`)
+          .then(res => res.json())
+          .then(data => {
+            if (Array.isArray(data)) {
+              sessionStorage.setItem('rctcet_events', JSON.stringify(data));
+              setEvents(data);
+            }
+          })
+          .catch(console.error);
+        return;
+      }
+
+      // If no cache (first time ever), load normally
       try {
         const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvents`);
         const data = await res.json();
-        setEvents(Array.isArray(data) ? data : []);
+        const eventsArray = Array.isArray(data) ? data : [];
+        setEvents(eventsArray);
+        sessionStorage.setItem('rctcet_events', JSON.stringify(eventsArray));
       } catch {
         setError(true);
       } finally {

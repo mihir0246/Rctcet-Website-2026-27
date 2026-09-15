@@ -151,11 +151,11 @@ const EventRegistration = () => {
       ...prev,
       name: m.name || m.Name || prev.name,
       email: m.email || m.Email || prev.email,
-      phone: m.number || m.phone || m['Phone Number'] || prev.phone,
-      branch: m.department || m.branch || prev.branch,
-      yearOfStudy: m.yearOfStudy || m['Year of Study'] || prev.yearOfStudy,
-      division: m.division || prev.division,
-      rollNumber: m.rollNumber || m['Roll No'] || prev.rollNumber,
+      phone: m.number || m.phone || m['Phone Number'] || m.Mobile || prev.phone,
+      branch: m.department || m.Department || m.branch || prev.branch,
+      yearOfStudy: m.yearOfStudy || m['Year of Study'] || m.Year || prev.yearOfStudy,
+      division: m.division || m.Division || prev.division,
+      rollNumber: m.rollNumber || m['Roll No'] || m['Roll Number'] || prev.rollNumber,
       collegeName: m.college || m.club || (isTCET ? 'TCET' : prev.collegeName),
       isMember: memberVal
     }));

@@ -34,6 +34,18 @@ function App() {
     fetch(`${import.meta.env.VITE_CHATBOT_API_URL}/activate`)
       .then(() => console.log('Backend wake-up initiated'))
       .catch(err => console.error('Failed to wake up backend:', err));
+
+    // Global Prefetch for Events
+    if (!sessionStorage.getItem('rctcet_events')) {
+      fetch(`${import.meta.env.VITE_APPS_SCRIPT_URL}?action=getEvents`)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            sessionStorage.setItem('rctcet_events', JSON.stringify(data));
+          }
+        })
+        .catch(console.error);
+    }
   }, []);
 
   const Loader = (
