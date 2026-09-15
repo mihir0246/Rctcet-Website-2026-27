@@ -35,8 +35,8 @@ function App() {
       .then(() => console.log('Backend wake-up initiated'))
       .catch(err => console.error('Failed to wake up backend:', err));
 
-    // Global Prefetch for Events
-    if (!sessionStorage.getItem('rctcet_events')) {
+    // Global Prefetch for Events — populates cache before user navigates to /events
+    if (import.meta.env.VITE_APPS_SCRIPT_URL) {
       fetch(`${import.meta.env.VITE_APPS_SCRIPT_URL}?action=getEvents`)
         .then(res => res.json())
         .then(data => {
@@ -44,7 +44,7 @@ function App() {
             sessionStorage.setItem('rctcet_events', JSON.stringify(data));
           }
         })
-        .catch(console.error);
+        .catch(() => {});
     }
   }, []);
 

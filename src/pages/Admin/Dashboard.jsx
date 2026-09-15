@@ -166,7 +166,7 @@ const AdminDashboard = () => {
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={event.eventImage} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                        <img src={event.eventImage} alt="" loading="lazy" decoding="async" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
                         <div>
                           <p className="font-bold text-foreground text-sm">{event.eventName}</p>
                           <p className="text-foreground/40 text-xs">{event.eventId}</p>

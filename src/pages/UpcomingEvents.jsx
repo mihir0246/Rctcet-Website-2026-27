@@ -1,52 +1,63 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Calendar, Clock, Users } from "lucide-react";
+import { Calendar, Clock, Users, RefreshCw } from "lucide-react";
 import SEO from "../Components/SEO";
 
 const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
+const CACHE_KEY = "rctcet_events_cache";
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 const UpcomingEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(false); // false | true | "timeout"
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchEvents = async () => {
-      const cached = sessionStorage.getItem('rctcet_events');
-      
-      // If we have cached data, show it immediately (0.01s load)
-      if (cached) {
-        setEvents(JSON.parse(cached));
-        setLoading(false);
-        
-        // Background fetch to ensure data is perfectly up-to-date (Stale-While-Revalidate)
-        fetch(`${APPS_SCRIPT_URL}?action=getEvents`)
-          .then(res => res.json())
-          .then(data => {
-            if (Array.isArray(data)) {
-              sessionStorage.setItem('rctcet_events', JSON.stringify(data));
-              setEvents(data);
-            }
-          })
-          .catch(console.error);
-        return;
+      // ── 1. Serve stale cache instantly (zero-wait for repeat visitors) ──
+      let hasCached = false;
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          const { data, ts } = JSON.parse(raw);
+          setEvents(data);
+          setLoading(false);
+          hasCached = true;
+          // If still fresh, skip the network call entirely
+          if (Date.now() - ts < CACHE_TTL) return;
+        }
+      } catch {
+        // localStorage unavailable (private browsing etc.) — ignore
       }
 
-      // If no cache (first time ever), load normally
+      // ── 2. Fetch fresh data with a 10-second hard timeout ──
+      const timeout = setTimeout(() => controller.abort(), 10_000);
       try {
-        const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvents`);
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvents`, {
+          signal: controller.signal,
+        });
         const data = await res.json();
-        const eventsArray = Array.isArray(data) ? data : [];
-        setEvents(eventsArray);
-        sessionStorage.setItem('rctcet_events', JSON.stringify(eventsArray));
-      } catch {
-        setError(true);
+        const arr = Array.isArray(data) ? data : [];
+        setEvents(arr);
+        setError(false);
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ data: arr, ts: Date.now() }));
+        } catch { /* quota exceeded — silently ignore */ }
+      } catch (err) {
+        if (err.name === "AbortError") {
+          if (!hasCached) setError("timeout");
+        } else {
+          if (!hasCached) setError(true);
+        }
       } finally {
+        clearTimeout(timeout);
         setLoading(false);
       }
     };
     fetchEvents();
+    return () => controller.abort(); // clean up on unmount
   }, []);
 
   return (
@@ -91,8 +102,18 @@ const UpcomingEvents = () => {
 
         {/* Error state */}
         {!loading && error && (
-          <div className="text-center py-20">
-            <p className="text-foreground/50 text-lg font-medium">Failed to load events. Please try again later.</p>
+          <div className="text-center py-20 flex flex-col items-center gap-4">
+            <p className="text-foreground/50 text-lg font-medium">
+              {error === "timeout"
+                ? "Request timed out — Apps Script is waking up. Please retry."
+                : "Failed to load events. Please try again later."}
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-xl font-semibold text-sm transition-all"
+            >
+              <RefreshCw size={14} /> Retry
+            </button>
           </div>
         )}
 
@@ -121,6 +142,8 @@ const UpcomingEvents = () => {
                   <img
                     src={event.eventImage || "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1757125056/logo_pdqctw_ztwsvl.png"}
                     alt={event.eventName}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <span className="absolute top-3 left-3 text-xs font-bold bg-primary/90 text-white px-3 py-1 rounded-full">
