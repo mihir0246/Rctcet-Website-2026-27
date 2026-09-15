@@ -15,7 +15,7 @@ import { Sparkles, ArrowRight, ChevronDown, Trophy } from "lucide-react";
 import SEO from "../Components/SEO";
 
 export const Achievement = () => {
-  const [selectedYear, setSelectedYear] = useState('2024-2025');
+  const [selectedYear, setSelectedYear] = useState('2025-2026');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const years = ['2024-2025', '2025-2026', '2026-2027'];
