@@ -5,6 +5,7 @@ import ThemeToggle from "../themeButton";
 import { Users, Compass, Award, MessageSquare, ChevronDown, Menu, X } from "lucide-react";
 
 import LimelightIndicator from "./LimelightIndicator";
+import MobileMenu from "./MobileMenu";
 
 function Header() {
   const [activeLink, setActiveLink] = useState("");
@@ -14,6 +15,7 @@ function Header() {
 
   const location = useLocation();
   const clubDropdownRef = useRef(null);
+  const menuButtonRef = useRef(null);
 
   useEffect(() => {
     // Close dropdowns on route change
@@ -199,6 +201,7 @@ function Header() {
             <ThemeToggle />
           </div>
           <button
+            ref={menuButtonRef}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-1.5 bg-primary/10 text-primary rounded-full focus:outline-none hover:bg-primary/20 transition-colors"
             aria-expanded={isMenuOpen}
@@ -211,92 +214,15 @@ function Header() {
         </div>
       </div>
 
-      {/* Mobile Nav (Glassmorphism Slide Down) */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden absolute top-[calc(100%+1rem)] left-0 w-full overflow-hidden rounded-3xl z-[150]"
-          >
-            <div className="bg-card/95 backdrop-blur-3xl shadow-2xl border border-primary/20 rounded-3xl p-6 flex flex-col space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.to}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`text-lg font-bold px-4 py-3 rounded-xl transition-colors ${
-                    activeLink === link.name
-                      ? "bg-primary/15 text-primary"
-                      : "text-foreground hover:bg-background"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-
-              {/* Club Hub in Mobile */}
-              <div className="flex flex-col">
-                <button
-                  onClick={() => setIsClubDropdownOpen(!isClubDropdownOpen)}
-                  className={`flex justify-between items-center text-lg font-bold px-4 py-3 rounded-xl transition-colors ${
-                    activeLink === "Club hub" || isClubDropdownOpen
-                      ? "bg-primary/15 text-primary"
-                      : "text-foreground hover:bg-background"
-                  }`}
-                >
-                  Club Hub
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform duration-300 ${
-                      isClubDropdownOpen ? "rotate-180 text-primary" : ""
-                    }`}
-                  />
-                </button>
-                <AnimatePresence>
-                  {isClubDropdownOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="mt-2 bg-background/50 rounded-2xl border border-primary/10 p-2 flex flex-col gap-1">
-                        {clubLinks.map((link) => (
-                          <Link
-                            key={link.name}
-                            to={link.to}
-                            onClick={() => {
-                              setIsMenuOpen(false);
-                              setIsClubDropdownOpen(false);
-                            }}
-                            className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-primary/10 transition-colors"
-                          >
-                            {/* Icons removed as per user request */}
-                            <span className="font-bold text-[0.95rem] text-foreground">
-                              {link.name}
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <div className="pt-4 mt-2 border-t border-primary/10">
-                <Link
-                  to="/join"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex justify-center w-full bg-gradient-to-r from-primary to-header-end text-white font-bold py-3 px-4 rounded-xl shadow-[0_0_15px_rgb(var(--primary)/0.3)] hover:shadow-[0_0_25px_rgb(var(--primary)/0.6)] transition-all"
-                >
-                  Become a member!
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Full-Screen Glass Editorial Mobile Navigation Layer */}
+      <MobileMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        activeLink={activeLink}
+        navLinks={navLinks}
+        clubLinks={clubLinks}
+        triggerRef={menuButtonRef}
+      />
     </header>
   );
 }
