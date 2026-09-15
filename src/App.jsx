@@ -26,6 +26,8 @@ const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'));
 const AdminCreateEvent = lazy(() => import('./pages/Admin/CreateEvent'));
 const AdminEditEvent = lazy(() => import('./pages/Admin/EditEvent'));
 
+import ScrollToTop from './Components/ScrollToTop';
+
 function App() {
   useEffect(() => {
     // Coldstart the backend
@@ -45,6 +47,7 @@ function App() {
       <ThemeProvider>
         <AdminAuthProvider>
           <Router basename="/">
+            <ScrollToTop />
             <Suspense fallback={Loader}>
               <Routes>
                 {/* ── Admin routes (no Layout wrapper) ── */}
