@@ -22,6 +22,11 @@ const backdropVariants = {
   },
 };
 
+const reducedBackdropVariants = {
+  open: { opacity: 1, pointerEvents: "auto", transition: { duration: 0.1 } },
+  closed: { opacity: 0, pointerEvents: "none", transition: { duration: 0.1 } },
+};
+
 const panelVariants = {
   open: {
     x: 0,
@@ -33,6 +38,11 @@ const panelVariants = {
     pointerEvents: "none",
     transition: { duration: 0.5, ease: EASE_EDITORIAL },
   },
+};
+
+const reducedPanelVariants = {
+  open: { opacity: 1, x: 0, pointerEvents: "auto", transition: { duration: 0.1 } },
+  closed: { opacity: 0, x: 0, pointerEvents: "none", transition: { duration: 0.1 } },
 };
 
 const listVariants = {
@@ -67,6 +77,11 @@ const itemVariants = {
       ease: EASE_EDITORIAL,
     },
   },
+};
+
+const reducedItemVariants = {
+  open: { opacity: 1, y: 0, transition: { duration: 0.1 } },
+  closed: { opacity: 0, y: 0, transition: { duration: 0.1 } },
 };
 
 export default function MobileMenu({
@@ -125,7 +140,7 @@ export default function MobileMenu({
             initial="closed"
             animate="open"
             exit="closed"
-            variants={prefersReducedMotion ? undefined : backdropVariants}
+            variants={prefersReducedMotion ? reducedBackdropVariants : backdropVariants}
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
@@ -134,10 +149,10 @@ export default function MobileMenu({
           {/* 2. Full-Height Editorial Panel (Slides in from Right with 100% Solid Opaque Background) */}
           <motion.div
             key="mobile-panel"
-            initial={prefersReducedMotion ? { opacity: 0 } : "closed"}
-            animate={prefersReducedMotion ? { opacity: 1 } : "open"}
-            exit={prefersReducedMotion ? { opacity: 0 } : "closed"}
-            variants={prefersReducedMotion ? undefined : panelVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={prefersReducedMotion ? reducedPanelVariants : panelVariants}
             className="absolute top-0 right-0 w-full sm:w-[380px] sm:max-w-[380px] h-[100dvh] bg-white dark:bg-[#0F172A] border-l border-primary/20 shadow-[-12px_0_40px_rgba(0,0,0,0.35)] flex flex-col justify-between p-6 sm:p-7 overflow-y-auto z-10"
             style={{
               paddingTop: "calc(1.25rem + env(safe-area-inset-top, 0px))",
@@ -191,7 +206,7 @@ export default function MobileMenu({
                   return (
                     <motion.li
                       key={link.name}
-                      variants={prefersReducedMotion ? undefined : itemVariants}
+                      variants={prefersReducedMotion ? reducedItemVariants : itemVariants}
                       className="border-b border-primary/10 last:border-b-0"
                     >
                       <Link
@@ -221,7 +236,7 @@ export default function MobileMenu({
 
                 {/* Club Hub Expandable Item */}
                 <motion.li
-                  variants={prefersReducedMotion ? undefined : itemVariants}
+                  variants={prefersReducedMotion ? reducedItemVariants : itemVariants}
                   className="border-b border-primary/10"
                 >
                   <button
@@ -277,7 +292,7 @@ export default function MobileMenu({
 
                 {/* Become a member CTA Item */}
                 <motion.li
-                  variants={prefersReducedMotion ? undefined : itemVariants}
+                  variants={prefersReducedMotion ? reducedItemVariants : itemVariants}
                   className="pt-4"
                 >
                   <Link
@@ -291,7 +306,7 @@ export default function MobileMenu({
 
                 {/* Dedicated Mobile Theme Control Row (Reference Style) */}
                 <motion.li
-                  variants={prefersReducedMotion ? undefined : itemVariants}
+                  variants={prefersReducedMotion ? reducedItemVariants : itemVariants}
                   className="pt-4 mt-2 border-t border-primary/10"
                 >
                   <div className="flex items-center justify-between px-2 py-1">
