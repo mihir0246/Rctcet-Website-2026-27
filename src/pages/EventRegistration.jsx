@@ -225,8 +225,10 @@ const EventRegistration = () => {
 
   if (eventData) {
     const parsePrice = (p) => {
-      if (!p || p.toLowerCase() === "free") return 0;
-      const parsed = parseInt(p.replace(/[^0-9]/g, ''));
+      if (p === undefined || p === null) return 0;
+      if (typeof p === 'number') return p;
+      if (typeof p === 'string' && p.toLowerCase() === "free") return 0;
+      const parsed = parseInt(String(p).replace(/[^0-9]/g, ''));
       return isNaN(parsed) ? 0 : parsed;
     };
 
