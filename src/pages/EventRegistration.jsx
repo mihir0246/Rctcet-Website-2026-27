@@ -58,7 +58,7 @@ const EventRegistration = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvent&id=${eventId}`);
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvent&id=${encodeURIComponent(eventId)}`);
         const data = await res.json();
         if (data.error) { setEventStatus("inactive"); return; }
 
