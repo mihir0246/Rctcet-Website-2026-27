@@ -218,24 +218,67 @@ const EventRegistration = () => {
   };
 
   // Pricing Logic
-  let effectivePrice = "Free";
-  if (formData.isMember === "Yes") {
-    if (isFromTcet) {
-      effectivePrice = eventData?.memberPrice ?? "Free";
+  let calculatedTotal = 0;
+  let isPaid = false;
+  let upiLink = null;
+  let pricingBreakdown = "";
+
+  if (eventData) {
+    const parsePrice = (p) => {
+      if (!p || p.toLowerCase() === "free") return 0;
+      const parsed = parseInt(p.replace(/[^0-9]/g, ''));
+      return isNaN(parsed) ? 0 : parsed;
+    };
+
+    const getPriceForPerson = (isRotaractor, isTCET) => {
+      if (isRotaractor) {
+        return isTCET ? parsePrice(eventData.memberPrice) : parsePrice(eventData.otherCollegePrice || eventData.nonMemberPrice);
+      }
+      return parsePrice(eventData.nonMemberPrice);
+    };
+
+    if (eventData.isTeamEvent) {
+      // Leader
+      let nonMemberCount = formData.isMember === "Yes" ? 0 : 1;
+      let memberCount = formData.isMember === "Yes" ? 1 : 0;
+      calculatedTotal += getPriceForPerson(formData.isMember === "Yes", isFromTcet);
+
+      // Team members
+      for (let i = 0; i < teamMembersCount; i++) {
+        const m = teamMembersData[i];
+        if (m) {
+          if (m.rotaractor === "Yes") {
+            memberCount++;
+            calculatedTotal += parsePrice(eventData.memberPrice); // They are Rotaractor
+          } else {
+            nonMemberCount++;
+            calculatedTotal += parsePrice(eventData.nonMemberPrice); // Non-Rotaractor
+          }
+        }
+      }
+
+      const totalPeople = memberCount + nonMemberCount;
+      const isFullTeam = totalPeople === eventData.maxTeamSize;
+      const allNonMembers = nonMemberCount === eventData.maxTeamSize;
+
+      const bulkPrice = parsePrice(eventData.bulkTeamPrice);
+      if (bulkPrice > 0 && isFullTeam && allNonMembers) {
+        calculatedTotal = bulkPrice;
+        pricingBreakdown = `Full Team Non-Member Bulk Discount Applied (₹${bulkPrice})`;
+      } else {
+        pricingBreakdown = `${memberCount}x Member, ${nonMemberCount}x Non-Member`;
+      }
     } else {
-      // Other college Rotaractor -> Use otherCollegePrice, fallback to nonMemberPrice
-      effectivePrice = eventData?.otherCollegePrice || eventData?.nonMemberPrice || "Free";
+      // Solo
+      calculatedTotal = getPriceForPerson(formData.isMember === "Yes", isFromTcet);
+      pricingBreakdown = formData.isMember === "Yes" ? "Member Price" : "Non-Member Price";
     }
-  } else {
-    // Non Rotaractor
-    effectivePrice = eventData?.nonMemberPrice ?? "Free";
+
+    isPaid = calculatedTotal > 0;
+    if (isPaid && eventData.upiId) {
+      upiLink = `upi://pay?pa=${eventData.upiId}&pn=Rotaract+Club+TCET&am=${calculatedTotal}&cu=INR&tn=${encodeURIComponent(eventData.eventName)}`;
+    }
   }
-
-  const isPaid = effectivePrice !== "Free";
-
-  const upiLink = eventData?.upiId && isPaid
-    ? `upi://pay?pa=${eventData.upiId}&pn=Rotaract+Club+TCET&am=${effectivePrice}&cu=INR&tn=${encodeURIComponent(eventData.eventName)}`
-    : null;
 
   const navigateNext = (e) => {
     e.preventDefault();
@@ -486,7 +529,8 @@ const EventRegistration = () => {
 
                   {isPaid ? (
                     <div className="p-5 rounded-2xl border border-white/20 dark:border-white/10 bg-white/10 dark:bg-black/20">
-                      <h4 className="font-black text-foreground mb-1">Payment — ₹{effectivePrice}</h4>
+                      <h4 className="font-black text-foreground mb-1">Payment — ₹{calculatedTotal}</h4>
+                      {pricingBreakdown && <p className="text-sm font-semibold text-primary mb-1">{pricingBreakdown}</p>}
                       <p className="text-sm text-foreground/50 mb-4">Scan the QR code below to pay via UPI</p>
                       {upiLink && (
                         <div className="bg-white p-3 rounded-xl w-fit mx-auto mb-4 shadow-md">

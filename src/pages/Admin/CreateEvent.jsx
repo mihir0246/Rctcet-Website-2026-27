@@ -64,6 +64,7 @@ const CreateEvent = () => {
     isTeamEvent: false,
     minTeamSize: 1,
     maxTeamSize: 1,
+    bulkTeamPrice: '',
   });
 
   const [customFields, setCustomFields] = useState([]);
@@ -261,16 +262,28 @@ const CreateEvent = () => {
           {/* Section 2: Pricing */}
           <Section title="Pricing">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Field label="Member Price">
+              <Field label={form.isTeamEvent ? "Member Price (Per Head)" : "Member Price"}>
                 <input type="text" value={form.memberPrice} onChange={e => updateForm('memberPrice', e.target.value)} placeholder="Free or 150" className={input} />
               </Field>
-              <Field label="Non-Member Price">
+              <Field label={form.isTeamEvent ? "Non-Member Price (Per Head)" : "Non-Member Price"}>
                 <input type="text" value={form.nonMemberPrice} onChange={e => updateForm('nonMemberPrice', e.target.value)} placeholder="Free or 200" className={input} />
               </Field>
-              <Field label="Other College Price">
+              <Field label={form.isTeamEvent ? "Other College Price (Per Head)" : "Other College Price"}>
                 <input type="text" value={form.otherCollegePrice} onChange={e => updateForm('otherCollegePrice', e.target.value)} placeholder="Optional fallback" className={input} />
               </Field>
             </div>
+            
+            {form.isTeamEvent && (
+              <div className="mt-4 p-4 rounded-xl border border-primary/20 bg-primary/5">
+                <Field label={`Bulk Team Price (Optional - If all ${form.maxTeamSize} are non-members)`}>
+                  <input type="text" value={form.bulkTeamPrice} onChange={e => updateForm('bulkTeamPrice', e.target.value)} placeholder="e.g. 300" className={input} />
+                </Field>
+                <p className="text-xs text-foreground/50 mt-1">
+                  Leave blank to always calculate per head. If set, this price is charged when a full team of {form.maxTeamSize} non-members registers.
+                </p>
+              </div>
+            )}
+
             <AnimatePresence>
               {isPaid && (
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
