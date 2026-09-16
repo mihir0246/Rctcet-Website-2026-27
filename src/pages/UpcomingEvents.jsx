@@ -185,7 +185,7 @@ const UpcomingEvents = () => {
                   </p>
 
                   <Link
-                    to={`/event/${event.eventId}`}
+                    to={`/event/${encodeURIComponent(event.eventName.replace(/\s+/g, '_'))}`}
                     className="block w-full text-center bg-primary hover:bg-primary/90 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 uppercase tracking-wider text-sm"
                   >
                     Register Now

@@ -63,6 +63,9 @@ const EditEvent = () => {
     eventImage: '',
     eventDescription: '',
     submitMessage: '',
+    isTeamEvent: false,
+    minTeamSize: 1,
+    maxTeamSize: 1,
   });
 
   const [customFields, setCustomFields] = useState([]);
@@ -92,6 +95,9 @@ const EditEvent = () => {
           eventImage: data.eventImage || '',
           eventDescription: data.eventDescription || '',
           submitMessage: data.submitMessage || '',
+          isTeamEvent: data.isTeamEvent || false,
+          minTeamSize: data.minTeamSize || 1,
+          maxTeamSize: data.maxTeamSize || 1,
         });
         setCustomFields((data.formFields || []).map(f => ({
           ...f,
@@ -264,17 +270,45 @@ const EditEvent = () => {
             <Field label="Registration Limit">
               <input type="number" min="1" value={form.registrationLimit} onChange={e => updateForm('registrationLimit', e.target.value)} placeholder="Leave blank for unlimited" className={input} />
             </Field>
-            <div className="flex items-center gap-3 p-4 rounded-xl border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20">
-              <input
-                type="checkbox"
-                id="externalAllowed"
-                checked={form.externalAllowed}
-                onChange={e => updateForm('externalAllowed', e.target.checked)}
-                className="w-4 h-4 accent-primary"
-              />
-              <label htmlFor="externalAllowed" className="text-sm font-semibold text-foreground/80 cursor-pointer">
-                Allow registrations from outside TCET
-              </label>
+            <div className="flex flex-col gap-4 mt-2">
+              <div className="flex items-center gap-3 p-4 rounded-xl border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20">
+                <input
+                  type="checkbox"
+                  id="externalAllowed"
+                  checked={form.externalAllowed}
+                  onChange={e => updateForm('externalAllowed', e.target.checked)}
+                  className="w-4 h-4 accent-primary"
+                />
+                <label htmlFor="externalAllowed" className="text-sm font-semibold text-foreground/80 cursor-pointer">
+                  Allow registrations from outside TCET
+                </label>
+              </div>
+
+              <div className="flex flex-col gap-3 p-4 rounded-xl border border-primary/30 bg-primary/5">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="isTeamEvent"
+                    checked={form.isTeamEvent}
+                    onChange={e => updateForm('isTeamEvent', e.target.checked)}
+                    className="w-4 h-4 accent-primary"
+                  />
+                  <label htmlFor="isTeamEvent" className="text-sm font-bold text-primary cursor-pointer uppercase tracking-wide">
+                    Is this a Team Event?
+                  </label>
+                </div>
+                
+                {form.isTeamEvent && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 pl-7">
+                    <Field label="Min Team Size (incl. leader)">
+                      <input type="number" min="1" required value={form.minTeamSize} onChange={e => updateForm('minTeamSize', e.target.value)} placeholder="e.g. 2" className={input} />
+                    </Field>
+                    <Field label="Max Team Size (incl. leader)">
+                      <input type="number" min="1" required value={form.maxTeamSize} onChange={e => updateForm('maxTeamSize', e.target.value)} placeholder="e.g. 4" className={input} />
+                    </Field>
+                  </div>
+                )}
+              </div>
             </div>
           </Section>
 

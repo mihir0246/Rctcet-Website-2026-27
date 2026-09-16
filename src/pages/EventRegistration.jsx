@@ -43,6 +43,10 @@ const EventRegistration = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [fetchingMembers, setFetchingMembers] = useState(false);
 
+  // Team Event State
+  const [teamMembersCount, setTeamMembersCount] = useState(0);
+  const [teamMembersData, setTeamMembersData] = useState([]);
+
   // Pagination / Conditional Routing
   const [formSections, setFormSections] = useState([]);
   const [navigationHistory, setNavigationHistory] = useState(['root']); // Stack for going back
@@ -62,23 +66,51 @@ const EventRegistration = () => {
 
         // Parse Sections
         const sections = [];
-        let curr = { id: 'root', title: 'Participant Details', description: '', nextSection: '', fields: [] };
-
-        (data.formFields || []).forEach(field => {
+        
+        // 1. Root Section
+        const rootSection = { id: 'root', title: 'Participant Details', description: '', nextSection: '', fields: [] };
+        sections.push(rootSection);
+        
+        // 2. Team Section (if applicable)
+        if (data.isTeamEvent && data.maxTeamSize > 1) {
+          sections.push({ id: 'team', title: 'Team Details', description: 'Please provide details of your additional team members.', nextSection: '', fields: [] });
+          // Initialize minimum required team members
+          const minAdditional = Math.max(0, data.minTeamSize - 1);
+          setTeamMembersCount(minAdditional);
+          setTeamMembersData(Array(minAdditional).fill({ name: '', phone: '', rotaractor: 'No' }));
+        }
+        
+        // 3. Custom Fields Sections
+        let currentCustomSection = null;
+        let hasCustomSections = false;
+        
+        (data.formFields || []).forEach((field, index) => {
           if (field.type === 'section') {
-            sections.push(curr);
-            curr = {
+            if (currentCustomSection) sections.push(currentCustomSection);
+            currentCustomSection = {
               id: field.id,
               title: field.label,
               description: field.optionInput,
               nextSection: field.nextSection,
               fields: []
             };
+            hasCustomSections = true;
           } else {
-            curr.fields.push(field);
+            if (!currentCustomSection) {
+              currentCustomSection = { id: 'custom_1', title: 'Additional Details', description: '', nextSection: '', fields: [] };
+            }
+            currentCustomSection.fields.push(field);
           }
         });
-        sections.push(curr);
+        if (currentCustomSection) sections.push(currentCustomSection);
+        
+        // 4. Link sequential sections if they don't have explicit routing
+        for (let i = 0; i < sections.length - 1; i++) {
+          if (!sections[i].nextSection) {
+            sections[i].nextSection = sections[i+1].id;
+          }
+        }
+        
         setFormSections(sections);
 
         // Determine status
@@ -165,6 +197,15 @@ const EventRegistration = () => {
 
   const handleCustomChange = (label, value) => {
     setCustomFieldData(prev => ({ ...prev, [label]: value }));
+  };
+
+  const handleTeamMemberChange = (index, field, value) => {
+    setTeamMembersData(prev => {
+      const copy = [...prev];
+      if (!copy[index]) copy[index] = { name: '', phone: '', rotaractor: 'No' };
+      copy[index] = { ...copy[index], [field]: value };
+      return copy;
+    });
   };
 
   const uploadFileToCloudinary = async (file) => {
@@ -277,6 +318,15 @@ const EventRegistration = () => {
         isMember: formData.isMember,
         receiptUrl,
       };
+
+      if (eventData?.isTeamEvent) {
+        for (let i = 0; i < teamMembersCount; i++) {
+          const member = teamMembersData[i] || { name: '', phone: '', rotaractor: 'No' };
+          payload[`Member ${i+1} Rotaractor?`] = member.rotaractor;
+          payload[`Member ${i+1} Name`] = member.name;
+          payload[`Member ${i+1} Phone`] = member.phone;
+        }
+      }
 
       // Handle custom fields (including files)
       for (const section of formSections) {
@@ -575,6 +625,74 @@ const EventRegistration = () => {
                         </select>
                       </div>
                     </>
+                  )}
+
+                  {/* Team Members Section */}
+                  {currentSection.id === 'team' && eventData && (
+                    <div className="flex flex-col gap-6">
+                      <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5">
+                        <label className={labelCls}>How many additional team members are you registering? (Excluding yourself)</label>
+                        <select 
+                          className={inputCls}
+                          value={teamMembersCount}
+                          onChange={(e) => {
+                            const count = parseInt(e.target.value) || 0;
+                            setTeamMembersCount(count);
+                            setTeamMembersData(prev => {
+                              const newData = [...prev];
+                              while (newData.length < count) {
+                                newData.push({ name: '', phone: '', rotaractor: 'No' });
+                              }
+                              return newData.slice(0, count);
+                            });
+                          }}
+                        >
+                          {Array.from(
+                            { length: (eventData.maxTeamSize - 1) - Math.max(0, eventData.minTeamSize - 1) + 1 }, 
+                            (_, i) => i + Math.max(0, eventData.minTeamSize - 1)
+                          ).map(num => (
+                            <option key={num} value={num}>{num} {num === 1 ? 'Member' : 'Members'}</option>
+                          ))}
+                        </select>
+                        <p className="text-xs text-foreground/50 mt-2">
+                          Min required: {Math.max(0, eventData.minTeamSize - 1)} | Max allowed: {eventData.maxTeamSize - 1}
+                        </p>
+                      </div>
+
+                      {teamMembersData.slice(0, teamMembersCount).map((member, idx) => (
+                        <div key={idx} className="p-5 rounded-2xl border border-white/10 bg-white/5 dark:bg-black/20 flex flex-col gap-4">
+                          <h4 className="font-bold text-primary tracking-wide">Team Member {idx + 1}</h4>
+                          <Input 
+                            label={`Member ${idx + 1} Full Name *`}
+                            name={`member_${idx}_name`}
+                            value={member.name}
+                            onChange={(e) => handleTeamMemberChange(idx, 'name', e.target.value)}
+                            required
+                          />
+                          <Input 
+                            label={`Member ${idx + 1} Phone Number *`}
+                            name={`member_${idx}_phone`}
+                            type="tel"
+                            value={member.phone}
+                            onChange={(e) => handleTeamMemberChange(idx, 'phone', e.target.value)}
+                            required
+                          />
+                          <div>
+                            <label className={labelCls}>Is Member {idx + 1} a Rotaractor? *</label>
+                            <select 
+                              name={`member_${idx}_rotaractor`}
+                              value={member.rotaractor}
+                              onChange={(e) => handleTeamMemberChange(idx, 'rotaractor', e.target.value)}
+                              required 
+                              className={inputCls}
+                            >
+                              <option value="No">No</option>
+                              <option value="Yes">Yes</option>
+                            </select>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   )}
 
                   {/* Custom Fields for current section */}
