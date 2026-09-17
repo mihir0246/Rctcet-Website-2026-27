@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-const BOT_URL = "/api/chat";
+const BOT_URL = import.meta.env.VITE_CHATBOT_API_URL + "/chat";
 
 export const Chatbot = () => {
   const [isChatOpen, setChatOpen] = useState(false);
@@ -96,17 +96,21 @@ export const Chatbot = () => {
       const botText = normalizeBotText(response.data);
       setMessages((prev) => [...prev, { role: "bot", content: botText }]);
     } catch (error) {
-      const errorText =
-        error?.response?.data?.message ||
-        error?.message ||
-        "Failed to fetch response from chatbot service.";
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "bot",
-          content: `I could not reach the chatbot endpoint.\n\n${errorText}`,
-        },
-      ]);
+      if (error?.response?.status === 429) {
+        setMessages((prev) => [...prev, { role: "bot", content: "Daily request limit reached. Please try again tomorrow!" }]);
+      } else {
+        const errorText =
+          error?.response?.data?.message ||
+          error?.message ||
+          "Failed to fetch response from chatbot service.";
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "bot",
+            content: `I could not reach the chatbot endpoint.\n\n${errorText}`,
+          },
+        ]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -237,8 +241,8 @@ export const Chatbot = () => {
                 >
                   <div
                     className={`max-w-[85%] px-4 py-3 shadow-md ${msg.role === "user"
-                        ? "bg-primary text-white rounded-2xl rounded-br-sm"
-                        : "bg-card text-foreground rounded-2xl rounded-bl-sm border border-black/5 dark:border-white/5"
+                      ? "bg-primary text-white rounded-2xl rounded-br-sm"
+                      : "bg-card text-foreground rounded-2xl rounded-bl-sm border border-black/5 dark:border-white/5"
                       }`}
                   >
                     <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-black/10 dark:prose-pre:bg-white/10 prose-pre:text-foreground">
