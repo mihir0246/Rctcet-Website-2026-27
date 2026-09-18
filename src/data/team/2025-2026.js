@@ -137,7 +137,7 @@ export const boardOfDirectors = [
   },
   {
     "id": 20,
-    "name": "Rtr.Mihir Sonawane",
+    "name": "Rtr. Mihir Sonawane",
     "role": "International Service ",
     "image": "https://res.cloudinary.com/dtc2xaeaf/image/upload/f_auto,q_auto:eco,w_800,c_limit/v1756701816/Rtr._Mihir_Sonawane_International_Service_Director_daxtzd.png",
     "year": "2025-2026"
