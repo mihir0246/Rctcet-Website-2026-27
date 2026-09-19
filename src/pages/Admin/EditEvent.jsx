@@ -86,11 +86,11 @@ const EditEvent = () => {
         });
         const eventsList = await res.json();
         const data = eventsList.find(e => e.eventId === eventId) || {};
-        
+
         setForm({
           eventName: data.eventName || '',
-          date: '', 
-          startTime: '', 
+          date: '',
+          startTime: '',
           endTime: '',
           hours: data.hours || '',
           avenue: data.avenue || '',
@@ -141,7 +141,7 @@ const EditEvent = () => {
   const removeField = (id) => setCustomFields(f => f.filter(x => x.id !== id));
   const updateField = (id, key, value) =>
     setCustomFields(f => f.map(x => x.id === id ? { ...x, [key]: value } : x));
-  
+
   const updateConditionalRouting = (fieldId, option, value) => {
     setCustomFields(f => f.map(x => {
       if (x.id !== fieldId) return x;
@@ -175,14 +175,11 @@ const EditEvent = () => {
     setSubmitting(true);
     try {
       const payload = {
-        action: 'editEvent',
-        id: eventId,
-        adminKey: ADMIN_KEY,
         ...form,
         externalAllowed: form.externalAllowed,
         formFields: customFields.map(({ optionInput, ...rest }) => rest),
       };
-      
+
       // Clean up empty date/time fields so we don't accidentally overwrite with empty if they didn't change it
       if (!payload.date) delete payload.date;
       if (!payload.startTime) delete payload.startTime;
@@ -245,166 +242,166 @@ const EditEvent = () => {
             <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-          {/* Section 1: Event Info */}
-          <Section title="Event Information">
-            <Field label="Event Name *">
-              <input type="text" required value={form.eventName} onChange={e => updateForm('eventName', e.target.value)} placeholder="e.g. Versova Beach Cleanup" className={input} />
-            </Field>
-            <Field label="Event Description *">
-              <textarea required rows={3} value={form.eventDescription} onChange={e => updateForm('eventDescription', e.target.value)} placeholder="Short description shown on the event card..." className={input} />
-            </Field>
-            <Field label="Success / Submit Message (Optional)">
-              <textarea rows={3} value={form.submitMessage} onChange={e => updateForm('submitMessage', e.target.value)} placeholder="Message to show after successful registration. Markdown is supported (links, bold, etc)." className={input} />
-            </Field>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Field label="Date (Leave blank to keep existing)">
-                <input type="date" value={form.date} onChange={e => updateForm('date', e.target.value)} className={input} />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+            {/* Section 1: Event Info */}
+            <Section title="Event Information">
+              <Field label="Event Name *">
+                <input type="text" required value={form.eventName} onChange={e => updateForm('eventName', e.target.value)} placeholder="e.g. Versova Beach Cleanup" className={input} />
               </Field>
-              <Field label="Start Time (Leave blank to keep existing)">
-                <input type="time" value={form.startTime} onChange={e => updateForm('startTime', e.target.value)} className={input} />
+              <Field label="Event Description *">
+                <textarea required rows={3} value={form.eventDescription} onChange={e => updateForm('eventDescription', e.target.value)} placeholder="Short description shown on the event card..." className={input} />
               </Field>
-              <Field label="End Time (Leave blank to keep existing)">
-                <input type="time" value={form.endTime} onChange={e => updateForm('endTime', e.target.value)} className={input} />
+              <Field label="Success / Submit Message (Optional)">
+                <textarea rows={3} value={form.submitMessage} onChange={e => updateForm('submitMessage', e.target.value)} placeholder="Message to show after successful registration. Markdown is supported (links, bold, etc)." className={input} />
               </Field>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="AICTE Hours">
-                <input type="number" min="0" step="0.5" value={form.hours} onChange={e => updateForm('hours', e.target.value)} placeholder="e.g. 3" className={input} />
-              </Field>
-              <Field label="Avenue *">
-                <select required value={form.avenue} onChange={e => updateForm('avenue', e.target.value)} className={input}>
-                  <option value="">Select Avenue</option>
-                  {AVENUES.map(a => <option key={a} value={a}>{a}</option>)}
-                </select>
-              </Field>
-            </div>
-            <Field label="Registration Deadline">
-              <input type="datetime-local" value={form.registrationDeadline} onChange={e => updateForm('registrationDeadline', e.target.value)} className={input} />
-            </Field>
-            <Field label="Registration Limit">
-              <input type="number" min="1" value={form.registrationLimit} onChange={e => updateForm('registrationLimit', e.target.value)} placeholder="Leave blank for unlimited" className={input} />
-            </Field>
-            <div className="flex flex-col gap-4 mt-2">
-              <div className="flex items-center gap-3 p-4 rounded-xl border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20">
-                <input
-                  type="checkbox"
-                  id="externalAllowed"
-                  checked={form.externalAllowed}
-                  onChange={e => updateForm('externalAllowed', e.target.checked)}
-                  className="w-4 h-4 accent-primary"
-                />
-                <label htmlFor="externalAllowed" className="text-sm font-semibold text-foreground/80 cursor-pointer">
-                  Allow registrations from outside TCET
-                </label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <Field label="Date (Leave blank to keep existing)">
+                  <input type="date" value={form.date} onChange={e => updateForm('date', e.target.value)} className={input} />
+                </Field>
+                <Field label="Start Time (Leave blank to keep existing)">
+                  <input type="time" value={form.startTime} onChange={e => updateForm('startTime', e.target.value)} className={input} />
+                </Field>
+                <Field label="End Time (Leave blank to keep existing)">
+                  <input type="time" value={form.endTime} onChange={e => updateForm('endTime', e.target.value)} className={input} />
+                </Field>
               </div>
-
-              <div className="flex flex-col gap-3 p-4 rounded-xl border border-primary/30 bg-primary/5">
-                <div className="flex items-center gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Field label="AICTE Hours">
+                  <input type="number" min="0" step="0.5" value={form.hours} onChange={e => updateForm('hours', e.target.value)} placeholder="e.g. 3" className={input} />
+                </Field>
+                <Field label="Avenue *">
+                  <select required value={form.avenue} onChange={e => updateForm('avenue', e.target.value)} className={input}>
+                    <option value="">Select Avenue</option>
+                    {AVENUES.map(a => <option key={a} value={a}>{a}</option>)}
+                  </select>
+                </Field>
+              </div>
+              <Field label="Registration Deadline">
+                <input type="datetime-local" value={form.registrationDeadline} onChange={e => updateForm('registrationDeadline', e.target.value)} className={input} />
+              </Field>
+              <Field label="Registration Limit">
+                <input type="number" min="1" value={form.registrationLimit} onChange={e => updateForm('registrationLimit', e.target.value)} placeholder="Leave blank for unlimited" className={input} />
+              </Field>
+              <div className="flex flex-col gap-4 mt-2">
+                <div className="flex items-center gap-3 p-4 rounded-xl border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20">
                   <input
                     type="checkbox"
-                    id="isTeamEvent"
-                    checked={form.isTeamEvent}
-                    onChange={e => updateForm('isTeamEvent', e.target.checked)}
+                    id="externalAllowed"
+                    checked={form.externalAllowed}
+                    onChange={e => updateForm('externalAllowed', e.target.checked)}
                     className="w-4 h-4 accent-primary"
                   />
-                  <label htmlFor="isTeamEvent" className="text-sm font-bold text-primary cursor-pointer uppercase tracking-wide">
-                    Is this a Team Event?
+                  <label htmlFor="externalAllowed" className="text-sm font-semibold text-foreground/80 cursor-pointer">
+                    Allow registrations from outside TCET
                   </label>
                 </div>
-                
-                {form.isTeamEvent && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 pl-7">
-                    <Field label="Min Team Size (incl. leader)">
-                      <input type="number" min="1" required value={form.minTeamSize} onChange={e => updateForm('minTeamSize', e.target.value)} placeholder="e.g. 2" className={input} />
-                    </Field>
-                    <Field label="Max Team Size (incl. leader)">
-                      <input type="number" min="1" required value={form.maxTeamSize} onChange={e => updateForm('maxTeamSize', e.target.value)} placeholder="e.g. 4" className={input} />
-                    </Field>
+
+                <div className="flex flex-col gap-3 p-4 rounded-xl border border-primary/30 bg-primary/5">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="isTeamEvent"
+                      checked={form.isTeamEvent}
+                      onChange={e => updateForm('isTeamEvent', e.target.checked)}
+                      className="w-4 h-4 accent-primary"
+                    />
+                    <label htmlFor="isTeamEvent" className="text-sm font-bold text-primary cursor-pointer uppercase tracking-wide">
+                      Is this a Team Event?
+                    </label>
                   </div>
-                )}
+
+                  {form.isTeamEvent && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 pl-7">
+                      <Field label="Min Team Size (incl. leader)">
+                        <input type="number" min="1" required value={form.minTeamSize} onChange={e => updateForm('minTeamSize', e.target.value)} placeholder="e.g. 2" className={input} />
+                      </Field>
+                      <Field label="Max Team Size (incl. leader)">
+                        <input type="number" min="1" required value={form.maxTeamSize} onChange={e => updateForm('maxTeamSize', e.target.value)} placeholder="e.g. 4" className={input} />
+                      </Field>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </Section>
+            </Section>
 
-          {/* Section 2: Pricing */}
-          <Section title="Pricing">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Field label={form.isTeamEvent ? "Member Price (Per Head)" : "Member Price"}>
-                <input type="text" value={form.memberPrice} onChange={e => updateForm('memberPrice', e.target.value)} placeholder="Free or 150" className={input} />
-              </Field>
-              <Field label={form.isTeamEvent ? "Non-Member Price (Per Head)" : "Non-Member Price"}>
-                <input type="text" value={form.nonMemberPrice} onChange={e => updateForm('nonMemberPrice', e.target.value)} placeholder="Free or 200" className={input} />
-              </Field>
-              <Field label={form.isTeamEvent ? "Other College Price (Per Head)" : "Other College Price"}>
-                <input type="text" value={form.otherCollegePrice} onChange={e => updateForm('otherCollegePrice', e.target.value)} placeholder="Optional fallback" className={input} />
-              </Field>
-            </div>
-
-            {form.isTeamEvent && (
-              <div className="mt-4 p-4 rounded-xl border border-primary/20 bg-primary/5">
-                <Field label={`Bulk Team Price (Optional - If all ${form.maxTeamSize} are non-members)`}>
-                  <input type="text" value={form.bulkTeamPrice} onChange={e => updateForm('bulkTeamPrice', e.target.value)} placeholder="e.g. 300" className={input} />
+            {/* Section 2: Pricing */}
+            <Section title="Pricing">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <Field label={form.isTeamEvent ? "Member Price (Per Head)" : "Member Price"}>
+                  <input type="text" value={form.memberPrice} onChange={e => updateForm('memberPrice', e.target.value)} placeholder="Free or 150" className={input} />
                 </Field>
-                <p className="text-xs text-foreground/50 mt-1">
-                  Leave blank to always calculate per head. If set, this price is charged when a full team of {form.maxTeamSize} non-members registers.
-                </p>
+                <Field label={form.isTeamEvent ? "Non-Member Price (Per Head)" : "Non-Member Price"}>
+                  <input type="text" value={form.nonMemberPrice} onChange={e => updateForm('nonMemberPrice', e.target.value)} placeholder="Free or 200" className={input} />
+                </Field>
+                <Field label={form.isTeamEvent ? "Other College Price (Per Head)" : "Other College Price"}>
+                  <input type="text" value={form.otherCollegePrice} onChange={e => updateForm('otherCollegePrice', e.target.value)} placeholder="Optional fallback" className={input} />
+                </Field>
               </div>
-            )}
 
-            <AnimatePresence>
-              {isPaid && (
-                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
-                  <Field label="UPI ID (for payment QR)">
-                    <input type="text" value={form.upiId} onChange={e => updateForm('upiId', e.target.value)} placeholder="e.g. rctcet@upi" className={input} />
+              {form.isTeamEvent && (
+                <div className="mt-4 p-4 rounded-xl border border-primary/20 bg-primary/5">
+                  <Field label={`Bulk Team Price (Optional - If all ${form.maxTeamSize} are non-members)`}>
+                    <input type="text" value={form.bulkTeamPrice} onChange={e => updateForm('bulkTeamPrice', e.target.value)} placeholder="e.g. 300" className={input} />
                   </Field>
-                </motion.div>
+                  <p className="text-xs text-foreground/50 mt-1">
+                    Leave blank to always calculate per head. If set, this price is charged when a full team of {form.maxTeamSize} non-members registers.
+                  </p>
+                </div>
               )}
-            </AnimatePresence>
-          </Section>
 
-          {/* Section 3: Media */}
-          <Section title="Event Banner">
-            {form.eventImage ? (
-              <div className="relative rounded-2xl overflow-hidden">
-                <img src={form.eventImage} alt="Preview" className="w-full h-52 object-cover rounded-2xl" />
-                <button
-                  type="button"
-                  onClick={() => updateForm('eventImage', '')}
-                  className="absolute top-3 right-3 p-2 rounded-full bg-black/60 text-white hover:bg-black/80 transition-all"
-                >
-                  <Trash2 size={14} />
-                </button>
-              </div>
-            ) : (
-              <label className={`flex flex-col items-center justify-center gap-3 border-2 border-dashed border-white/20 dark:border-white/10 rounded-2xl p-10 cursor-pointer hover:border-primary/40 hover:bg-primary/5 transition-all ${imageUploading ? 'opacity-60 pointer-events-none' : ''}`}>
-                {imageUploading
-                  ? <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-                  : <Upload className="text-foreground/30" size={32} />}
-                <p className="text-sm text-foreground/50 font-medium">{imageUploading ? 'Uploading...' : 'Click to upload event banner (Optional)'}</p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={async (e) => {
-                    if (!e.target.files[0]) return;
-                    const url = await uploadImage(e.target.files[0]);
-                    updateForm('eventImage', url);
-                  }}
-                />
-              </label>
-            )}
-          </Section>
+              <AnimatePresence>
+                {isPaid && (
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
+                    <Field label="UPI ID (for payment QR)">
+                      <input type="text" value={form.upiId} onChange={e => updateForm('upiId', e.target.value)} placeholder="e.g. rctcet@upi" className={input} />
+                    </Field>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Section>
 
-          {/* Section 4: Custom Fields */}
-          <Section title="Custom Form Fields">
-            <p className="text-sm text-foreground/50 mb-4">These appear after the standard fields (Name, Email, Phone, etc.). Use Section Headers to create a multi-page form.</p>
+            {/* Section 3: Media */}
+            <Section title="Event Banner">
+              {form.eventImage ? (
+                <div className="relative rounded-2xl overflow-hidden">
+                  <img src={form.eventImage} alt="Preview" className="w-full h-52 object-cover rounded-2xl" />
+                  <button
+                    type="button"
+                    onClick={() => updateForm('eventImage', '')}
+                    className="absolute top-3 right-3 p-2 rounded-full bg-black/60 text-white hover:bg-black/80 transition-all"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              ) : (
+                <label className={`flex flex-col items-center justify-center gap-3 border-2 border-dashed border-white/20 dark:border-white/10 rounded-2xl p-10 cursor-pointer hover:border-primary/40 hover:bg-primary/5 transition-all ${imageUploading ? 'opacity-60 pointer-events-none' : ''}`}>
+                  {imageUploading
+                    ? <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                    : <Upload className="text-foreground/30" size={32} />}
+                  <p className="text-sm text-foreground/50 font-medium">{imageUploading ? 'Uploading...' : 'Click to upload event banner (Optional)'}</p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      if (!e.target.files[0]) return;
+                      const url = await uploadImage(e.target.files[0]);
+                      updateForm('eventImage', url);
+                    }}
+                  />
+                </label>
+              )}
+            </Section>
 
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="custom-fields">
-                {(provided) => (
-                  <div {...provided.droppableProps} ref={provided.innerRef} className="flex flex-col gap-3">
-                    {customFields.map((field, index) => (
+            {/* Section 4: Custom Fields */}
+            <Section title="Custom Form Fields">
+              <p className="text-sm text-foreground/50 mb-4">These appear after the standard fields (Name, Email, Phone, etc.). Use Section Headers to create a multi-page form.</p>
+
+              <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="custom-fields">
+                  {(provided) => (
+                    <div {...provided.droppableProps} ref={provided.innerRef} className="flex flex-col gap-3">
+                      {customFields.map((field, index) => (
                         <Draggable key={field.id} draggableId={field.id} index={index}>
                           {(provided, snapshot) => (
                             <div
@@ -514,35 +511,35 @@ const EditEvent = () => {
                           )}
                         </Draggable>
                       ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
 
+              <button
+                type="button"
+                onClick={addField}
+                className="flex items-center justify-center gap-2 w-full py-4 mt-2 border-2 border-dashed border-white/20 dark:border-white/10 rounded-2xl text-sm font-bold text-foreground/50 hover:border-primary/40 hover:text-primary transition-all"
+              >
+                <Plus size={16} /> Add Field
+              </button>
+            </Section>
+
+            {/* Submit */}
             <button
-              type="button"
-              onClick={addField}
-              className="flex items-center justify-center gap-2 w-full py-4 mt-2 border-2 border-dashed border-white/20 dark:border-white/10 rounded-2xl text-sm font-bold text-foreground/50 hover:border-primary/40 hover:text-primary transition-all"
+              type="submit"
+              disabled={submitting}
+              className="w-full bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black py-4 rounded-2xl shadow-xl shadow-primary/20 transition-all uppercase tracking-widest"
             >
-              <Plus size={16} /> Add Field
+              {submitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </span>
+              ) : 'Save Changes'}
             </button>
-          </Section>
-
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black py-4 rounded-2xl shadow-xl shadow-primary/20 transition-all uppercase tracking-widest"
-          >
-            {submitting ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Saving...
-              </span>
-            ) : 'Save Changes'}
-          </button>
-        </form>
+          </form>
         )}
       </div>
     </div>
