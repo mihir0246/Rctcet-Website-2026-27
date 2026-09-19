@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import SEO from '../Components/SEO';
+import { useAdminAuth } from '../context/AdminAuthContext';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrbZEyK68DFowscmK-Z-CN-RldBX069eafOkTh0ocFNoZ1xv7KvJ59fEmkKjLywk2G/exec';
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL;
 
 function AttendanceAdmin() {
+  const { getToken } = useAdminAuth();
+
   const [event, setEvent] = useState('');
   const [name, setName] = useState('');
   const [type, setType] = useState('Home Member');
@@ -27,7 +30,7 @@ function AttendanceAdmin() {
     const fetchMembers = async () => {
       setFetchingMembers(true);
       try {
-        const response = await fetch(`${SCRIPT_URL}?action=getMembers`);
+        const response = await fetch(`${BACKEND_URL}/api/attendance/members`);
         const data = await response.json();
         if (data.status === 'success') {
           if (data.activeEvent) setEvent(data.activeEvent);
@@ -111,10 +114,14 @@ function AttendanceAdmin() {
     };
 
     try {
-      const response = await fetch(SCRIPT_URL, {
+      const token = await getToken();
+      if (!token) throw new Error("Not authenticated");
+
+      const response = await fetch(`${BACKEND_URL}/api/attendance`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(payload)
       });

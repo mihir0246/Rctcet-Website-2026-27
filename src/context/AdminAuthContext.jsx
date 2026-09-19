@@ -21,9 +21,24 @@ export const AdminAuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setAdmin({ email: user.email, uid: user.uid });
+        let position = "GBM";
+        let roles = ["MEMBER"];
+        try {
+          const token = await user.getIdToken();
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          const data = await res.json();
+          if (data.user) {
+            position = data.user.position || "GBM";
+            roles = data.user.roles || ["MEMBER"];
+          }
+        } catch (e) {
+          console.error("Failed to fetch user role from backend", e);
+        }
+        setAdmin({ email: user.email, uid: user.uid, position, roles });
       } else {
         setAdmin(null);
       }
@@ -36,7 +51,25 @@ export const AdminAuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    setAdmin({ email: user.email, uid: user.uid });
+    
+    // Auth observer handles setting the admin state, but we can do it here immediately too for faster UI
+    let position = "GBM";
+    let roles = ["MEMBER"];
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (data.user) {
+        position = data.user.position || "GBM";
+        roles = data.user.roles || ["MEMBER"];
+      }
+    } catch (e) {
+      console.error("Failed to fetch user role from backend", e);
+    }
+    
+    setAdmin({ email: user.email, uid: user.uid, position, roles });
     return user;
   };
 
@@ -45,8 +78,15 @@ export const AdminAuthProvider = ({ children }) => {
     setAdmin(null);
   };
 
+  const getToken = async () => {
+    if (auth.currentUser) {
+      return await auth.currentUser.getIdToken();
+    }
+    return null;
+  };
+
   return (
-    <AdminAuthContext.Provider value={{ admin, login, logout, loading }}>
+    <AdminAuthContext.Provider value={{ admin, login, logout, getToken, loading }}>
       {children}
     </AdminAuthContext.Provider>
   );

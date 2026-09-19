@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Calendar, Clock, Users, RefreshCw } from "lucide-react";
 import SEO from "../Components/SEO";
 
-const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL;
 const CACHE_KEY = "rctcet_events_cache";
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
@@ -35,7 +35,7 @@ const UpcomingEvents = () => {
       // ── 2. Fetch fresh data with a 10-second hard timeout ──
       const timeout = setTimeout(() => controller.abort(), 10_000);
       try {
-        const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvents`, {
+        const res = await fetch(`${BACKEND_URL}/api/events`, {
           signal: controller.signal,
         });
         const data = await res.json();

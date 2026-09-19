@@ -3,10 +3,10 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowLeft, Upload, GripVertical, ChevronDown } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { useAdminAuth } from '../../context/AdminAuthContext';
 import SEO from '../../Components/SEO';
 
-const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
-const ADMIN_KEY = import.meta.env.VITE_ADMIN_KEY;
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL;
 const CLOUDINARY_CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dtc2xaeaf';
 const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'rctcet_unsigned';
 
@@ -41,6 +41,7 @@ const emptyField = () => ({
 
 const EditEvent = () => {
   const { eventId } = useParams();
+  const { getToken } = useAdminAuth();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
@@ -76,8 +77,15 @@ const EditEvent = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvent&id=${eventId}`);
-        const data = await res.json();
+        const token = await getToken();
+        // Since getEvent is public, we don't strictly need a token but we'll use the public endpoint if available, or just fetch from events list. Wait, I didn't make GET /api/events/:id.
+        // Actually, the frontend UpcomingEvents will fetch all events and filter.
+        // But let's just fetch all admin events and find it.
+        const res = await fetch(`${BACKEND_URL}/api/admin/events`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const eventsList = await res.json();
+        const data = eventsList.find(e => e.eventId === eventId) || {};
         
         setForm({
           eventName: data.eventName || '',
@@ -180,8 +188,13 @@ const EditEvent = () => {
       if (!payload.startTime) delete payload.startTime;
       if (!payload.endTime) delete payload.endTime;
 
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
+      const token = await getToken();
+      const res = await fetch(`${BACKEND_URL}/api/admin/events/${eventId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(payload),
       });
       const data = await res.json();

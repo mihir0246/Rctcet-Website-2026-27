@@ -25,19 +25,21 @@ const AdminLogin = lazy(() => import('./pages/Admin/Login'));
 const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'));
 const AdminCreateEvent = lazy(() => import('./pages/Admin/CreateEvent'));
 const AdminEditEvent = lazy(() => import('./pages/Admin/EditEvent'));
+const AdminRoleManager = lazy(() => import('./pages/Admin/RoleManager'));
 
 import ScrollToTop from './Components/ScrollToTop';
 
 function App() {
   useEffect(() => {
     // Coldstart the backend
-    fetch(`${import.meta.env.VITE_CHATBOT_API_URL}/activate`)
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/activate`)
       .then(() => console.log('Backend wake-up initiated'))
       .catch(err => console.error('Failed to wake up backend:', err));
 
     // Global Prefetch for Events — populates cache before user navigates to /events
-    if (import.meta.env.VITE_APPS_SCRIPT_URL) {
-      fetch(`${import.meta.env.VITE_APPS_SCRIPT_URL}?action=getEvents`)
+    const backendUrl = import.meta.env.VITE_API_BASE_URL;
+    if (backendUrl) {
+      fetch(`${backendUrl}/api/events`)
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) {
@@ -66,9 +68,10 @@ function App() {
                 <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-                <Route path="/admin/create-event" element={<ProtectedRoute><AdminCreateEvent /></ProtectedRoute>} />
-                <Route path="/admin/edit-event/:eventId" element={<ProtectedRoute><AdminEditEvent /></ProtectedRoute>} />
-                <Route path="/admin/attendance" element={<ProtectedRoute><AttendanceAdmin /></ProtectedRoute>} />
+                <Route path="/admin/create-event" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE']}><AdminCreateEvent /></ProtectedRoute>} />
+                <Route path="/admin/edit-event/:eventId" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE']}><AdminEditEvent /></ProtectedRoute>} />
+                <Route path="/admin/attendance" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE', 'AVENUE_DIRECTOR']}><AttendanceAdmin /></ProtectedRoute>} />
+                <Route path="/admin/roles" element={<ProtectedRoute isMasterAdminOnly={true}><AdminRoleManager /></ProtectedRoute>} />
 
                 {/* ── Public routes (with Layout) ── */}
                 <Route path="/" element={<Layout />}>
@@ -78,7 +81,7 @@ function App() {
                   {/* club hub start */}
                   <Route path="avenue" element={<Avenue />} />
                   <Route path="achievement" element={<Achievement />} />
-                  <Route path="saa-fine" element={<SaaFineTable />} />
+                  <Route path="saa-fine" element={<ProtectedRoute isSaaOnly={true}><SaaFineTable /></ProtectedRoute>} />
                   <Route path="meet-the-team" element={<TeamPage />} />
                   <Route path="feedback" element={<FeedBack />} />
                   {/* club hub finish */}

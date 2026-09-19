@@ -3,10 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowLeft, Upload, GripVertical, ChevronDown } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { useAdminAuth } from '../../context/AdminAuthContext';
 import SEO from '../../Components/SEO';
 
-const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
-const ADMIN_KEY = import.meta.env.VITE_ADMIN_KEY;
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL;
 const CLOUDINARY_CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dtc2xaeaf';
 const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'rctcet_unsigned';
 
@@ -40,6 +40,7 @@ const emptyField = () => ({
 });
 
 const CreateEvent = () => {
+  const { getToken } = useAdminAuth();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
@@ -123,15 +124,18 @@ const CreateEvent = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
+      const token = await getToken();
       const payload = {
-        action: 'createEvent',
-        adminKey: ADMIN_KEY,
         ...form,
         externalAllowed: form.externalAllowed,
         formFields: customFields.map(({ optionInput, ...rest }) => rest),
       };
-      const res = await fetch(APPS_SCRIPT_URL, {
+      const res = await fetch(`${BACKEND_URL}/api/admin/events`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(payload),
       });
       const data = await res.json();

@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, Power, Trash2, Users, Calendar, ChevronRight, LogOut, RefreshCw, Edit2 } from 'lucide-react';
+import { Plus, Power, Trash2, Users, Calendar, ChevronRight, LogOut, RefreshCw, Edit2, Shield, FileText } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import SEO from '../../Components/SEO';
 
-const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
-const ADMIN_KEY = import.meta.env.VITE_ADMIN_KEY;
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL;
 
 const AdminDashboard = () => {
-  const { admin, logout } = useAdminAuth();
+  const { admin, logout, getToken } = useAdminAuth();
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,14 +21,19 @@ const AdminDashboard = () => {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'getAllEvents', adminKey: ADMIN_KEY }),
+      const token = await getToken();
+      const res = await fetch(`${BACKEND_URL}/api/admin/events`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
-      setEvents(data);
-      // Kick off the slow registration counts fetch in the background
-      fetchCounts();
+      if (Array.isArray(data)) {
+        setEvents(data);
+        // Kick off the slow registration counts fetch in the background
+        fetchCounts();
+      } else {
+        setEvents([]);
+        console.error("Backend error:", data.error);
+      }
     } catch {
       setEvents([]);
     } finally {
@@ -40,9 +44,9 @@ const AdminDashboard = () => {
   const fetchCounts = async () => {
     setLoadingCounts(true);
     try {
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'getEventCounts', adminKey: ADMIN_KEY }),
+      const token = await getToken();
+      const res = await fetch(`${BACKEND_URL}/api/admin/events/counts`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
       setCounts(data);
@@ -56,9 +60,10 @@ const AdminDashboard = () => {
   const handleToggle = async (eventId, currentStatus) => {
     setActionLoading(eventId + '_toggle');
     try {
-      await fetch(APPS_SCRIPT_URL, {
+      const token = await getToken();
+      await fetch(`${BACKEND_URL}/api/admin/events/${eventId}/toggle`, {
         method: 'POST',
-        body: JSON.stringify({ action: 'toggleEvent', id: eventId, adminKey: ADMIN_KEY }),
+        headers: { Authorization: `Bearer ${token}` }
       });
       await fetchEvents();
     } finally {
@@ -70,9 +75,10 @@ const AdminDashboard = () => {
     if (!confirm(`Deactivate "${eventName}"? This will hide it from the public page.`)) return;
     setActionLoading(eventId + '_delete');
     try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'softDelete', id: eventId, adminKey: ADMIN_KEY }),
+      const token = await getToken();
+      await fetch(`${BACKEND_URL}/api/admin/events/${eventId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
       });
       await fetchEvents();
     } finally {
@@ -114,6 +120,22 @@ const AdminDashboard = () => {
             >
               <LogOut size={15} /> Logout
             </button>
+            {(admin?.position === 'PRESIDENT' || admin?.roles?.includes('MASTER_ADMIN')) && (
+              <Link
+                to="/admin/roles"
+                className="flex items-center gap-2 px-5 py-2.5 bg-warning hover:bg-warning/90 text-background font-black text-sm rounded-xl shadow-lg shadow-warning/20 transition-all uppercase tracking-wider"
+              >
+                <Shield size={16} /> Manage Roles
+              </Link>
+            )}
+            {(admin?.position === 'PRESIDENT' || admin?.position === 'SAA' || admin?.roles?.includes('SAA') || admin?.roles?.includes('MASTER_ADMIN')) && (
+              <Link
+                to="/saa-fine"
+                className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-sm rounded-xl shadow-lg shadow-emerald-500/20 transition-all uppercase tracking-wider"
+              >
+                <FileText size={16} /> SAA FINE
+              </Link>
+            )}
             <Link
               to="/admin/attendance"
               className="flex items-center gap-2 px-5 py-2.5 bg-info hover:bg-info/90 text-white font-black text-sm rounded-xl shadow-lg shadow-info/20 transition-all uppercase tracking-wider"

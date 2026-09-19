@@ -7,8 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { QRCodeSVG } from "qrcode.react";
 import { Calendar, Clock, Users, Award, AlertCircle, XCircle, CheckCircle, Upload, ChevronRight, ChevronLeft } from "lucide-react";
 
-const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
-const MEMBERSHIP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrbZEyK68DFowscmK-Z-CN-RldBX069eafOkTh0ocFNoZ1xv7KvJ59fEmkKjLywk2G/exec';
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL;
 const CLOUDINARY_CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dtc2xaeaf';
 const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'rctcet_unsigned';
 
@@ -58,7 +57,7 @@ const EventRegistration = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`${APPS_SCRIPT_URL}?action=getEvent&id=${encodeURIComponent(eventId)}`);
+        const res = await fetch(`${BACKEND_URL}/api/events/${encodeURIComponent(eventId)}`);
         const data = await res.json();
         if (data.error) { setEventStatus("inactive"); return; }
 
@@ -135,7 +134,7 @@ const EventRegistration = () => {
     const loadMembers = async () => {
       setFetchingMembers(true);
       try {
-        const res = await fetch(`${MEMBERSHIP_SCRIPT_URL}?action=getMembers`);
+        const res = await fetch(`${BACKEND_URL}/api/attendance/members`);
         const data = await res.json();
         if (data.status === 'success') {
           const all = [
@@ -388,8 +387,11 @@ const EventRegistration = () => {
         }
       }
 
-      const res = await fetch(APPS_SCRIPT_URL, {
+      const res = await fetch(`${BACKEND_URL}/api/events/${encodeURIComponent(eventId)}/register`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(payload),
       });
       const result = await res.json();
