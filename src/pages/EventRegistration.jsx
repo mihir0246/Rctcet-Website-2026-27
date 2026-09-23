@@ -1,5 +1,6 @@
 import SEO from "../Components/SEO";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -65,11 +66,11 @@ const EventRegistration = () => {
 
         // Parse Sections
         const sections = [];
-        
+
         // 1. Root Section
         const rootSection = { id: 'root', title: 'Participant Details', description: '', nextSection: '', fields: [] };
         sections.push(rootSection);
-        
+
         // 2. Team Section (if applicable)
         if (data.isTeamEvent && data.maxTeamSize > 1) {
           sections.push({ id: 'team', title: 'Team Details', description: 'Please provide details of your additional team members.', nextSection: '', fields: [] });
@@ -78,11 +79,11 @@ const EventRegistration = () => {
           setTeamMembersCount(minAdditional);
           setTeamMembersData(Array(minAdditional).fill({ name: '', phone: '', rotaractor: 'No' }));
         }
-        
+
         // 3. Custom Fields Sections
         let currentCustomSection = null;
         let hasCustomSections = false;
-        
+
         (data.formFields || []).forEach((field, index) => {
           if (field.type === 'section') {
             if (currentCustomSection) sections.push(currentCustomSection);
@@ -102,14 +103,14 @@ const EventRegistration = () => {
           }
         });
         if (currentCustomSection) sections.push(currentCustomSection);
-        
+
         // 4. Link sequential sections if they don't have explicit routing
         for (let i = 0; i < sections.length - 1; i++) {
           if (!sections[i].nextSection) {
-            sections[i].nextSection = sections[i+1].id;
+            sections[i].nextSection = sections[i + 1].id;
           }
         }
-        
+
         setFormSections(sections);
 
         // Determine status
@@ -366,9 +367,9 @@ const EventRegistration = () => {
       if (eventData?.isTeamEvent) {
         for (let i = 0; i < teamMembersCount; i++) {
           const member = teamMembersData[i] || { name: '', phone: '', rotaractor: 'No' };
-          payload[`Member ${i+1} Rotaractor?`] = member.rotaractor;
-          payload[`Member ${i+1} Name`] = member.name;
-          payload[`Member ${i+1} Phone`] = member.phone;
+          payload[`Member ${i + 1} Rotaractor?`] = member.rotaractor;
+          payload[`Member ${i + 1} Name`] = member.name;
+          payload[`Member ${i + 1} Phone`] = member.phone;
         }
       }
 
@@ -441,6 +442,7 @@ const EventRegistration = () => {
           {eventStatus === "success" ? (
             <div className="text-foreground/80 max-w-md text-left text-sm leading-relaxed">
               <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
                 components={{
                   a: ({ node, ...props }) => <a className="text-primary hover:underline font-bold" {...props} target="_blank" rel="noopener noreferrer" />,
                   p: ({ node, ...props }) => <p className="mb-3 last:mb-0" {...props} />,
@@ -680,7 +682,7 @@ const EventRegistration = () => {
                     <div className="flex flex-col gap-6">
                       <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5">
                         <label className={labelCls}>How many additional team members are you registering? (Excluding yourself)</label>
-                        <select 
+                        <select
                           className={inputCls}
                           value={teamMembersCount}
                           onChange={(e) => {
@@ -696,7 +698,7 @@ const EventRegistration = () => {
                           }}
                         >
                           {Array.from(
-                            { length: (eventData.maxTeamSize - 1) - Math.max(0, eventData.minTeamSize - 1) + 1 }, 
+                            { length: (eventData.maxTeamSize - 1) - Math.max(0, eventData.minTeamSize - 1) + 1 },
                             (_, i) => i + Math.max(0, eventData.minTeamSize - 1)
                           ).map(num => (
                             <option key={num} value={num}>{num} {num === 1 ? 'Member' : 'Members'}</option>
@@ -710,14 +712,14 @@ const EventRegistration = () => {
                       {teamMembersData.slice(0, teamMembersCount).map((member, idx) => (
                         <div key={idx} className="p-5 rounded-2xl border border-white/10 bg-white/5 dark:bg-black/20 flex flex-col gap-4">
                           <h4 className="font-bold text-primary tracking-wide">Team Member {idx + 1}</h4>
-                          <Input 
+                          <Input
                             label={`Member ${idx + 1} Full Name *`}
                             name={`member_${idx}_name`}
                             value={member.name}
                             onChange={(e) => handleTeamMemberChange(idx, 'name', e.target.value)}
                             required
                           />
-                          <Input 
+                          <Input
                             label={`Member ${idx + 1} Phone Number *`}
                             name={`member_${idx}_phone`}
                             type="tel"
@@ -727,11 +729,11 @@ const EventRegistration = () => {
                           />
                           <div>
                             <label className={labelCls}>Is Member {idx + 1} a Rotaractor? *</label>
-                            <select 
+                            <select
                               name={`member_${idx}_rotaractor`}
                               value={member.rotaractor}
                               onChange={(e) => handleTeamMemberChange(idx, 'rotaractor', e.target.value)}
-                              required 
+                              required
                               className={inputCls}
                             >
                               <option value="No">No</option>
