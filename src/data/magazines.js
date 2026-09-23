@@ -27,13 +27,21 @@ export const magazines = [
     year: "2025-26",
   },
   {
-
     id: 4,
     title: "Valerie 6.2",
     tagline: "Butterfly Effect: Small Act, Infinite Impact",
     cover:
       "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1780316103/Valerie_6.2_dist_20260531_111957_0000_eurbjh.png",
     link: "https://heyzine.com/flip-book/5bd934a141.html",
+    year: "2025-26",
+  },
+  {
+    id: 5,
+    title: "Anantya",
+    tagline: "Where Moments Became Memories, and Memories Became Legacy",
+    cover:
+      "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1790167636/Anantya_magzine_wapm99.png",
+    link: "https://heyzine.com/flip-book/d870106ea9.html",
     year: "2025-26",
   },
 ];
