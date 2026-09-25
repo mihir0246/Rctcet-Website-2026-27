@@ -23,6 +23,7 @@ const AttendanceAdmin = lazy(() => import('./pages/AttendanceAdmin'));
 // Admin pages (outside main Layout — no navbar/footer)
 const AdminLogin = lazy(() => import('./pages/Admin/Login'));
 const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'));
+const HrdDashboard = lazy(() => import('./pages/Admin/HrdDashboard'));
 const AdminCreateEvent = lazy(() => import('./pages/Admin/CreateEvent'));
 const AdminEditEvent = lazy(() => import('./pages/Admin/EditEvent'));
 const AdminRoleManager = lazy(() => import('./pages/Admin/RoleManager'));
@@ -71,6 +72,7 @@ function App() {
                 <Route path="/admin/create-event" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE']}><AdminCreateEvent /></ProtectedRoute>} />
                 <Route path="/admin/edit-event/:eventId" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE']}><AdminEditEvent /></ProtectedRoute>} />
                 <Route path="/admin/attendance" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE', 'AVENUE_DIRECTOR']}><AttendanceAdmin /></ProtectedRoute>} />
+                <Route path="/admin/hrd-dashboard" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CP_HRD']}><HrdDashboard /></ProtectedRoute>} />
                 <Route path="/admin/roles" element={<ProtectedRoute isMasterAdminOnly={true}><AdminRoleManager /></ProtectedRoute>} />
 
                 {/* ── Public routes (with Layout) ── */}
