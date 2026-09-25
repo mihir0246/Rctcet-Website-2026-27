@@ -65,8 +65,11 @@ export default function MobileMenu({
   }, [isOpen]);
 
   const handleLinkClick = () => {
-    setIsClubDropdownOpen(false);
-    onClose();
+    // Decouple from React Router suspense to prevent menu freezing
+    setTimeout(() => {
+      setIsClubDropdownOpen(false);
+      onClose();
+    }, 0);
 
     // Instant scroll to top on mobile
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -83,13 +86,11 @@ export default function MobileMenu({
   return createPortal(
     <div
       id="mobile-menu-portal"
-      className={`fixed inset-0 z-[99999] lg:hidden transition-all ${
-        prefersReducedMotion ? "duration-100" : "duration-300"
-      } ${
-        isOpen
+      className={`fixed inset-0 z-[99999] lg:hidden transition-all ${prefersReducedMotion ? "duration-100" : "duration-300"
+        } ${isOpen
           ? "visible opacity-100 pointer-events-auto"
           : "invisible opacity-0 pointer-events-none"
-      }`}
+        }`}
       role="dialog"
       aria-modal="true"
       aria-label="Mobile Navigation Menu"
@@ -97,20 +98,17 @@ export default function MobileMenu({
     >
       {/* 1. Atmospheric Blurred Backdrop (Fades in/out) */}
       <div
-        className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity ${
-          prefersReducedMotion ? "duration-100" : "duration-300"
-        } ease-out cursor-pointer ${isOpen ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity ${prefersReducedMotion ? "duration-100" : "duration-300"
+          } ease-out cursor-pointer ${isOpen ? "opacity-100" : "opacity-0"}`}
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* 2. Full-Height Editorial Panel (Slides in from Right with 100% Solid Opaque Background) */}
       <div
-        className={`absolute top-0 right-0 w-full sm:w-[380px] sm:max-w-[380px] h-[100dvh] bg-white dark:bg-[#0F172A] border-l border-primary/20 shadow-[-12px_0_40px_rgba(0,0,0,0.35)] flex flex-col justify-between p-6 sm:p-7 overflow-y-auto z-10 transition-transform ${
-          prefersReducedMotion ? "duration-150" : "duration-350"
-        } ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`absolute top-0 right-0 w-full sm:w-[380px] sm:max-w-[380px] h-[100dvh] bg-white dark:bg-[#0F172A] border-l border-primary/20 shadow-[-12px_0_40px_rgba(0,0,0,0.35)] flex flex-col justify-between p-6 sm:p-7 overflow-y-auto z-10 transition-transform ${prefersReducedMotion ? "duration-150" : "duration-350"
+          } ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         style={{
           paddingTop: "calc(1.25rem + env(safe-area-inset-top, 0px))",
           paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))",
@@ -163,30 +161,28 @@ export default function MobileMenu({
                     prefersReducedMotion
                       ? undefined
                       : {
-                          transitionDelay: isOpen ? `${idx * 45 + 50}ms` : "0ms",
-                          transform: isOpen ? "translateY(0)" : "translateY(14px)",
-                          opacity: isOpen ? 1 : 0,
-                        }
+                        transitionDelay: isOpen ? `${idx * 45 + 50}ms` : "0ms",
+                        transform: isOpen ? "translateY(0)" : "translateY(14px)",
+                        opacity: isOpen ? 1 : 0,
+                      }
                   }
                 >
                   <Link
                     to={link.to}
                     onClick={handleLinkClick}
-                    className={`group flex items-center justify-between py-3.5 px-2 rounded-xl transition-all duration-200 active:bg-primary/10 cursor-pointer touch-manipulation ${
-                      isActive
-                        ? "text-primary font-black"
-                        : "text-foreground font-bold hover:text-primary"
-                    }`}
+                    className={`group flex items-center justify-between py-3.5 px-2 rounded-xl transition-all duration-200 active:bg-primary/10 cursor-pointer touch-manipulation ${isActive
+                      ? "text-primary font-black"
+                      : "text-foreground font-bold hover:text-primary"
+                      }`}
                   >
                     <span className="text-xl tracking-tight transition-transform duration-200 ease-out group-hover:translate-x-1.5">
                       {link.name}
                     </span>
                     <ArrowRight
-                      className={`w-5 h-5 text-primary transition-all duration-200 ${
-                        isActive
-                          ? "opacity-100 translate-x-0"
-                          : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                      }`}
+                      className={`w-5 h-5 text-primary transition-all duration-200 ${isActive
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                        }`}
                       aria-hidden="true"
                     />
                   </Link>
@@ -201,22 +197,21 @@ export default function MobileMenu({
                 prefersReducedMotion
                   ? undefined
                   : {
-                      transitionDelay: isOpen
-                        ? `${navLinks.length * 45 + 50}ms`
-                        : "0ms",
-                      transform: isOpen ? "translateY(0)" : "translateY(14px)",
-                      opacity: isOpen ? 1 : 0,
-                    }
+                    transitionDelay: isOpen
+                      ? `${navLinks.length * 45 + 50}ms`
+                      : "0ms",
+                    transform: isOpen ? "translateY(0)" : "translateY(14px)",
+                    opacity: isOpen ? 1 : 0,
+                  }
               }
             >
               <button
                 type="button"
                 onClick={() => setIsClubDropdownOpen((prev) => !prev)}
-                className={`group w-full flex items-center justify-between py-3.5 px-2 rounded-xl transition-all duration-200 active:bg-primary/10 cursor-pointer touch-manipulation ${
-                  activeLink === "Club hub" || isClubDropdownOpen
-                    ? "text-primary font-black"
-                    : "text-foreground font-bold hover:text-primary"
-                }`}
+                className={`group w-full flex items-center justify-between py-3.5 px-2 rounded-xl transition-all duration-200 active:bg-primary/10 cursor-pointer touch-manipulation ${activeLink === "Club hub" || isClubDropdownOpen
+                  ? "text-primary font-black"
+                  : "text-foreground font-bold hover:text-primary"
+                  }`}
                 aria-expanded={isClubDropdownOpen}
                 aria-label="Toggle Club Hub submenu"
               >
@@ -224,19 +219,17 @@ export default function MobileMenu({
                   Club Hub
                 </span>
                 <ChevronDown
-                  className={`w-5 h-5 text-primary transition-transform duration-300 ${
-                    isClubDropdownOpen ? "rotate-180" : ""
-                  }`}
+                  className={`w-5 h-5 text-primary transition-transform duration-300 ${isClubDropdownOpen ? "rotate-180" : ""
+                    }`}
                 />
               </button>
 
               {/* Submenu Grid Accordion */}
               <div
-                className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  isClubDropdownOpen
-                    ? "grid-rows-[1fr] opacity-100 mt-1 mb-2"
-                    : "grid-rows-[0fr] opacity-0 m-0"
-                }`}
+                className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isClubDropdownOpen
+                  ? "grid-rows-[1fr] opacity-100 mt-1 mb-2"
+                  : "grid-rows-[0fr] opacity-0 m-0"
+                  }`}
               >
                 <div className="overflow-hidden">
                   <div className="pl-3 pr-2 py-2 bg-primary/5 rounded-2xl flex flex-col gap-1 border border-primary/10">
@@ -265,12 +258,12 @@ export default function MobileMenu({
                 prefersReducedMotion
                   ? undefined
                   : {
-                      transitionDelay: isOpen
-                        ? `${(navLinks.length + 1) * 45 + 50}ms`
-                        : "0ms",
-                      transform: isOpen ? "translateY(0)" : "translateY(14px)",
-                      opacity: isOpen ? 1 : 0,
-                    }
+                    transitionDelay: isOpen
+                      ? `${(navLinks.length + 1) * 45 + 50}ms`
+                      : "0ms",
+                    transform: isOpen ? "translateY(0)" : "translateY(14px)",
+                    opacity: isOpen ? 1 : 0,
+                  }
               }
             >
               <Link
@@ -289,12 +282,12 @@ export default function MobileMenu({
                 prefersReducedMotion
                   ? undefined
                   : {
-                      transitionDelay: isOpen
-                        ? `${(navLinks.length + 2) * 45 + 50}ms`
-                        : "0ms",
-                      transform: isOpen ? "translateY(0)" : "translateY(14px)",
-                      opacity: isOpen ? 1 : 0,
-                    }
+                    transitionDelay: isOpen
+                      ? `${(navLinks.length + 2) * 45 + 50}ms`
+                      : "0ms",
+                    transform: isOpen ? "translateY(0)" : "translateY(14px)",
+                    opacity: isOpen ? 1 : 0,
+                  }
               }
             >
               <div className="flex items-center justify-between px-2 py-1">

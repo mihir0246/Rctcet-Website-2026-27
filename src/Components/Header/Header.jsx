@@ -160,7 +160,7 @@ function Header() {
                       <Link
                         key={link.name}
                         to={link.to}
-                        onClick={() => setIsClubDropdownOpen(false)}
+                        onClick={() => setTimeout(() => setIsClubDropdownOpen(false), 0)}
                         className="group/item flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-primary/10 transition-colors"
                       >
                         {/* Icons removed as per user request */}
