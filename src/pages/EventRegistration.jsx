@@ -159,7 +159,7 @@ const EventRegistration = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "name" && autofilled) {
       // User manually edited the name after it was autofilled, reset the other fields to prevent mismatched data
       setFormData(prev => ({
