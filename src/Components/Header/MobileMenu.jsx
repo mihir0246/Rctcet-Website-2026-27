@@ -93,13 +93,32 @@ export default function MobileMenu({
   triggerRef,
 }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mounted, setMounted] = useState(false);
   const [isClubDropdownOpen, setIsClubDropdownOpen] = useState(false);
   const menuRef = useRef(null);
+  const closeBtnRef = useRef(null);
+  const wasOpenRef = useRef(false);
+  const isNavigatingRef = useRef(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Programmatic navigation: close menu first, then navigate.
+  const handleLinkClick = (e, to) => {
+    e.preventDefault();
+    if (isNavigatingRef.current) return;
+
+    isNavigatingRef.current = true;
+    onClose();
+    navigate(to);
+
+    // Release the lock after the exit animation completes
+    setTimeout(() => {
+      isNavigatingRef.current = false;
+    }, 600);
+  };
 
   // Check user OS preference for reduced motion — computed once, stable across renders
   const prefersReducedMotion = useMemo(
@@ -109,17 +128,56 @@ export default function MobileMenu({
     []
   );
 
-  // Simplified: Removed body scroll lock and focus trap to fix mobile freezing bugs
+  // Handle ESC key, body scroll locking, and accessible focus restoration
   useEffect(() => {
+    if (isOpen) {
+      wasOpenRef.current = true;
+      document.body.style.overflow = "hidden";
+      closeBtnRef.current?.focus({ preventScroll: true });
+    } else if (wasOpenRef.current) {
+      wasOpenRef.current = false;
+      document.body.style.overflow = "";
+      triggerRef?.current?.focus({ preventScroll: true });
+    }
+
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && isOpen) {
         e.preventDefault();
         onClose();
+        return;
+      }
+
+      // Accessible Focus Trap within modal dialog
+      if (e.key === "Tab" && isOpen && menuRef.current) {
+        const focusableElements = menuRef.current.querySelectorAll(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose, triggerRef]);
 
   if (!mounted || typeof document === "undefined" || !document.body) return null;
 
@@ -183,6 +241,7 @@ export default function MobileMenu({
 
               <button
                 type="button"
+                ref={closeBtnRef}
                 onClick={onClose}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-foreground hover:text-primary hover:bg-primary/10 transition-colors text-xs font-bold tracking-wider uppercase border border-primary/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 aria-label="Close navigation menu"
@@ -209,27 +268,25 @@ export default function MobileMenu({
                       variants={prefersReducedMotion ? reducedItemVariants : itemVariants}
                       className="border-b border-primary/10 last:border-b-0"
                     >
-                      <Link
-                        to={link.to}
-                        onClick={onClose}
-                        className={`group flex items-center justify-between py-3.5 px-2 rounded-xl transition-all duration-300 ${
-                          isActive
-                            ? "text-primary font-black"
-                            : "text-foreground font-bold hover:text-primary"
-                        }`}
+                      <a
+                        href={link.to}
+                        onClick={(e) => handleLinkClick(e, link.to)}
+                        className={`group flex items-center justify-between py-3.5 px-2 rounded-xl transition-all duration-300 ${isActive
+                          ? "text-primary font-black"
+                          : "text-foreground font-bold hover:text-primary"
+                          }`}
                       >
                         <span className="text-xl tracking-tight transition-transform duration-300 ease-out group-hover:translate-x-1.5">
                           {link.name}
                         </span>
                         <ArrowRight
-                          className={`w-5 h-5 text-primary transition-all duration-300 ${
-                            isActive
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                          }`}
+                          className={`w-5 h-5 text-primary transition-all duration-300 ${isActive
+                            ? "opacity-100 translate-x-0"
+                            : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                            }`}
                           aria-hidden="true"
                         />
-                      </Link>
+                      </a>
                     </motion.li>
                   );
                 })}
@@ -242,11 +299,10 @@ export default function MobileMenu({
                   <button
                     type="button"
                     onClick={() => setIsClubDropdownOpen(!isClubDropdownOpen)}
-                    className={`group w-full flex items-center justify-between py-3.5 px-2 rounded-xl transition-all duration-300 ${
-                      activeLink === "Club hub" || isClubDropdownOpen
-                        ? "text-primary font-black"
-                        : "text-foreground font-bold hover:text-primary"
-                    }`}
+                    className={`group w-full flex items-center justify-between py-3.5 px-2 rounded-xl transition-all duration-300 ${activeLink === "Club hub" || isClubDropdownOpen
+                      ? "text-primary font-black"
+                      : "text-foreground font-bold hover:text-primary"
+                      }`}
                     aria-expanded={isClubDropdownOpen}
                     aria-label="Toggle Club Hub submenu"
                   >
@@ -254,9 +310,8 @@ export default function MobileMenu({
                       Club Hub
                     </span>
                     <ChevronDown
-                      className={`w-5 h-5 text-primary transition-transform duration-300 ${
-                        isClubDropdownOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-5 h-5 text-primary transition-transform duration-300 ${isClubDropdownOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -272,17 +327,17 @@ export default function MobileMenu({
                       >
                         <div className="pl-3 pr-2 py-2 mb-2 bg-primary/5 rounded-2xl flex flex-col gap-1 border border-primary/10">
                           {clubLinks.map((link) => (
-                            <Link
+                            <a
                               key={link.name}
-                              to={link.to}
-                              onClick={onClose}
+                              href={link.to}
+                              onClick={(e) => handleLinkClick(e, link.to)}
                               className="flex items-center justify-between py-2 px-3 rounded-lg text-foreground hover:text-primary hover:bg-primary/10 transition-colors font-semibold text-sm"
                             >
                               <span>{link.name}</span>
                               <span className="text-xs text-muted font-normal">
                                 {link.desc ? link.desc.slice(0, 22) + "..." : ""}
                               </span>
-                            </Link>
+                            </a>
                           ))}
                         </div>
                       </motion.div>
@@ -295,13 +350,13 @@ export default function MobileMenu({
                   variants={prefersReducedMotion ? reducedItemVariants : itemVariants}
                   className="pt-4"
                 >
-                  <Link
-                    to="/join"
-                    onClick={onClose}
+                  <a
+                    href="/join"
+                    onClick={(e) => handleLinkClick(e, "/join")}
                     className="btn-rotaract flex justify-center items-center w-full bg-gradient-to-r from-primary via-secondary to-accent text-white font-bold py-3.5 px-4 rounded-2xl shadow-[0_0_15px_rgba(234,88,12,0.35)] hover:shadow-[0_0_25px_rgba(249,115,22,0.5)] transition-all tracking-wide text-base"
                   >
                     Become a member!
-                  </Link>
+                  </a>
                 </motion.li>
 
                 {/* Dedicated Mobile Theme Control Row (Reference Style) */}

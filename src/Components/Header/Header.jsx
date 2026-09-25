@@ -14,14 +14,18 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const location = useLocation();
+  const prevPathRef = useRef(location.pathname);
   const clubDropdownRef = useRef(null);
   const menuButtonRef = useRef(null);
 
   useEffect(() => {
-    // Close dropdowns on route change
-    setIsClubDropdownOpen(false);
-    setIsMenuOpen(false);
-    
+    // Close dropdowns only on actual path change
+    if (prevPathRef.current !== location.pathname) {
+      prevPathRef.current = location.pathname;
+      setIsClubDropdownOpen(false);
+      setIsMenuOpen(false);
+    }
+
     const path = location.pathname;
     if (path === "/") setActiveLink("Home");
     else if (path === "/about") setActiveLink("About us");
@@ -86,16 +90,15 @@ function Header() {
         }`}
     >
       <div className="max-w-screen-xl mx-auto flex justify-between items-center relative">
-        
+
         {/* Logo */}
         <div className="flex-1 flex justify-start">
           <Link to="/" className="flex items-center group">
             <img
               src="https://res.cloudinary.com/dtc2xaeaf/image/upload/v1757125056/logo_pdqctw_ztwsvl.png"
               alt="Rotaract Club of TCET Logo"
-              className={`transition-all duration-500 ease-in-out drop-shadow-md group-hover:rotate-12 ${
-                isScrolled ? "h-9 w-9" : "h-11 w-11"
-              }`}
+              className={`transition-all duration-500 ease-in-out drop-shadow-md group-hover:rotate-12 ${isScrolled ? "h-9 w-9" : "h-11 w-11"
+                }`}
             />
           </Link>
         </div>
@@ -110,9 +113,8 @@ function Header() {
             >
               {activeLink === link.name && <LimelightIndicator />}
               <span
-                className={`relative z-10 transition-colors duration-300 ${
-                  activeLink === link.name ? "text-primary" : "text-foreground group-hover:text-primary"
-                }`}
+                className={`relative z-10 transition-colors duration-300 ${activeLink === link.name ? "text-primary" : "text-foreground group-hover:text-primary"
+                  }`}
               >
                 {link.name}
               </span>
@@ -132,15 +134,13 @@ function Header() {
             >
               {activeLink === "Club hub" && <LimelightIndicator />}
               <span
-                className={`relative z-10 flex items-center gap-1.5 transition-colors duration-300 ${
-                  activeLink === "Club hub" ? "text-primary" : "text-foreground group-hover:text-primary"
-                }`}
+                className={`relative z-10 flex items-center gap-1.5 transition-colors duration-300 ${activeLink === "Club hub" ? "text-primary" : "text-foreground group-hover:text-primary"
+                  }`}
               >
                 Club Hub
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-300 ${
-                    isClubDropdownOpen ? "rotate-180 text-primary" : ""
-                  }`}
+                  className={`w-4 h-4 transition-transform duration-300 ${isClubDropdownOpen ? "rotate-180 text-primary" : ""
+                    }`}
                 />
               </span>
             </button>
