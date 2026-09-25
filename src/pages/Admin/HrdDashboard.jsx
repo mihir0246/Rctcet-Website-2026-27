@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+import Navbar from '../../Components/Header/Header';
+import Footer from '../../Components/Footer/Footer';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
@@ -83,8 +83,8 @@ const HrdDashboard = () => {
                   {reportData?.report?.map((member) => {
                     const isWarning = member.consecutiveAbsences >= 3;
                     return (
-                      <tr 
-                        key={member.id} 
+                      <tr
+                        key={member.id}
                         className={`transition-colors ${isWarning ? 'bg-red-500/20 hover:bg-red-500/30' : 'hover:bg-white/5'}`}
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -92,9 +92,8 @@ const HrdDashboard = () => {
                           <div className="text-xs text-text-muted">{member.position}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                            member.category === 'Core' ? 'bg-purple-500/20 text-purple-300' : 'bg-blue-500/20 text-blue-300'
-                          }`}>
+                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${member.category === 'Core' ? 'bg-purple-500/20 text-purple-300' : 'bg-blue-500/20 text-blue-300'
+                            }`}>
                             {member.category}
                           </span>
                         </td>
@@ -113,15 +112,15 @@ const HrdDashboard = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-center">
                           <div className="flex justify-center gap-3">
-                            <a 
-                              href={`https://wa.me/91${member.phone}?text=${generateWhatsAppMessage(member.fullName, member.consecutiveAbsences)}`} 
-                              target="_blank" 
+                            <a
+                              href={`https://wa.me/91${member.phone}?text=${generateWhatsAppMessage(member.fullName, member.consecutiveAbsences)}`}
+                              target="_blank"
                               rel="noopener noreferrer"
                               className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg text-sm font-semibold transition-all shadow-lg hover:shadow-green-500/20"
                             >
                               WhatsApp
                             </a>
-                            <a 
+                            <a
                               href={`mailto:${member.email}?subject=${generateEmailSubject()}&body=${generateEmailBody(member.fullName, member.consecutiveAbsences)}`}
                               className="px-4 py-2 bg-primary hover:bg-primary-light text-white rounded-lg text-sm font-semibold transition-all shadow-lg hover:shadow-primary/20"
                             >
