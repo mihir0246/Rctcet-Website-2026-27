@@ -42,6 +42,7 @@ const EventRegistration = () => {
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [fetchingMembers, setFetchingMembers] = useState(false);
+  const [autofilled, setAutofilled] = useState(false);
 
   // Team Event State
   const [teamMembersCount, setTeamMembersCount] = useState(0);
@@ -158,7 +159,23 @@ const EventRegistration = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (name === "name" && autofilled) {
+      // User manually edited the name after it was autofilled, reset the other fields to prevent mismatched data
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+        email: "",
+        phone: "",
+        branch: "",
+        yearOfStudy: "",
+        division: "",
+        rollNumber: ""
+      }));
+      setAutofilled(false);
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
 
     if (name === "name") {
       if (value.trim() === '') {
@@ -174,11 +191,12 @@ const EventRegistration = () => {
     }
   };
 
-  const handleSelectMember = (m) => {
+  const handleSelectMember = async (m) => {
     // Determine membership status based on the list they came from
     const memberVal = (m._type === 'TCET Rotaractor' || m._type === 'Other college Rotaractor') ? 'Yes' : 'No';
     const isTCET = (m._type === 'TCET Rotaractor' || m._type === 'Non Rotaractor' && (!m.college || m.college.toUpperCase() === 'TCET'));
 
+    // First, optimistically set what we already know from the dropdown list
     setFormData(prev => ({
       ...prev,
       name: m.name || m.Name || prev.name,
@@ -193,6 +211,33 @@ const EventRegistration = () => {
     }));
     setIsFromTcet(isTCET);
     setShowDropdown(false);
+    setAutofilled(true);
+
+    // Now fetch full details from the backend prefill API
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/members/prefill`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName: m.name || m.Name })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.found && result.data) {
+          toast.success("Fetched additional member details!", { duration: 3000 });
+          setFormData(prev => ({
+            ...prev,
+            phone: result.data.phone || prev.phone,
+            branch: result.data.department || prev.branch,
+            yearOfStudy: result.data.year || prev.yearOfStudy,
+            division: result.data.division || prev.division,
+            rollNumber: result.data.rollNumber || prev.rollNumber,
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching full member details:", error);
+    }
   };
 
   const handleCustomChange = (label, value) => {

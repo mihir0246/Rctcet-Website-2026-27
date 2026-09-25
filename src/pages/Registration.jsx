@@ -203,7 +203,7 @@ const RegistrationForm = () => {
       let receiptUrl = "";
       if (paymentReceipt) {
         toast.loading("Uploading receipt to Cloudinary...", { id: "uploadToast" });
-        
+
         const uploadData = new FormData();
         uploadData.append("file", paymentReceipt);
         // Use the Unsigned Upload Preset provided by the user
@@ -224,19 +224,14 @@ const RegistrationForm = () => {
         toast.dismiss("uploadToast");
       }
 
-      const scriptUrl = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_MEMBERSHIP_URL || "";
-      
-      if (!scriptUrl) {
-        throw new Error("Google Apps Script URL is missing! Add VITE_GOOGLE_APPS_SCRIPT_MEMBERSHIP_URL to your .env file.");
-      }
+      const backendUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
       const allowedKeys = ["email", "personalEmail", "gsuiteId", "firstName", "middleName", "lastName", "dob", "gender", "bloodGroup", "phone", "year", "department", "division", "rollNumber", "addressLine1", "addressLine2", "addressLine3", "pincode", "city", "railwayStation", "fatherName", "fatherAge", "fatherOccupation", "motherName", "motherAge", "motherOccupation", "motherOccupationOther", "parentContact", "hasSiblings", "siblingCount", "rotaractYear", "hobbies", "helpWith", "playSports", "sportsAchievement", "culturalActivities", "culturalAchievement", "paymentMethod"];
       const safeData = {};
       allowedKeys.forEach(key => safeData[key] = formData[key] || "");
 
-      await fetch(scriptUrl, {
+      const response = await fetch(`${backendUrl}/api/members/register`, {
         method: "POST",
-        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
@@ -247,6 +242,10 @@ const RegistrationForm = () => {
           eventName: generalMembershipEvent.title,
         }),
       });
+
+      if (!response.ok) {
+        throw new Error("Registration failed on server.");
+      }
 
       toast.success("Membership Registration submitted successfully!");
       setStep(1);
@@ -346,18 +345,18 @@ const RegistrationForm = () => {
             <h2 className="text-2xl font-bold text-primary mb-6 border-b border-primary/20 pb-2">Skills & Rotaract Profile</h2>
             <InputField label="Rotaract Year" name="rotaractYear" options={["First Year of Rotaract", "Second Year of Rotaract", "Third Year of Rotaract"]} formData={formData} handleChange={handleChange} />
             <InputField label="Any Hobbies/Skills?" name="hobbies" isTextarea formData={formData} handleChange={handleChange} />
-            <CheckboxGroup 
-              label="You can help us with" 
-              field="helpWith" 
-              options={["Celebrity Contact", "Car/Bike", "Production Contacts", "Camera (DSLR)", "Sponsorships & Associations", "Venue Contacts/Permissions & Associations", "Editing/Content Writing", "Doctor Contact", "Celebrity Speaker Contacts", "None"]} 
+            <CheckboxGroup
+              label="You can help us with"
+              field="helpWith"
+              options={["Celebrity Contact", "Car/Bike", "Production Contacts", "Camera (DSLR)", "Sponsorships & Associations", "Venue Contacts/Permissions & Associations", "Editing/Content Writing", "Doctor Contact", "Celebrity Speaker Contacts", "None"]}
               formData={formData} handleCheckboxChange={handleCheckboxChange}
             />
             <InputField label="Do you play any sports? (Mention name)" name="playSports" isTextarea formData={formData} handleChange={handleChange} />
             <InputField label="Do you have any special recognition/achievement in sports?" name="sportsAchievement" isTextarea formData={formData} handleChange={handleChange} />
-            <CheckboxGroup 
-              label="Are you good at any of the following cultural activities?" 
-              field="culturalActivities" 
-              options={["Singing", "Dance", "Musical Instrument", "Drama", "Monologue", "None"]} 
+            <CheckboxGroup
+              label="Are you good at any of the following cultural activities?"
+              field="culturalActivities"
+              options={["Singing", "Dance", "Musical Instrument", "Drama", "Monologue", "None"]}
               formData={formData} handleCheckboxChange={handleCheckboxChange}
             />
             <InputField label="Do you have any special recognition/achievement in any of the above cultural activities?" name="culturalAchievement" isTextarea formData={formData} handleChange={handleChange} />
@@ -371,14 +370,14 @@ const RegistrationForm = () => {
         return (
           <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
             <h2 className="text-2xl font-bold text-primary mb-6 border-b border-primary/20 pb-2">Payment & Declaration</h2>
-            
+
             <RadioGroup label="Payment Method" name="paymentMethod" options={["UPI", "Google Pay", "PayTM", "IMPS", "Cash", "Other"]} formData={formData} handleChange={handleChange} />
 
             {["UPI", "Google Pay", "PayTM", "IMPS"].includes(formData.paymentMethod) && (
               <div className="mb-8 p-6 rounded-2xl border border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20 backdrop-blur-md shadow-inner text-foreground">
                 <h4 className="text-center font-bold text-foreground mb-2 text-xl">Registration Fee: ₹{generalMembershipEvent.price}</h4>
                 <p className="text-center text-sm text-foreground/70 mb-6">Scan the QR code below to pay with any UPI app</p>
-                
+
                 <div className="bg-card p-4 rounded-2xl w-fit mx-auto mb-6 shadow-lg border border-muted/20">
                   <img src={qrUrl} alt="Dynamic UPI QR Code" className="w-56 h-56 rounded-lg object-contain mix-blend-multiply" />
                 </div>
@@ -391,12 +390,12 @@ const RegistrationForm = () => {
                   <p><span className="font-bold">Bank Branch:</span> Branch - Sakinaka</p>
                   <p><span className="font-bold">UPI ID:</span> ajayboss004@okaxis</p>
                 </div>
-                
+
                 <label className="block text-sm font-semibold text-foreground mb-3 text-center">Upload Payment Screenshot <span className="text-danger">*</span></label>
                 <div className="flex justify-center">
-                  <input 
+                  <input
                     id="receiptInput"
-                    type="file" 
+                    type="file"
                     accept="image/*,.pdf"
                     required
                     onChange={(e) => setPaymentReceipt(e.target.files[0])}
@@ -409,7 +408,7 @@ const RegistrationForm = () => {
             <div className="mb-8 p-6 rounded-2xl border-l-4 border-primary bg-primary/5 dark:bg-primary/10">
               <h3 className="font-bold text-primary mb-3 text-lg uppercase tracking-wider">Declaration</h3>
               <p className="text-sm font-medium leading-relaxed mb-4 text-foreground/90">
-                ALL OF THE DETAILS FILLED BY YOU IS KEPT CONFIDENTIAL WITH US AND WITH ONLY A LIMITED ACCESS. YOU DO NOT HAVE TO WORRY ABOUT ANY SORT OF DATA/PRIVACY BREACH. 
+                ALL OF THE DETAILS FILLED BY YOU IS KEPT CONFIDENTIAL WITH US AND WITH ONLY A LIMITED ACCESS. YOU DO NOT HAVE TO WORRY ABOUT ANY SORT OF DATA/PRIVACY BREACH.
                 WE AT ROTARACT CLUB OF TCET ASSURE THAT ALL OF THIS DATA WOULD BE KEPT CONFIDENTIAL AT ALL COST.
               </p>
               <h4 className="font-bold text-danger mb-2 uppercase tracking-wider">Important Notice</h4>
@@ -446,10 +445,10 @@ const RegistrationForm = () => {
             Membership Form
           </h1>
           <p className="text-foreground/70 font-medium text-lg">Step {step} of {totalSteps}</p>
-          
+
           {/* Progress Bar */}
           <div className="w-full max-w-md mx-auto h-2 bg-black/10 dark:bg-white/10 rounded-full mt-4 overflow-hidden">
-            <motion.div 
+            <motion.div
               className="h-full bg-gradient-to-r from-primary to-secondary rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(step / totalSteps) * 100}%` }}
