@@ -114,7 +114,7 @@ function AttendanceAdmin() {
       return;
     }
     setSelectedAttendees([...selectedAttendees, attendeeObj]);
-    
+
     // Reset fields for the next person
     setName('');
     setOtherClub('');
@@ -141,7 +141,7 @@ function AttendanceAdmin() {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (!name.trim()) return;
-      
+
       const attendeeObj = {
         name: name.trim(),
         type: type,
@@ -226,12 +226,12 @@ function AttendanceAdmin() {
       <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-primary/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/3 pointer-events-none z-0" />
 
       {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none z-0" 
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none z-0"
         style={{ backgroundImage: `url('https://res.cloudinary.com/dtc2xaeaf/image/upload/v1771630629/Baseline_grid_bg_zywtov.svg')`, backgroundSize: '100px' }}
       />
 
       <div className="flex flex-col lg:flex-row gap-8 w-full max-w-7xl relative z-20">
-        
+
         {/* LEFT COLUMN - FORM */}
         <div className="flex-1 relative bg-white/10 dark:bg-black/40 backdrop-blur-3xl border border-white/20 dark:border-white/10 p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
           <div className="mb-10 text-center">
@@ -383,7 +383,7 @@ function AttendanceAdmin() {
         <div className="w-full lg:w-1/3 relative bg-white/5 dark:bg-black/20 backdrop-blur-2xl border border-white/10 p-6 md:p-8 rounded-[2.5rem] flex flex-col h-full lg:h-[80vh]">
           <h3 className="text-2xl font-bold text-foreground mb-2">Selected List</h3>
           <p className="text-sm text-primary mb-6">Total Selected: {selectedAttendees.length}</p>
-          
+
           <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-3">
             {selectedAttendees.length === 0 ? (
               <div className="text-muted text-center italic mt-10">
@@ -403,7 +403,7 @@ function AttendanceAdmin() {
                     </span>
                     <span className="text-xs text-muted truncate">{attendee.type} {attendee.otherClub && `(${attendee.otherClub})`}</span>
                   </div>
-                  <button 
+                  <button
                     onClick={() => removeAttendee(idx)}
                     className="ml-3 w-8 h-8 flex-shrink-0 flex items-center justify-center bg-danger/20 text-danger hover:bg-danger hover:text-white transition-colors rounded-full"
                   >
