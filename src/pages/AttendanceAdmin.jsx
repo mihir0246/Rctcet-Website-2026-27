@@ -130,7 +130,9 @@ function AttendanceAdmin() {
       type: type,
       email: memberObj.email || email,
       number: memberObj.number || phoneNumber,
-      otherClub: memberObj.club || memberObj.college || otherClub
+      otherClub: memberObj.club || memberObj.college || otherClub,
+      department: memberObj.department || memberObj.branch || '',
+      division: memberObj.division || ''
     };
     addAttendeeToList(attendeeObj);
   };
@@ -358,7 +360,7 @@ function AttendanceAdmin() {
                       onMouseDown={() => handleSelectMember(m)}
                       className="px-5 py-3 hover:bg-primary/20 dark:hover:bg-primary/30 cursor-pointer text-foreground font-medium transition-colors border-b border-white/10 dark:border-white/5 last:border-b-0"
                     >
-                      {m.name} {m.club || m.college ? <span className="text-sm opacity-60 ml-1">({m.club || m.college})</span> : ''}
+                      {m.name} {m.department || m.division ? <span className="text-sm opacity-60 ml-1">({[m.department, m.division].filter(Boolean).join(' ')})</span> : (m.club || m.college ? <span className="text-sm opacity-60 ml-1">({m.club || m.college})</span> : '')}
                     </li>
                   ))}
                 </ul>
@@ -391,7 +393,14 @@ function AttendanceAdmin() {
               selectedAttendees.map((attendee, idx) => (
                 <div key={idx} className="flex items-center justify-between bg-white/10 dark:bg-black/30 p-4 rounded-2xl border border-white/5">
                   <div className="flex flex-col overflow-hidden">
-                    <span className="text-foreground font-bold truncate">{attendee.name}</span>
+                    <span className="text-foreground font-bold truncate">
+                      {attendee.name}
+                      {(attendee.department || attendee.division) && (
+                        <span className="ml-1 opacity-80 text-sm font-medium">
+                          ({[attendee.department, attendee.division].filter(Boolean).join(' ')})
+                        </span>
+                      )}
+                    </span>
                     <span className="text-xs text-muted truncate">{attendee.type} {attendee.otherClub && `(${attendee.otherClub})`}</span>
                   </div>
                   <button 
