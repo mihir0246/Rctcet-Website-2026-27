@@ -72,7 +72,8 @@ function App() {
                 <Route path="/admin/create-event" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE']}><AdminCreateEvent /></ProtectedRoute>} />
                 <Route path="/admin/edit-event/:eventId" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE']}><AdminEditEvent /></ProtectedRoute>} />
                 <Route path="/admin/attendance" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE', 'AVENUE_DIRECTOR']}><AttendanceAdmin /></ProtectedRoute>} />
-                <Route path="/admin/hrd-dashboard" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CP_HRD']}><HrdDashboard /></ProtectedRoute>} />
+                <Route path="/admin/hrd-dashboard" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'SAA', 'CP_HRD']}><HrdDashboard /></ProtectedRoute>} />
+                <Route path="/admin/attendance-log" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'SAA', 'CP_HRD']}><HrdDashboard /></ProtectedRoute>} />
                 <Route path="/admin/roles" element={<ProtectedRoute isMasterAdminOnly={true}><AdminRoleManager /></ProtectedRoute>} />
 
                 {/* ── Public routes (with Layout) ── */}

@@ -136,12 +136,12 @@ const AdminDashboard = () => {
                 <FileText size={16} /> SAA FINE
               </Link>
             )}
-            {(admin?.position === 'PRESIDENT' || admin?.position === 'CP_HRD' || admin?.roles?.includes('MASTER_ADMIN')) && (
+            {(admin?.position === 'PRESIDENT' || admin?.position === 'SECRETARY' || admin?.position === 'SAA' || admin?.position === 'CP_HRD' || admin?.roles?.includes('SAA') || admin?.roles?.includes('SECRETARY') || admin?.roles?.includes('CP_HRD') || admin?.roles?.includes('MASTER_ADMIN')) && (
               <Link
-                to="/admin/hrd-dashboard"
+                to="/admin/attendance-log"
                 className="flex items-center gap-2 px-5 py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-black text-sm rounded-xl shadow-lg shadow-rose-500/20 transition-all uppercase tracking-wider"
               >
-                <FileText size={16} /> HRD Tracker
+                <FileText size={16} /> Attendance Log
               </Link>
             )}
             <Link
