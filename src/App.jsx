@@ -27,6 +27,7 @@ const HrdDashboard = lazy(() => import('./pages/Admin/HrdDashboard'));
 const AdminCreateEvent = lazy(() => import('./pages/Admin/CreateEvent'));
 const AdminEditEvent = lazy(() => import('./pages/Admin/EditEvent'));
 const AdminRoleManager = lazy(() => import('./pages/Admin/RoleManager'));
+const AdminChangePassword = lazy(() => import('./pages/Admin/ChangePassword'));
 
 import ScrollToTop from './Components/ScrollToTop';
 
@@ -69,6 +70,7 @@ function App() {
                 <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+                <Route path="/admin/change-password" element={<ProtectedRoute><AdminChangePassword /></ProtectedRoute>} />
                 <Route path="/admin/create-event" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE']}><AdminCreateEvent /></ProtectedRoute>} />
                 <Route path="/admin/edit-event/:eventId" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE']}><AdminEditEvent /></ProtectedRoute>} />
                 <Route path="/admin/attendance" element={<ProtectedRoute allowedPositions={['PRESIDENT', 'SECRETARY', 'JOINT_SECRETARY', 'VICE_PRESIDENT', 'CORE', 'AVENUE_DIRECTOR']}><AttendanceAdmin /></ProtectedRoute>} />

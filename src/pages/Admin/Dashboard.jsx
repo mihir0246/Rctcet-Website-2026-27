@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, Power, Trash2, Users, Calendar, ChevronRight, LogOut, RefreshCw, Edit2, Shield, FileText } from 'lucide-react';
+import { Plus, Power, Trash2, Users, Calendar, ChevronRight, LogOut, RefreshCw, Edit2, Shield, FileText, KeyRound } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import SEO from '../../Components/SEO';
 
@@ -114,6 +114,12 @@ const AdminDashboard = () => {
             >
               <RefreshCw size={16} />
             </button>
+            <Link
+              to="/admin/change-password"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/20 dark:border-white/10 bg-white/10 dark:bg-black/20 text-foreground/70 hover:text-foreground font-semibold text-sm transition-all"
+            >
+              <KeyRound size={15} /> Change Password
+            </Link>
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/20 dark:border-white/10 bg-white/10 dark:bg-black/20 text-foreground/70 hover:text-foreground font-semibold text-sm transition-all"
