@@ -272,7 +272,7 @@ const CreateEvent = () => {
               <Field label={form.isTeamEvent ? "Non-Member Price (Per Head)" : "Non-Member Price"}>
                 <input type="text" value={form.nonMemberPrice} onChange={e => updateForm('nonMemberPrice', e.target.value)} placeholder="Free or 200" className={input} />
               </Field>
-              <Field label={form.isTeamEvent ? "Other College Price (Per Head)" : "Other College Price"}>
+              <Field label={form.isTeamEvent ? "Non-TCET Rotaractor Price (Per Head)" : "Non-TCET Rotaractor Price"}>
                 <input type="text" value={form.otherCollegePrice} onChange={e => updateForm('otherCollegePrice', e.target.value)} placeholder="Optional fallback" className={input} />
               </Field>
             </div>

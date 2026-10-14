@@ -78,7 +78,14 @@ const EventRegistration = () => {
           // Initialize minimum required team members
           const minAdditional = Math.max(0, data.minTeamSize - 1);
           setTeamMembersCount(minAdditional);
-          setTeamMembersData(Array(minAdditional).fill({ name: '', phone: '', rotaractor: 'No' }));
+          setTeamMembersData(
+            Array.from({ length: minAdditional }, () => ({
+              name: '',
+              phone: '',
+              rotaractor: 'Non-Rotaractor',
+              college: ''
+            }))
+          );
         }
 
         // 3. Custom Fields Sections
@@ -247,7 +254,7 @@ const EventRegistration = () => {
   const handleTeamMemberChange = (index, field, value) => {
     setTeamMembersData(prev => {
       const copy = [...prev];
-      if (!copy[index]) copy[index] = { name: '', phone: '', rotaractor: 'No' };
+      if (!copy[index]) copy[index] = { name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '' };
       copy[index] = { ...copy[index], [field]: value };
       return copy;
     });
@@ -286,25 +293,41 @@ const EventRegistration = () => {
 
     if (eventData.isTeamEvent) {
       // Leader
-      let nonMemberCount = formData.isMember === "Yes" ? 0 : 1;
-      let memberCount = formData.isMember === "Yes" ? 1 : 0;
-      calculatedTotal += getPriceForPerson(formData.isMember === "Yes", isFromTcet);
+      let tcetMemberCount = 0;
+      let nonTcetMemberCount = 0;
+      let nonMemberCount = 0;
+
+      if (formData.isMember === "Yes") {
+        if (isFromTcet) {
+          tcetMemberCount++;
+          calculatedTotal += parsePrice(eventData.memberPrice);
+        } else {
+          nonTcetMemberCount++;
+          calculatedTotal += parsePrice(eventData.otherCollegePrice || eventData.nonMemberPrice);
+        }
+      } else {
+        nonMemberCount++;
+        calculatedTotal += parsePrice(eventData.nonMemberPrice);
+      }
 
       // Team members
       for (let i = 0; i < teamMembersCount; i++) {
         const m = teamMembersData[i];
         if (m) {
-          if (m.rotaractor === "Yes") {
-            memberCount++;
-            calculatedTotal += parsePrice(eventData.memberPrice); // They are Rotaractor
+          if (m.rotaractor === "TCET Rotaractor" || m.rotaractor === "Yes") {
+            tcetMemberCount++;
+            calculatedTotal += parsePrice(eventData.memberPrice);
+          } else if (m.rotaractor === "Non-TCET Rotaractor") {
+            nonTcetMemberCount++;
+            calculatedTotal += parsePrice(eventData.otherCollegePrice || eventData.nonMemberPrice);
           } else {
             nonMemberCount++;
-            calculatedTotal += parsePrice(eventData.nonMemberPrice); // Non-Rotaractor
+            calculatedTotal += parsePrice(eventData.nonMemberPrice);
           }
         }
       }
 
-      const totalPeople = memberCount + nonMemberCount;
+      const totalPeople = tcetMemberCount + nonTcetMemberCount + nonMemberCount;
       const isFullTeam = totalPeople === eventData.maxTeamSize;
       const allNonMembers = nonMemberCount === eventData.maxTeamSize;
 
@@ -313,12 +336,20 @@ const EventRegistration = () => {
         calculatedTotal = bulkPrice;
         pricingBreakdown = `Full Team Non-Member Bulk Discount Applied (₹${bulkPrice})`;
       } else {
-        pricingBreakdown = `${memberCount}x Member, ${nonMemberCount}x Non-Member`;
+        const parts = [];
+        if (tcetMemberCount > 0) parts.push(`${tcetMemberCount}x TCET Member`);
+        if (nonTcetMemberCount > 0) parts.push(`${nonTcetMemberCount}x Non-TCET Rotaractor`);
+        if (nonMemberCount > 0) parts.push(`${nonMemberCount}x Non-Member`);
+        pricingBreakdown = parts.join(", ");
       }
     } else {
       // Solo
       calculatedTotal = getPriceForPerson(formData.isMember === "Yes", isFromTcet);
-      pricingBreakdown = formData.isMember === "Yes" ? "Member Price" : "Non-Member Price";
+      if (formData.isMember === "Yes") {
+        pricingBreakdown = isFromTcet ? "TCET Member Price" : "Non-TCET Rotaractor Price";
+      } else {
+        pricingBreakdown = "Non-Member Price";
+      }
     }
 
     isPaid = calculatedTotal > 0;
@@ -411,10 +442,13 @@ const EventRegistration = () => {
 
       if (eventData?.isTeamEvent) {
         for (let i = 0; i < teamMembersCount; i++) {
-          const member = teamMembersData[i] || { name: '', phone: '', rotaractor: 'No' };
+          const member = teamMembersData[i] || { name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '' };
           payload[`Member ${i + 1} Rotaractor?`] = member.rotaractor;
           payload[`Member ${i + 1} Name`] = member.name;
           payload[`Member ${i + 1} Phone`] = member.phone;
+          if (member.college) {
+            payload[`Member ${i + 1} College / Club`] = member.college;
+          }
         }
       }
 
@@ -547,10 +581,10 @@ const EventRegistration = () => {
                   <span className="text-foreground/60">TCET Member Fee</span>
                   <span className="font-bold text-primary">{eventData.memberPrice === "Free" ? "Free" : `₹${eventData.memberPrice}`}</span>
                 </div>
-                {eventData.externalAllowed && (
+                {(eventData.externalAllowed || eventData.otherCollegePrice) && (
                   <div className="flex justify-between text-sm mt-1">
-                    <span className="text-foreground/60">External Member Fee</span>
-                    <span className="font-bold text-primary">{(!eventData.otherCollegePrice || eventData.otherCollegePrice === "Free") ? "Free" : `₹${eventData.otherCollegePrice}`}</span>
+                    <span className="text-foreground/60">Non-TCET Rotaractor Fee</span>
+                    <span className="font-bold text-primary">{(!eventData.otherCollegePrice || eventData.otherCollegePrice === "Free") ? (eventData.nonMemberPrice === "Free" ? "Free" : `₹${eventData.nonMemberPrice}`) : `₹${eventData.otherCollegePrice}`}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm mt-1">
@@ -736,7 +770,7 @@ const EventRegistration = () => {
                             setTeamMembersData(prev => {
                               const newData = [...prev];
                               while (newData.length < count) {
-                                newData.push({ name: '', phone: '', rotaractor: 'No' });
+                                newData.push({ name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '' });
                               }
                               return newData.slice(0, count);
                             });
@@ -773,18 +807,28 @@ const EventRegistration = () => {
                             required
                           />
                           <div>
-                            <label className={labelCls}>Is Member {idx + 1} a Rotaractor? *</label>
+                            <label className={labelCls}>Member {idx + 1} Membership Status *</label>
                             <select
                               name={`member_${idx}_rotaractor`}
-                              value={member.rotaractor}
+                              value={member.rotaractor || "Non-Rotaractor"}
                               onChange={(e) => handleTeamMemberChange(idx, 'rotaractor', e.target.value)}
                               required
                               className={inputCls}
                             >
-                              <option value="No">No</option>
-                              <option value="Yes">Yes</option>
+                              <option value="Non-Rotaractor">Non-Rotaractor</option>
+                              <option value="TCET Rotaractor">TCET Rotaractor</option>
+                              <option value="Non-TCET Rotaractor">Non-TCET Rotaractor</option>
                             </select>
                           </div>
+                          {member.rotaractor === 'Non-TCET Rotaractor' && (
+                            <Input
+                              label={`Member ${idx + 1} College / Club Name`}
+                              name={`member_${idx}_college`}
+                              value={member.college || ''}
+                              onChange={(e) => handleTeamMemberChange(idx, 'college', e.target.value)}
+                              placeholder="e.g. RC Mumbai / College Name"
+                            />
+                          )}
                         </div>
                       ))}
                     </div>
