@@ -43,6 +43,7 @@ const EventRegistration = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [fetchingMembers, setFetchingMembers] = useState(false);
   const [autofilled, setAutofilled] = useState(false);
+  const [wantsMembershipUpgrade, setWantsMembershipUpgrade] = useState(false);
 
   // Team Event State
   const [teamMembersCount, setTeamMembersCount] = useState(0);
@@ -83,7 +84,8 @@ const EventRegistration = () => {
               name: '',
               phone: '',
               rotaractor: 'Non-Rotaractor',
-              college: ''
+              college: '',
+              wantsUpgrade: false
             }))
           );
         }
@@ -254,7 +256,7 @@ const EventRegistration = () => {
   const handleTeamMemberChange = (index, field, value) => {
     setTeamMembersData(prev => {
       const copy = [...prev];
-      if (!copy[index]) copy[index] = { name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '' };
+      if (!copy[index]) copy[index] = { name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '', wantsUpgrade: false };
       copy[index] = { ...copy[index], [field]: value };
       return copy;
     });
@@ -274,6 +276,8 @@ const EventRegistration = () => {
   let isPaid = false;
   let upiLink = null;
   let pricingBreakdown = "";
+
+  const hasMembershipUpgrade = eventData?.enableMembershipUpgrade && Boolean(eventData?.membershipUpgradePrice);
 
   if (eventData) {
     const parsePrice = (p) => {
@@ -296,6 +300,7 @@ const EventRegistration = () => {
       let tcetMemberCount = 0;
       let nonTcetMemberCount = 0;
       let nonMemberCount = 0;
+      let upgradeCount = 0;
 
       if (formData.isMember === "Yes") {
         if (isFromTcet) {
@@ -305,6 +310,9 @@ const EventRegistration = () => {
           nonTcetMemberCount++;
           calculatedTotal += parsePrice(eventData.otherCollegePrice || eventData.nonMemberPrice);
         }
+      } else if (hasMembershipUpgrade && wantsMembershipUpgrade) {
+        upgradeCount++;
+        calculatedTotal += parsePrice(eventData.membershipUpgradePrice);
       } else {
         nonMemberCount++;
         calculatedTotal += parsePrice(eventData.nonMemberPrice);
@@ -320,6 +328,9 @@ const EventRegistration = () => {
           } else if (m.rotaractor === "Non-TCET Rotaractor") {
             nonTcetMemberCount++;
             calculatedTotal += parsePrice(eventData.otherCollegePrice || eventData.nonMemberPrice);
+          } else if (m.wantsUpgrade && hasMembershipUpgrade) {
+            upgradeCount++;
+            calculatedTotal += parsePrice(eventData.membershipUpgradePrice);
           } else {
             nonMemberCount++;
             calculatedTotal += parsePrice(eventData.nonMemberPrice);
@@ -327,9 +338,9 @@ const EventRegistration = () => {
         }
       }
 
-      const totalPeople = tcetMemberCount + nonTcetMemberCount + nonMemberCount;
+      const totalPeople = tcetMemberCount + nonTcetMemberCount + nonMemberCount + upgradeCount;
       const isFullTeam = totalPeople === eventData.maxTeamSize;
-      const allNonMembers = nonMemberCount === eventData.maxTeamSize;
+      const allNonMembers = (nonMemberCount + upgradeCount) === eventData.maxTeamSize && upgradeCount === 0;
 
       const bulkPrice = parsePrice(eventData.bulkTeamPrice);
       if (bulkPrice > 0 && isFullTeam && allNonMembers) {
@@ -339,15 +350,20 @@ const EventRegistration = () => {
         const parts = [];
         if (tcetMemberCount > 0) parts.push(`${tcetMemberCount}x TCET Member`);
         if (nonTcetMemberCount > 0) parts.push(`${nonTcetMemberCount}x Non-TCET Rotaractor`);
+        if (upgradeCount > 0) parts.push(`${upgradeCount}x Member Upgrade Combo`);
         if (nonMemberCount > 0) parts.push(`${nonMemberCount}x Non-Member`);
         pricingBreakdown = parts.join(", ");
       }
     } else {
       // Solo
-      calculatedTotal = getPriceForPerson(formData.isMember === "Yes", isFromTcet);
       if (formData.isMember === "Yes") {
+        calculatedTotal = getPriceForPerson(true, isFromTcet);
         pricingBreakdown = isFromTcet ? "TCET Member Price" : "Non-TCET Rotaractor Price";
+      } else if (hasMembershipUpgrade && wantsMembershipUpgrade) {
+        calculatedTotal = parsePrice(eventData.membershipUpgradePrice);
+        pricingBreakdown = `Event + Membership Combo Applied (₹${calculatedTotal})`;
       } else {
+        calculatedTotal = getPriceForPerson(false, isFromTcet);
         pricingBreakdown = "Non-Member Price";
       }
     }
@@ -437,17 +453,22 @@ const EventRegistration = () => {
         division: isFromTcet ? formData.division : "",
         rollNumber: isFromTcet ? formData.rollNumber : "",
         isMember: formData.isMember,
+        membershipUpgrade: (formData.isMember !== "Yes" && wantsMembershipUpgrade && hasMembershipUpgrade) ? "Yes" : "No",
+        "Membership Upgrade?": (formData.isMember !== "Yes" && wantsMembershipUpgrade && hasMembershipUpgrade) ? "Yes" : "No",
         receiptUrl,
       };
 
       if (eventData?.isTeamEvent) {
         for (let i = 0; i < teamMembersCount; i++) {
-          const member = teamMembersData[i] || { name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '' };
+          const member = teamMembersData[i] || { name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '', wantsUpgrade: false };
           payload[`Member ${i + 1} Rotaractor?`] = member.rotaractor;
           payload[`Member ${i + 1} Name`] = member.name;
           payload[`Member ${i + 1} Phone`] = member.phone;
           if (member.college) {
             payload[`Member ${i + 1} College / Club`] = member.college;
+          }
+          if (member.rotaractor === 'Non-Rotaractor' && member.wantsUpgrade && hasMembershipUpgrade) {
+            payload[`Member ${i + 1} Membership Upgrade?`] = "Yes";
           }
         }
       }
@@ -591,6 +612,12 @@ const EventRegistration = () => {
                   <span className="text-foreground/60">Non-Member Fee</span>
                   <span className="font-bold text-primary">{eventData.nonMemberPrice === "Free" ? "Free" : `₹${eventData.nonMemberPrice}`}</span>
                 </div>
+                {hasMembershipUpgrade && (
+                  <div className="flex justify-between text-sm mt-1">
+                    <span className="text-foreground/60">Member Upgrade Combo</span>
+                    <span className="font-bold text-primary">{eventData.membershipUpgradePrice === "Free" ? "Free" : `₹${eventData.membershipUpgradePrice}`}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -753,6 +780,35 @@ const EventRegistration = () => {
                           <option value="Yes">Yes, I am a Rotaract member</option>
                         </select>
                       </div>
+
+                      {formData.isMember === "No" && hasMembershipUpgrade && (
+                        <div className="p-4 rounded-2xl border border-primary/30 bg-primary/10 flex flex-col gap-2.5 shadow-sm mt-1">
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <h4 className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                                ✨ Become an Official Rotaract Member with this event!
+                              </h4>
+                              <p className="text-xs text-foreground/70 mt-1">
+                                Get event entry PLUS official RC TCET annual membership, member discounts on all future events, official badge, certificates & AICTE activity points!
+                              </p>
+                            </div>
+                            <span className="bg-primary text-white text-xs font-black px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
+                              ₹{eventData.membershipUpgradePrice} Combo
+                            </span>
+                          </div>
+                          <label className="flex items-center gap-2.5 mt-1 cursor-pointer bg-white/20 dark:bg-black/20 p-2.5 rounded-xl border border-white/20 hover:bg-white/30 transition-all">
+                            <input
+                              type="checkbox"
+                              checked={wantsMembershipUpgrade}
+                              onChange={(e) => setWantsMembershipUpgrade(e.target.checked)}
+                              className="w-4 h-4 accent-primary rounded cursor-pointer"
+                            />
+                            <span className="text-xs font-bold text-foreground">
+                              Yes! Upgrade me to Member + Event Combo for ₹{eventData.membershipUpgradePrice}
+                            </span>
+                          </label>
+                        </div>
+                      )}
                     </>
                   )}
 
@@ -770,7 +826,7 @@ const EventRegistration = () => {
                             setTeamMembersData(prev => {
                               const newData = [...prev];
                               while (newData.length < count) {
-                                newData.push({ name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '' });
+                                newData.push({ name: '', phone: '', rotaractor: 'Non-Rotaractor', college: '', wantsUpgrade: false });
                               }
                               return newData.slice(0, count);
                             });
@@ -828,6 +884,19 @@ const EventRegistration = () => {
                               onChange={(e) => handleTeamMemberChange(idx, 'college', e.target.value)}
                               placeholder="e.g. RC Mumbai / College Name"
                             />
+                          )}
+                          {member.rotaractor === 'Non-Rotaractor' && hasMembershipUpgrade && (
+                            <label className="flex items-center gap-2.5 p-3 rounded-xl bg-primary/10 border border-primary/20 cursor-pointer hover:bg-primary/15 transition-all">
+                              <input
+                                type="checkbox"
+                                checked={member.wantsUpgrade || false}
+                                onChange={(e) => handleTeamMemberChange(idx, 'wantsUpgrade', e.target.checked)}
+                                className="w-3.5 h-3.5 accent-primary rounded cursor-pointer"
+                              />
+                              <span className="text-xs font-bold text-foreground">
+                                Upgrade Member {idx + 1} to Member + Event Combo (₹{eventData.membershipUpgradePrice})
+                              </span>
+                            </label>
                           )}
                         </div>
                       ))}

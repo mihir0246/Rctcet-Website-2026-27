@@ -68,6 +68,8 @@ const EditEvent = () => {
     minTeamSize: 1,
     maxTeamSize: 1,
     bulkTeamPrice: '',
+    enableMembershipUpgrade: false,
+    membershipUpgradePrice: '',
   });
 
   const [customFields, setCustomFields] = useState([]);
@@ -108,6 +110,8 @@ const EditEvent = () => {
           minTeamSize: data.minTeamSize || 1,
           maxTeamSize: data.maxTeamSize || 1,
           bulkTeamPrice: data.bulkTeamPrice || '',
+          enableMembershipUpgrade: data.enableMembershipUpgrade || false,
+          membershipUpgradePrice: data.membershipUpgradePrice || '',
         });
         setCustomFields((data.formFields || []).map(f => ({
           ...f,
@@ -208,7 +212,7 @@ const EditEvent = () => {
     }
   };
 
-  const isPaid = form.memberPrice !== 'Free' || form.nonMemberPrice !== 'Free' || (form.otherCollegePrice && form.otherCollegePrice !== 'Free');
+  const isPaid = form.memberPrice !== 'Free' || form.nonMemberPrice !== 'Free' || (form.otherCollegePrice && form.otherCollegePrice !== 'Free') || (form.enableMembershipUpgrade && form.membershipUpgradePrice && form.membershipUpgradePrice !== 'Free');
   const sectionFields = customFields.filter(f => f.type === 'section');
 
   const getCurrentSectionId = (fieldIndex) => {
@@ -348,6 +352,36 @@ const EditEvent = () => {
                   </p>
                 </div>
               )}
+
+              {/* Membership Upgrade / Combo Option */}
+              <div className="mt-4 p-4 rounded-xl border border-primary/20 bg-primary/5 flex flex-col gap-3">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={form.enableMembershipUpgrade}
+                    onChange={e => updateForm('enableMembershipUpgrade', e.target.checked)}
+                    className="w-4 h-4 accent-primary rounded cursor-pointer"
+                  />
+                  <div>
+                    <span className="text-sm font-bold text-foreground">Offer Membership Upgrade Combo (Event + Annual Membership)</span>
+                    <p className="text-xs text-foreground/50">Allows non-members to upgrade to official club members during registration at a special bundled fee.</p>
+                  </div>
+                </label>
+
+                {form.enableMembershipUpgrade && (
+                  <div className="pt-2 border-t border-primary/10">
+                    <Field label="Membership Upgrade Price (Event + Annual Membership)">
+                      <input
+                        type="text"
+                        value={form.membershipUpgradePrice}
+                        onChange={e => updateForm('membershipUpgradePrice', e.target.value)}
+                        placeholder="e.g. 1900"
+                        className={input}
+                      />
+                    </Field>
+                  </div>
+                )}
+              </div>
 
               <AnimatePresence>
                 {isPaid && (
