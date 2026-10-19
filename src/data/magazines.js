@@ -1,6 +1,15 @@
 export const magazines = [
   {
     id: 1,
+    title: "Xymphony",
+    tagline: "Ten Years, One Symphony",
+    cover:
+      "https://res.cloudinary.com/dtc2xaeaf/image/upload/v1792421786/Xmphony_20261008_011625_0000.jpg_1_quekjo.jpg",
+    link: "https://heyzine.com/flip-book/279996352c.html",
+    year: "2026-27",
+  },
+  {
+    id: 2,
     title: "Valerie",
     tagline: "Stories of Service, Leadership & Fellowship",
     cover:
@@ -9,7 +18,7 @@ export const magazines = [
     year: "2025-26",
   },
   {
-    id: 2,
+    id: 3,
     title: "Ixlipse",
     tagline: "Ideas That Moved Communities",
     cover:
@@ -18,7 +27,7 @@ export const magazines = [
     year: "2025-26",
   },
   {
-    id: 3,
+    id: 4,
     title: "F1 More than a Race",
     tagline: "Pressure Pace, Pit Stops",
     cover:
@@ -27,7 +36,7 @@ export const magazines = [
     year: "2025-26",
   },
   {
-    id: 4,
+    id: 5,
     title: "Valerie 6.2",
     tagline: "Butterfly Effect: Small Act, Infinite Impact",
     cover:
@@ -36,7 +45,7 @@ export const magazines = [
     year: "2025-26",
   },
   {
-    id: 5,
+    id: 6,
     title: "Anantya",
     tagline: "Where Moments Became Memories, and Memories Became Legacy",
     cover:
