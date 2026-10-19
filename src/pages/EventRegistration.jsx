@@ -13,7 +13,7 @@ const CLOUDINARY_CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dtc2xaea
 const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'rctcet_unsigned';
 
 const TCET_YEARS = ["FE", "SE", "TE", "BE"];
-const EXTERNAL_YEARS = ["1st Year", "2nd Year", "3rd Year", "4th Year", "Postgraduate"];
+const EXTERNAL_YEARS = ["1st Year", "2nd Year", "3rd Year", "4th Year", "Postgraduate", "Working Professional / Other"];
 
 const EventRegistration = () => {
   const { eventId } = useParams();
@@ -757,7 +757,7 @@ const EventRegistration = () => {
 
                       {isFromTcet
                         ? <Input label="Branch / Department *" name="branch" value={formData.branch} onChange={handleChange} required />
-                        : <Input label="College Name *" name="collegeName" value={formData.collegeName} onChange={handleChange} required />
+                        : <Input label="College / Organization Name *" name="collegeName" value={formData.collegeName} onChange={handleChange} placeholder="e.g. TCET, TCS, or Freelance" required />
                       }
 
                       <div className="grid grid-cols-2 gap-4">
@@ -878,11 +878,11 @@ const EventRegistration = () => {
                           </div>
                           {member.rotaractor === 'Non-TCET Rotaractor' && (
                             <Input
-                              label={`Member ${idx + 1} College / Club Name`}
+                              label={`Member ${idx + 1} College / Club / Organization Name`}
                               name={`member_${idx}_college`}
                               value={member.college || ''}
                               onChange={(e) => handleTeamMemberChange(idx, 'college', e.target.value)}
-                              placeholder="e.g. RC Mumbai / College Name"
+                              placeholder="e.g. RC Mumbai / College / Company Name"
                             />
                           )}
                           {member.rotaractor === 'Non-Rotaractor' && hasMembershipUpgrade && (
